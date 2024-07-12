@@ -1,0 +1,232 @@
+.header {
+    background: var(--blue-color);
+    padding: 0.5rem 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__hamburger-menu {
+    color: white;
+    font-size: 1.2rem;
+    display: none;
+}
+
+.header__logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__logo-img {
+    height: auto;
+    width: 42px;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.header__logo-text {
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.header__controls-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__notification-wrapper {
+    position: relative;
+}
+
+.header__notification-icon {
+    font-size: 1.2rem;
+    color: white;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.header__profile-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.header__user-icon {
+    display: block;
+    background: white;
+    padding: 0.5rem 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    color: var(--blue-color);
+    margin-right: 5px;
+}
+
+.header__name {
+    font-size: 1rem;
+    color: white;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.header__dropdown-name {
+    display: none;
+    font-size: 1rem;
+    color: black;
+    font-weight: 600;
+}
+
+.header__arrow-icon {
+    color: white;
+}
+
+.header__profile-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    z-index: 998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.header__link {
+    list-style: none;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    color: black;
+    padding: 0.3rem 0;
+    padding-left: 0.5rem;
+    padding-right: 2.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.header__link:hover {
+    background: var(--blue-color);
+    color: white;
+}
+
+.header__navLink {
+    text-decoration: none;
+}
+
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+}
+
+
+@media screen and (min-width: 1000px) and (max-width: 1199px) {
+    .header__hamburger-menu {
+        font-size: 1.1rem;
+        display: block;
+    }
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .header__hamburger-menu {
+        font-size: 1.1rem;
+        display: block;
+    }
+    
+    .header__logo-img {
+        width: 40px;
+    }
+    
+    .header__logo-text {
+        font-size: 1rem;
+    }
+
+    .header__user-icon {
+        font-size: 1rem;
+    }
+    
+    .header__name {
+        font-size: 1rem;
+    }
+}
+
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .header__hamburger-menu {
+        font-size: 1.1rem;
+        display: block;
+    }
+    
+    .header__logo-img {
+        width: 40px;
+    }
+    
+    .header__logo-text {
+        font-size: 1rem;
+    }
+
+    .header__user-icon {
+        font-size: 1rem;
+    }
+    
+    .header__name {
+        font-size: 1rem;
+    }
+}
+
+
+
+
+@media screen and (max-width: 599px) {
+    .header {
+        padding: 0.5rem 1rem;
+    }
+
+    .header__hamburger-menu {
+        font-size: 1.1rem;
+        display: block;
+    }
+    
+    .header__logo-img {
+        width: 35px;
+    }
+    
+    .header__logo-text {
+        font-size: 0.9rem;
+    }
+
+    .header__user-icon {
+        font-size: 0.9rem;
+    }
+    
+    .header__name {
+        font-size: 0.9rem;
+        display: none;
+    }
+
+    .header__dropdown-name {
+        display: block;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.219);
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+        padding-bottom: 0.4rem;
+        font-size: 0.9rem;
+    }
+
+    .header__link {
+        font-size: 0.9rem;
+    }
+
+}

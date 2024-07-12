@@ -1,0 +1,143 @@
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100svh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.493);
+    z-index: 999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__wrapper {
+    background: white;
+    padding: 2rem 2rem;
+    border-radius: 5px;
+    position: relative;
+}
+
+.modal__close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-top: 15px;
+}
+
+.modal__input-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.modal__input-field {
+    width: 350px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.3rem 1rem;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    transition: all 0.3s ease;
+}
+
+.modal__input-field:focus {
+    box-shadow: var(--focus-color);
+}
+
+.modal__input-field[type='number'] {
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+}
+
+.modal__input-field[placeholder='Enter Description'] {
+    height: 120px;
+}
+
+.modal__input-field-error {
+    font-size: 0.9rem;
+    color: rgb(207, 2, 2);
+    position: absolute;
+    left: 0;
+    bottom: -22px;
+}
+
+.modal__insert {
+    width: 350px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    background: var(--blue-color);
+    color: white;
+    border: 1px solid transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal__insert:hover {
+    background: white;
+    border: 1px solid var(--blue-color);
+    color: black;
+}
+
+
+/* FOR CHECK BOX GROUP ONLY */
+.checkbox-group__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.checkbox-group__checkbox-wrapper {
+    margin-left: 10px;
+}
+
+.checkbox-group__checkbox-field {
+    margin-right: 5px;
+}
+
+.checkbox-group__checkbox-label {
+    font-size: 1rem;
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+    .modal__wrapper {
+        padding: 1.5rem 1.5rem;
+    }
+    
+    .modal__input-field {
+        width: 250px;
+        font-size: 0.9rem;
+    }
+
+    .modal__insert {
+        width: 250px;
+        font-size: 0.9rem;
+    }
+
+    .checkbox-group__title {
+        font-size: 0.9rem;
+    }
+
+    .checkbox-group__checkbox-label {
+        font-size: 0.9rem;
+    }
+    
+}

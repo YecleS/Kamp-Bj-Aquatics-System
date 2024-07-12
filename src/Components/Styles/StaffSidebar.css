@@ -1,0 +1,30 @@
+.staff-sidebar {
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0.5rem;
+    background: white;
+}
+
+.staff-sidebar__nav {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-link-active {
+    color: white;
+    background: var(--blue-color);
+}
+
+.staff-sidebar__dropdown-wrapper {
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.staff-sidebar__nav-link-disable {
+    display: none;
+}
+

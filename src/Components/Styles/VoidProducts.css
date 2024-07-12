@@ -1,0 +1,218 @@
+.void-products {
+    height: 100%;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* HEADER AND CONTROLS STYLE*/
+.void-products__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.void-products__left-controls-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.void-products__input-field {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.3em 1em;
+    width: 350px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    transition: all 0.2s ease;
+}
+
+.void-products__input-field:focus {
+    box-shadow: 0 0 0 3px rgb(152, 200, 255);
+}
+
+
+.void-products__filter-wrapper {
+    position: relative;
+}
+
+.void-products__filter-icon {
+    display: block;
+    padding: 0.5rem 0.5rem;
+    font-size: 1.2rem;
+    color: white;
+    background: var(--blue-color);
+    border-radius: 5px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.void-products__filter-icon:hover {
+    color: black;
+    border: 1px solid var(--blue-color);
+    background: none;
+}
+
+
+/* FILTER DROPDOWN */
+.void-products__filter-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    z-index: 100;
+    background: white;
+    padding: 1rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.void-products__filter-dropdown-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.void-products__filter-label {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.void-products__filter-field {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.3em 1em;
+    width: 200px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.void-products__filter-field:focus {
+    box-shadow: 0 0 0 3px rgb(152, 200, 255);
+}
+
+.void-products__filter-dropdown-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.192);
+}
+
+.void-products__filter-reset {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.void-products__filter-reset:hover {
+    color: var(--blue-color);
+}
+
+
+/* BODY AND TABLE STYLE*/
+.void-products__body {
+    height: 83vh;
+    overflow: auto;
+}
+
+
+.void-products__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.void-products__table-th {
+    background: var(--blue-color);
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+.void-products__table-th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.void-products__table-th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.void-products__table-tr:nth-child(even) {
+    background: rgb(193, 223, 255);
+}
+
+.void-products__table-td {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.void-products__icon-td {
+    font-size: 1.4rem;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.void-products__icon-td:last-child {
+    margin: 0;
+}
+
+.void-products__icon-td:hover {
+    transform: scale(1.1);
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+    
+    .void-products__input-field {
+        font-size: 0.9rem;
+        width: 220px;
+    }
+
+    .void-products__filter-icon {
+        font-size: 0.9rem;
+    }
+
+    .void-products__filter-label {
+        font-size: 0.9rem;
+    }
+
+    .void-products__filter-field {
+        font-size: 0.9rem;
+    }
+
+    .void-products__filter-reset {
+        font-size: 0.9rem;
+    }
+
+    .void-products__body {
+        height: 80vh;
+        overflow: auto;
+    }
+
+    .void-products__table-th {
+        font-size: 0.9rem;
+    }
+
+    .void-products__table-td {
+        font-size: 0.9rem;
+    }
+
+}

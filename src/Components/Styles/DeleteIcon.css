@@ -1,0 +1,20 @@
+.delete-icon {
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-icon:hover {
+    transform: scale(1.1);
+}
+
+.disable {
+    display: none;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+    .delete-icon {
+        font-size: 1.4rem;
+    }
+}

@@ -1,0 +1,18 @@
+.update-icon {
+    font-size: 1.4rem;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.update-icon:hover {
+    transform: scale(1.1);
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+    .update-icon {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+}

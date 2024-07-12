@@ -1,0 +1,89 @@
+.notification {
+    position: absolute;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    right: 0;
+    top: 38px;
+    background: white;
+    z-index: 998;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    max-height: 40vh;
+    width: 300px;
+    overflow-y: auto;
+}
+
+.notification::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.notification::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.notification::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.notification__header {
+    margin-bottom: 10px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--blue-color);
+}
+
+.notification__title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.notification__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.notification__tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.070);
+}
+
+.notification__td {
+    padding: 0.8rem 0.5rem;
+    font-size: 1rem;
+    word-wrap: break-word;
+    white-space: normal;
+    max-width: 100px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.notification__td span {
+    font-size: 0.9rem;
+    color: var(--blue-color);
+    font-weight: 400;
+    
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+
+    .notification {
+        right: -50px;
+        width: 280px;
+    }
+
+    .notification__td {
+        font-size: 0.9rem;
+    }
+    
+    .notification__td span {
+        font-size: 0.8rem;     
+    }
+}
