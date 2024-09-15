@@ -1,0 +1,27 @@
+.dashboard-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.dashboard-control__display-date {
+    display: block;
+    border: 1px solid black;
+    width: 250px;
+    text-align: center;
+    padding: 0.4em 1em;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.dashboard-control__date-picker {
+    padding: 0.4em 1em;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 250px;
+}

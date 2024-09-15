@@ -15,6 +15,7 @@ const EditStaffModal = ({onClick}) => {
         password: "",
         reEnterPassword: "",
         permissions: [],
+        modules: [],
     }
 
     //Validation
@@ -23,7 +24,8 @@ const EditStaffModal = ({onClick}) => {
         username: Yup.string().required('Username is Required').matches(specialCharsRegex, 'Special Chars are not Allowed'),
         password: Yup.string().required('Password is Required').matches(specialCharsRegex, 'Special Chars are not Allowed'),
         reEnterPassword: Yup.string().required('Password is Required').matches(specialCharsRegex, 'Special Chars are not Allowed'),
-        permissions: Yup.array().min(1,'Permission Required')
+        permissions: Yup.array().min(1,'Permission Required'),
+        modules: Yup.array().min(1,'Modules Required')
     })
 
     //Message for Successful Insertion
@@ -110,6 +112,27 @@ const EditStaffModal = ({onClick}) => {
                                 { label: 'Staff', value: 'staff' },
                         ]}
                     />       
+                </div>
+
+                <div className='modal__input-field-wrapper'>
+                    <CheckboxGroup
+                        label="Modules"
+                        name="modules"
+                        options={[
+                          { label: 'Inventory', value: 'inventory' },
+                          { label: 'Products', value: 'products' },
+                          { label: 'POS', value: 'pos' },
+                          { label: 'Sales Record', value: 'sales-record' },
+                          { label: 'Restock', value: 'restock' },
+                          { label: 'Utilities', value: 'utilities' },
+                          { label: 'Expenses Record', value: 'expenses-record' },
+                          { label: 'Supplier', value: 'supplier' },
+                          { label: 'Add User', value: 'add-user' },
+                          { label: 'Sales Report', value: 'sales-report' },
+                          { label: 'Expenses Report', value: 'expenses-report' },
+                          { label: 'Ledger', value: 'ledger' },
+                        ]}
+                    />   
                 </div>
                  
                 <button type='submit' className='modal__insert'>Update</button>

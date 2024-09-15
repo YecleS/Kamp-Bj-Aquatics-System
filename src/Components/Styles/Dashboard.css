@@ -1,0 +1,36 @@
+.dashboard {
+    height: 100%;
+    padding: 1rem 1rem;
+}
+
+.dashboard__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.dashboard__control-button {
+    font-size: 0.95rem;
+    padding: 0.4em 1em;
+    font-weight: 600;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid transparent;
+    background: var(--blue-color);
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.dashboard__control-button:hover {
+    background: transparent;
+    border: 1px solid var(--blue-color);
+    color: black;
+}
+
+.dashboard__control-button-active {
+    background: transparent;
+    border: 1px solid var(--blue-color);
+    color: black;
+}
