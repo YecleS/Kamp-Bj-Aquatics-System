@@ -8,6 +8,8 @@ const ExpensesReportYearly = () => {
     setSelectedYear(new Intl.DateTimeFormat('default', { year:'numeric'}).format(year));
   }
 
+  
+
 
   return (
     <div className='expenses-yearly'>
@@ -17,7 +19,9 @@ const ExpensesReportYearly = () => {
           displayDate={selectedYear}
         />
       </div>
-      <div className='expenses-yearly__body'></div>
+      <div className='expenses-yearly__body'>
+        yearly
+      </div>
     </div>
   )
 }

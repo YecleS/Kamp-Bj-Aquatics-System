@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DateSelection } from '../UIComponents/DateControls'
+import { DateSelection } from '../UIComponents/DateControls';
 
 const ExpensesReporyWeekly = () => {
   const [selectedDate, setSelectedDate] = useState('')
@@ -28,7 +28,9 @@ const ExpensesReporyWeekly = () => {
           displayDate={selectedDate}
         />
       </div>
-      <div className='expenses-weekly__body'></div>
+      <div className='expenses-weekly__body'>
+        
+      </div>
     </div>
   )
 }

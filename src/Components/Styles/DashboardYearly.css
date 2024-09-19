@@ -1,3 +1,40 @@
 .dashboard-yearly__body {
-    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+
+.dashboard-yearly__chart-container {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-yearly__chart-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.dashboard-yearly__chart-container.yearly-sales-expenses {
+    grid-row: 1/3;
+}
+
+.dashboard-yearly__chart-container.yearly-goods-sold {
+    grid-row: 1/3;
+}
+
+.dashboard-yearly__chart-container.yearly-sales {
+    grid-column: 1/3;
+}
+
+.dashboard-yearly__chart-container.yearly-expenses-demographics {
+    grid-column: 1/3;
+}
+
+.dashboard-yearly__chart-container.yearly-expenses {
+    grid-column: 3/5;
 }

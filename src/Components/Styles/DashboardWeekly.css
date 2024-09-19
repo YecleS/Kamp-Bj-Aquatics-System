@@ -1,3 +1,118 @@
 .dashboard-weekly__body {
-    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+
+.card1 {
+    grid-row: 1/2;
+}
+
+.card2 {
+    grid-row: 1/2;
+}
+
+.card3 {
+    grid-row: 1/2;
+}
+
+.card4 {
+    grid-row: 1/2;
+}
+
+.dashboard-weekly__chart-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.dashboard-weekly__goods-sold {
+    grid-row: 1/3;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-weekly__sales {
+    grid-column: 1/4;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-weekly__transaction {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-weekly__expenses-demographics {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-weekly__expenses {
+    grid-column: 2/5;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-weekly__top-products-sold {
+    grid-column: 1/3;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.dashboard-weekly__table-wrapper {
+    max-height: 350px;
+    overflow: auto;
+}
+
+.dashboard-weekly__table {
+    width: 100%;
+    text-align: left;
+    border-spacing: 1rem;
+}
+
+.dashboard-weekly__thead-tr {
+    
+}
+
+.dashboard-weekly__thead-th {
+    font-size: 1rem;
+    font-weight: 600;
+    color: black;
+    padding: 0.4rem 1rem;
+}
+
+.dashboard-weekly__thead-th:first-child {
+    border-top-left-radius: 5px;
+}
+
+.dashboard-weekly__thead-th:last-child {
+    border-top-right-radius: 5px;
+}
+
+.dashboard-weekly__tbody-tr {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.dashboard-weekly__tbody-td {
+    font-size: 0.95rem;
+    font-weight: 400;
+    padding: 0.4rem 1rem;
+}
+
+.dashboard-weekly__sales-expenses {
+    grid-column: 3/5;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 5px;
 }

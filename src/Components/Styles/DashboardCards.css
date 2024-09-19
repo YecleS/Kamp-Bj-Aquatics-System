@@ -1,0 +1,46 @@
+.dashboard-cards {
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px 0 hsla(0, 0%, 0%, 0.3);
+}
+
+.dashboard-cards__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-cards__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    background: green;
+    border-radius: 5px;
+    
+}
+
+.dashboard-cards__icon {
+    font-size: 1.3rem;
+    color: white;
+}
+
+.dashboard-cards__card-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.dashboard-cards__card-sub-title {
+    font-size: 0.8rem;
+    font-weight: 400px;
+    margin-top: 0.2rem;
+}
+
+.dashboard-cards__card-description {
+    margin-top: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
