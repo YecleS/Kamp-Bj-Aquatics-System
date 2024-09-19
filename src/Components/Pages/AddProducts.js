@@ -22,6 +22,7 @@ const AddProducts = () => {
   //Empty Object to Store the Collected Values from the Rows to useState
   //To be Passed To EditProductModal.js
   const [editModalInitialValues, setEditModalInitialValues] = useState({
+    productImage:'',
     product: '',
     brand: '',
     model: '',
@@ -50,6 +51,7 @@ const AddProducts = () => {
     //To Clear Up the Memory
     if(isEditModalOpen) {
       setEditModalInitialValues({
+        productImage:'',
         name: '',
         brand: '',
         model: '',
@@ -91,6 +93,7 @@ const AddProducts = () => {
 
     //Store the Values in the Object To Update The State
     setEditModalInitialValues({
+      productImage:'',
       product: product,
       brand: brand,
       model: model,

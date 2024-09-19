@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
+import DefaultImagePreview from '../Assets/image-preview.png';
 
 const AddProductModal = ({onClick}) => {
+    const [imagePreview, setImagePreview] = useState();
+
     //Initial Values 
     const initialValues = {
+        productImage: "",
         product: "",
         brand: "",
         model: "",
@@ -16,6 +20,7 @@ const AddProductModal = ({onClick}) => {
 
     //Validation
     const validationSchema = Yup.object ({
+        productImage: Yup.mixed().required('Product Image is Required'),
         product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
         brand: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
         model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
@@ -35,12 +40,35 @@ const AddProductModal = ({onClick}) => {
         progress: undefined,
         theme: "light",
         });
-    } 
+    }
+    
+    const handleImageChange = (event, setFieldValue) => {
+      const file = event.target.files[0];
+      setFieldValue('productImage', file);
+
+      if(file) {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        }
+
+        reader.readAsDataURL(file);
+      }
+    }
 
     //Method For Insertion of Values To Database
     //The Values Can Be Destructured To Store it Individually To the Database (if necessary)
     //Refer to Login.js 
+    //Check thie values first in the console log to decide how are you going to store the data. 
+    //Depende kase kung sa mismong project mo i sstore ung uploaded image or sa cloud. refer to chatGPT
+
+    //Always remeber to reset the value of the setPreviewImage.
+    //Because its not being treated as a normal fields.
+    //It needs to be individually reseted, it wont work with just resetForm()
     const insert = (Values, {resetForm}) => {
+        console.log(Values);
+        setImagePreview();
         successMessage();
         resetForm();
     }
@@ -51,8 +79,32 @@ const AddProductModal = ({onClick}) => {
         <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
         <div className='modal__body'>
           <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema} >
-            {() => (
+
+            {({ setFieldValue }) => (
               <Form className='modal__form'>
+
+                <div className='modal__input-field-wrapper'>
+                  <div className='modal__image-preview-wrapper'>
+                    <img src = {imagePreview ? imagePreview : DefaultImagePreview} className='modal__image-preview' />                    
+                  </div>              
+                </div>
+
+                <div className='modal__input-field-wrapper'>
+                  <input
+                    type='file'
+                    name='productImage'
+                    accept='image/jpg, image/jpeg, image/png'
+                    onChange={(event) => handleImageChange(event, setFieldValue)}
+                    id='fileInput'
+                    style={{ display: 'none' }}
+                  />
+                  <div className='modal__upload-img-label-wrapper'>
+                    <label htmlFor='fileInput' className='modal__upload-img-label'>
+                      Upload Image
+                    </label>
+                  </div>
+                  <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
+                </div>
 
                 <div className='modal__input-field-wrapper'>
                   <Field type='text' name='product' placeholder='Enter Product Name' className='modal__input-field'/>
