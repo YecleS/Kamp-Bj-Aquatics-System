@@ -17,6 +17,7 @@ import AddUser from './AddUser';
 import SalesReport from '../Pages/SalesReport';
 import ExpensesReport from '../Pages/ExpensesReport';
 import GeneralLedger from '../Pages/GeneralLedger';
+import RoleManagement from './RoleManagement';
 
 
 const Owner = () => {
@@ -48,6 +49,7 @@ const Owner = () => {
             <Route path='restock-products' element={<RestockProducts />}/>
             <Route path='expenses-record' element={<Expenses />}/>
             <Route path='suppliers' element={<Suppliers />}/>
+            <Route path='role-management' element={<RoleManagement />}/>
             <Route path='add-user' element={<AddUser />}/>
             <Route path='sales-report' element={<SalesReport />}/>
             <Route path='expenses-report' element={<ExpensesReport />}/>

@@ -11,6 +11,7 @@ import Sales from './Sales';
 import Utilities from '../Pages/Utilities';
 import RestockProducts from '../Pages/RestockProducts';
 import Expenses from './Expenses';
+import RoleManagement from './RoleManagement';
 
 
 const Staff = () => {
@@ -37,6 +38,7 @@ const Staff = () => {
             <Route path='add-products' element={<AddProducts />}/>
             <Route path='pos' element={<Pos />}/>
             <Route path='sales-record' element={<Sales />}/>
+            <Route path='role-management' element={<RoleManagement />}/>
             <Route path='utilities' element={<Utilities />}/>
             <Route path='restock-products' element={<RestockProducts />}/>
             <Route path='expenses-record' element={<Expenses />}/>

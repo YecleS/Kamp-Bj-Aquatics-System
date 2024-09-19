@@ -161,6 +161,13 @@ const OwnerSidebar = () => {
             item='Suppliers'
         />
         <SidebarLink 
+            to='role-management'
+            className={location.pathname === '/admin/role-management' ? 'sidebar-link-active': ''}
+            onClick={closeDropdowns}
+            icon={<i className="sidebar-link__nav-icon fa-solid fa-people-group"></i>}
+            item='Role Management'
+        />
+        <SidebarLink 
             to='add-user'
             className={location.pathname === '/admin/add-user' ? 'sidebar-link-active': ''}
             onClick={closeDropdowns}

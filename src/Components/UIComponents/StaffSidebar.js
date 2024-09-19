@@ -32,6 +32,13 @@ const StaffSidebar = () => {
             item='POS'
         />
         <SidebarLink 
+            to='role-management'
+            className={location.pathname === '/staff/role-management' ? 'sidebar-link-active': ''}
+            onClick={()=>{}}
+            icon={<i className="sidebar-link__nav-icon fa-solid fa-people-group"></i>}
+            item='Role Management'
+        />
+        <SidebarLink 
             to='utilities'
             className={location.pathname === '/staff/utilities' ? 'sidebar-link-active': ''}
             onClick={() => {}}
