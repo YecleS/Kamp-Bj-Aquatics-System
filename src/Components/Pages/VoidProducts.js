@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/VoidProducts.css';
+import AddVoidProductModal from '../UIComponents/AddVoidProductModal';
 
 const VoidProducts = () => {
-
-  const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false)
+  const [isVoidProductsModalOpen, setIsVoidProductsModalOpen] = useState(false);
+  const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const filterDropdownRef = useRef(null)
   //Initial Values For Filters Store In useState
-  const[filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     filterBy: '',
   })
 
@@ -20,6 +21,10 @@ const VoidProducts = () => {
   // Toggle Dropdowns
   const toggleFilterDropdown = () => {
     isSetFilterDropdownOpen(!isFilterDropdownOpen);
+  }
+
+  const toggleVoidProuctsModal =() => {
+    setIsVoidProductsModalOpen(!isVoidProductsModalOpen);
   }
 
   //Reset Filters
@@ -73,6 +78,7 @@ const VoidProducts = () => {
             }
           </div>
         </div>
+        <button className='void-products__insert' onClick={toggleVoidProuctsModal}><i className="add-products__insert-icon fa-solid fa-plus"></i></button>
       </div>
       <div className='void-products__body'>
       <div className='void-products__table-wrapper'>
@@ -100,6 +106,7 @@ const VoidProducts = () => {
           </table>
         </div>
       </div>
+      {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProuctsModal} />}
     </div>
   )
 }

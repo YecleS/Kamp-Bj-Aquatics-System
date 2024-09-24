@@ -177,6 +177,13 @@
     font-weight: 500;
 }
 
+/* ACTION BUTTONS */
+.add-user__revoke-button {
+    margin-left: 0.5rem;
+}
+
+
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 599px) {
     

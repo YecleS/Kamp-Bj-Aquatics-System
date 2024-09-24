@@ -31,9 +31,9 @@ const Suppliers = () => {
 
   // Dummy Data For Table 
   const supplierData = [
-    { id: 1, supplier: 'oSideMafia', email:'oside@gmail.com', contact: '092312345631', location:'San pedro'},
-    { id: 2, supplier: 'Hev Abi', email:'hevabi@gmail.com', contact: '092312345631', location:'San pedro'},
-    { id: 3, supplier: 'spaker corps', email:'spaker@gmail.com', contact: '092312345631', location:'San pedro'},
+    { id: 1, supplier: 'oSideMafia', goods:'Aquariums', email:'oside@gmail.com', contact: '092312345631', location:'San pedro'},
+    { id: 2, supplier: 'Hev Abi', goods:'Substrates', email:'hevabi@gmail.com', contact: '092312345631', location:'San pedro'},
+    { id: 3, supplier: 'spaker corps', goods:'Aquarium Rocks', email:'spaker@gmail.com', contact: '092312345631', location:'San pedro'},
   ]
 
   // Handle Closing of Dropdowns When Clicked Outside of Its Div
@@ -99,9 +99,10 @@ const Suppliers = () => {
             <thead>
               <tr>
                 <th className='suppliers__table-th'>Supplier</th>
+                <th className='suppliers__table-th'>Goods</th>
                 <th className='suppliers__table-th'>Email</th>
                 <th className='suppliers__table-th'>Contacts</th>
-                <th className='suppliers__table-th'>Location</th>
+                <th className='suppliers__table-th'>Location (City)</th>
                 <th className='suppliers__table-th'></th>
               </tr>
             </thead>
@@ -109,6 +110,7 @@ const Suppliers = () => {
               {supplierData.map((supplier =>
                   <tr className='suppliers__table-tr' key={supplier.id} >
                     <td className='suppliers__table-td'>{supplier.supplier}</td>
+                    <td className='suppliers__table-td'>{supplier.goods}</td>
                     <td className='suppliers__table-td'>{supplier.email}</td>
                     <td className='suppliers__table-td'>{supplier.contact}</td>
                     <td className='suppliers__table-td'>{supplier.location}</td>

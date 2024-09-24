@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import DefaultImagePreview from '../Assets/image-preview.png';
+import { ToastSuccess } from '../UIComponents/ToastComponent';
 
 const AddProductModal = ({onClick}) => {
     const [imagePreview, setImagePreview] = useState();
@@ -11,37 +12,25 @@ const AddProductModal = ({onClick}) => {
     //Initial Values 
     const initialValues = {
         productImage: "",
-        product: "",
         brand: "",
+        category:"",
+        product: "",
         model: "",
-        quantity: 1,
-        price: "",
+        description: "",
+        markupPercentage: 0
     }
 
-    //Validation
+    //Validation di ko nilagyan ng required validation ung brand and model kase may mga products na walang brand or model
     const validationSchema = Yup.object ({
         productImage: Yup.mixed().required('Product Image is Required'),
-        product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
         brand: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+        category: Yup.string().required('Category is required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+        product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
         model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        quantity: Yup.number().required('Quantity is Required').moreThan(0, 'Invalid Quantity'),
-        price: Yup.number().required('Price is Required').moreThan(0, 'Invalid Price'),
+        description: Yup.string().required('Description is Required'),
+        markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),
     })
 
-    //Message for Successful Insertion
-    const successMessage = () => {
-        toast.success('Product Added', {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        });
-    }
-    
     const handleImageChange = (event, setFieldValue) => {
       const file = event.target.files[0];
       setFieldValue('productImage', file);
@@ -57,19 +46,13 @@ const AddProductModal = ({onClick}) => {
       }
     }
 
-    //Method For Insertion of Values To Database
-    //The Values Can Be Destructured To Store it Individually To the Database (if necessary)
-    //Refer to Login.js 
-    //Check thie values first in the console log to decide how are you going to store the data. 
-    //Depende kase kung sa mismong project mo i sstore ung uploaded image or sa cloud. refer to chatGPT
-
-    //Always remeber to reset the value of the setPreviewImage.
-    //Because its not being treated as a normal fields.
-    //It needs to be individually reseted, it wont work with just resetForm()
     const insert = (Values, {resetForm}) => {
         console.log(Values);
         setImagePreview();
-        successMessage();
+
+        /* Call toast success and enter the message, import the ToastComponent.js FIRST */
+        ToastSuccess('Product Added');
+
         resetForm();
     }
 
@@ -107,30 +90,51 @@ const AddProductModal = ({onClick}) => {
                 </div>
 
                 <div className='modal__input-field-wrapper'>
+                  <Field as='input' list='brand-list' name='brand' placeholder='Enter Brand' className='modal__input-field' />
+                  <datalist id='brand-list'>
+                    <option value='Nike' />
+                    <option value='Adidas' />
+                    <option value='Puma' />
+                    <option value='Reebok' />
+                    <option value='Under Armour' />
+                  </datalist>
+                  <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
+                </div>
+
+                <div className='modal__input-field-wrapper'>
+                  <Field as='input' list='category-list' name='category' placeholder='Enter Category' className='modal__input-field' />
+                  <datalist id='category-list'>
+                    <option value='Equipment' />
+                    <option value='Pets' />
+                  </datalist>
+                  <ErrorMessage name='category' component='span' className='modal__input-field-error' />
+                </div>
+
+                <div className='modal__input-field-wrapper'>
                   <Field type='text' name='product' placeholder='Enter Product Name' className='modal__input-field'/>
                   <ErrorMessage name='product' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='text' name='brand' placeholder='Enter Brand' className='modal__input-field'/>
-                  <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
-                </div>
-
-                <div className='modal__input-field-wrapper'>
                   <Field type='text' name='model' placeholder='Enter Model' className='modal__input-field'/>
                   <ErrorMessage name='model' component='span' className='modal__input-field-error' />
+                </div>  
+
+                <div className='modal__input-field-wrapper'>
+                  <Field component='textarea' name='description' placeholder='Enter Description' className='modal__input-field description'/>
+                  <ErrorMessage name='description' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='number' name='quantity' placeholder='Enter Quantity' className='modal__input-field'/>
-                  <ErrorMessage name='quantity' component='span' className='modal__input-field-error' />
+                  {/* changes made here, added a div for layout of the percentage label and markup-field, refer to modal.css*/}
+                  {/* changes made on initial values and yup too, for error checking. Also change the name of the field as well as the ErrorMessage name */}
+                  <div className='modal__markup-field-wrapper'>
+                    <Field type='number' name='markupPercentage' placeholder='Enter Markup Percentage' className='modal__input-field markup-field'/>
+                    <span className='modal__percentage-label'>%</span>
+                  </div>
+                  <ErrorMessage name='markupPercentage' component='span' className='modal__input-field-error' />
                 </div>
 
-                <div className='modal__input-field-wrapper'>
-                  <Field type='number' name='price' placeholder='Enter Price' className='modal__input-field'/>
-                  <ErrorMessage name='price' component='span' className='modal__input-field-error' />
-                </div>
-                 
                 <button type='submit' className='modal__insert'>Add Product</button>
               </Form>
             )}        

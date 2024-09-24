@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 
 const EditRestockProductModal = ({onClick}) => {
+
     //Initial Values 
     const initialValues = {
         product: "",
@@ -17,10 +18,10 @@ const EditRestockProductModal = ({onClick}) => {
 
     //Validation
     const validationSchema = Yup.object ({
-        product: Yup.string().required('Utilities Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        brand: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        supplier: Yup.string().required('Supplier is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+        product: Yup.string().required('Product Name is Required'),
+        brand: Yup.string().required('Brand Name is Required'),
+        model: Yup.string().required('Model Name is Required'),
+        supplier: Yup.string().required('Supplier is Required'),
         date: Yup.string().required('Date is Required'),
         quantity: Yup.number().required('Quantity is Required').moreThan(0, 'Invalid Quantity'),
         total: Yup.number().required('Total is Required').moreThan(0, 'Invalid Total'),
@@ -38,12 +39,13 @@ const EditRestockProductModal = ({onClick}) => {
         progress: undefined,
         theme: "light",
         });
-    } 
-
+    }
+    
     //Method For Insertion of Values To Database
     //The Values Can Be Destructured To Store it Individually To the Database (if necessary)
     //Refer to Login.js 
     const update = (Values, {resetForm}) => {
+        console.log(Values);
         successMessage();
         resetForm();
     }
@@ -61,18 +63,18 @@ const EditRestockProductModal = ({onClick}) => {
                   <Field as='select' name='product' className='modal__input-field'>
                     <option value='' disabled hidden>Enter Product Name</option>
                     <option value=''></option>
-                    <option>gatorade</option>
-                    <option>ice scream</option>
+                    <option value='gatorade'>gatorade</option>
+                    <option value='ice-scream'>ice scream</option>
                   </Field>
                   <ErrorMessage name='product' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
                   <Field as='select' name='brand' className='modal__input-field'>
-                  <option value='' disabled hidden>Enter Brand</option>
+                    <option value='' disabled hidden>Enter Brand</option>
                     <option value=''></option>
-                    <option>bear brand</option>
-                    <option>brandy</option>
+                    <option value='bear-brand'>bear brand</option>
+                    <option value='brandy'>brandy</option>
                   </Field>
                   <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
                 </div>
@@ -81,8 +83,8 @@ const EditRestockProductModal = ({onClick}) => {
                   <Field as='select' name='model' className='modal__input-field'>
                   <option value='' disabled hidden>Enter Model</option>
                     <option value=''></option>
-                    <option>mia khalifa</option>
-                    <option>BINI Mika</option>
+                    <option value='mika'>mia khalifa</option>
+                    <option value='bini'>BINI Mika</option>
                   </Field>
                   <ErrorMessage name='model' component='span' className='modal__input-field-error' />
                 </div>
@@ -91,8 +93,8 @@ const EditRestockProductModal = ({onClick}) => {
                   <Field as='select' name='supplier' className='modal__input-field'>
                   <option value='' disabled hidden>Enter Supplier</option>
                     <option value=''></option>
-                    <option>oSideMafia</option>
-                    <option>hev abi</option>
+                    <option value='osidemafia'>oSideMafia</option>
+                    <option value='hev cutie'>hev abi</option>
                   </Field>
                   <ErrorMessage name='supplier' component='span' className='modal__input-field-error' />
                 </div>

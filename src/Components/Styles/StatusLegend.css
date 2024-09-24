@@ -1,0 +1,28 @@
+.status-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.status-legend__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.status-legend__icon-description {
+    font-size: 1rem;
+    font-size: 500;
+}
+
+.out-of-stocks {
+    font-size: 1.3rem;
+    color: rgb(190, 7, 7);
+}
+
+.low-stocks {
+    font-size: 1.3rem;
+    color: rgb(240, 176, 0);
+}

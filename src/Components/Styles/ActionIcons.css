@@ -1,0 +1,18 @@
+.action-icons {
+    font-size: 1.4rem;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-icons:hover {
+    transform: scale(1.1);
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+    .action-icons {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+}

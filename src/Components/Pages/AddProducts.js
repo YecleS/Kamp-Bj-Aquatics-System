@@ -2,33 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import AddProductModal from '../UIComponents/AddProductModal';
 import EditProductModal from '../UIComponents/EditProductModal';
 import '../Styles/AddProducts.css';
-import VoidedProductsModal from '../UIComponents/VoidedProductsModal';
 import UpdateIcon from '../UIComponents/UpdateIcon';
 import DeleteIcon from '../UIComponents/DeleteIcon';
+import { ViewProductIcon } from '../UIComponents/ActionIcons';
+import TextSlicer from '../Utils/TextSlicer';
 
 const AddProducts = () => {
   const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false)
   const[isAddModalOpen, isSetAddModalOpen] = useState(false)
   const[isEditModalOpen, isSetEditModalOpen] = useState(false)
-  const[isVoidModalOpen, isSetVoidModalOpen] = useState(false)
   const filterDropdownRef = useRef(null)
 
   //Initial Values For Filters Store In useState
   const[filters, setFilters] = useState({
     filterBy: '',
   })
-
-
-  //Empty Object to Store the Collected Values from the Rows to useState
-  //To be Passed To EditProductModal.js
-  const [editModalInitialValues, setEditModalInitialValues] = useState({
-    productImage:'',
-    product: '',
-    brand: '',
-    model: '',
-    quantity: '',
-    price: '',
-  });
 
   // Toggle Dropdowns
   const toggleFilterDropdown = () => {
@@ -39,26 +27,8 @@ const AddProducts = () => {
     isSetAddModalOpen(!isAddModalOpen);
   }
 
-  const toggleVoidModal = () => {
-    isSetVoidModalOpen(!isVoidModalOpen);
-  }
-
   const toggleEditModal = () => {
     isSetEditModalOpen(!isEditModalOpen);
-
-    //When the Edit Modal Is Closed
-    //This Will Clear All the Collected Values
-    //To Clear Up the Memory
-    if(isEditModalOpen) {
-      setEditModalInitialValues({
-        productImage:'',
-        name: '',
-        brand: '',
-        model: '',
-        quantity: '',
-        price: '',
-      });   
-    }
   }
 
 
@@ -76,34 +46,29 @@ const AddProducts = () => {
 
   // Dummy Data For Table 
   const productsData = [
-    { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , quantity: 320, price: 25},
-    { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , quantity: 32, price: 25},
-    { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , quantity: 323, price: 25},
+    { id: 1, 
+      product: 'gatoradesd blue 25ml', 
+      description:'Stay refreshed and energized with Gatorade Blue. Packed in a convenient 25ml bottle, this sports drink is designed to replenish essential electrolytes lost during physical activity, keeping you hydrated and ready to perform at your best.', 
+      brand: 'Oishi', 
+      model: '3XCCS5', 
+      quantity: 320,
+      procured: 15.25,
+      markup: 10,
+      price: 25.30
+    },
+
+    { id: 2, 
+      product: 'TANGINANG CAPSTONE TO', 
+      description: "Quench your thirst and fuel your performance with Gatorade Blue. This compact 25ml bottle is packed with electrolytes to help you stay hydrated and maintain peak performance during intense physical activity.", 
+      brand: 'Hayp', 
+      model: '1XCCS5', 
+      quantity: 100,
+      procured: 10.25,
+      markup: 15,
+      price: 40.30
+    },
   ]
 
-
-  //Handle the Edit Click Event
-  //Note the rest of the method except for toggleEditModal()
-  //Can be removed because it was just a trial to see the process of passing of data
-  //From table to EditModal upon clicking on a specific rows
-  const handleEditClick = (event, products) => {
-    
-    //Destructure the Values Collected from Products And Store Them in Individual Containers
-    const { product, brand, model, quantity, price } = products;
-
-    //Store the Values in the Object To Update The State
-    setEditModalInitialValues({
-      productImage:'',
-      product: product,
-      brand: brand,
-      model: model,
-      quantity: quantity,
-      price: price,
-    });
-
-    //Open the Edit Modal
-    toggleEditModal();
-  }
 
   //Reset Filters
   const resetFilters = () => {
@@ -156,10 +121,13 @@ const AddProducts = () => {
             <thead>
               <tr>
                 <th className='add-products__table-th'>Name</th>
+                <th className='add-products__table-th'>Description</th>
                 <th className='add-products__table-th'>Brand</th>
                 <th className='add-products__table-th'>Model</th>
                 <th className='add-products__table-th'>Quantity</th>
-                <th className='add-products__table-th'>Price</th>
+                <th className='add-products__table-th'>Procured Price</th>
+                <th className='add-products__table-th'>Markup %</th>
+                <th className='add-products__table-th'>Selling Price</th>
                 <th className='add-products__table-th'></th>
               </tr>
             </thead>
@@ -167,13 +135,16 @@ const AddProducts = () => {
               {productsData.map((products =>
                   <tr className='add-products__table-tr' key={products.id} >
                     <td className='add-products__table-td'>{products.product}</td>
+                    <td className='add-products__table-td'><TextSlicer text={products.description} /></td>
                     <td className='add-products__table-td'>{products.brand}</td>
                     <td className='add-products__table-td'>{products.model}</td>
-                    <td className='add-products__table-td'>{products.quantity}</td>
+                    <td className='add-products__table-td'>{products.quantity} pcs</td>
+                    <td className='add-products__table-td'>{products.procured}</td>
+                    <td className='add-products__table-td'>{products.markup} %</td>
                     <td className='add-products__table-td'>{products.price}</td>
                     <td className='add-products__table-td'>
-                      <UpdateIcon onClick={(event) => handleEditClick(event, products)}/>
-                      <i className="add-products__icon-td fa-solid fa-square-xmark" onClick={toggleVoidModal}></i>
+                      <UpdateIcon onClick={toggleEditModal}/>
+                      <ViewProductIcon products={products}/>
                       <DeleteIcon onClick={() => {}}/>
                     </td>
                   </tr>
@@ -182,8 +153,8 @@ const AddProducts = () => {
           </table>
         </div>
       </div>
-      {isEditModalOpen && <EditProductModal onClick={toggleEditModal} initialValues={editModalInitialValues}/>}
-      {isVoidModalOpen && <VoidedProductsModal onClick={toggleVoidModal}/>}
+
+      {isEditModalOpen && <EditProductModal onClick={toggleEditModal}/>}
     </div>
   )
 }

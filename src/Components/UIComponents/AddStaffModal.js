@@ -114,8 +114,7 @@ const AddStaffModal = ({onClick}) => {
                         ]}
                     />   
                 </div>
-                
-                        
+          
                 <div className='modal__input-field-wrapper'>
                     <CheckboxGroup
                         label="Modules"

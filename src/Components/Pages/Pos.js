@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/Pos.css';
 import AddToCartModal from '../UIComponents/AddToCartModal';
+import ProductCard from '../UIComponents/ProductCard';
 
 const Pos = () => {
     const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false)
@@ -27,29 +28,107 @@ const Pos = () => {
    
 
     //Dummy Data 
-    const inventoryData = [
-        { id: 1, product: 'gatoradesd blue 25ml 326 grams of cocaine', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 1, product: 'gatoradesd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 2, product: 'gatoradedd blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-        { id: 3, product: 'gatoradeee blue 25ml', brand: 'Oishi', model: '3XCCS5' , price: 25},
-    ]
+    const dummyData = [
+      { id: 1, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+          brand: 'Oishi', 
+          model: '3XCCS5',
+          category: 'Equipment',
+          supplier: 'supplier',
+          stocks: 30,
+          procured: 540.54,
+          markup: '10%',      
+          price: 25
+      },
+
+      { id: 2, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great 		choice for staying energized during workouts or daily activities. ", 
+          brand: 'Oishi', 
+          model: '3XCCS5',
+          category: 'Equipment',
+          supplier: 'supplier',
+          stocks: 30,
+          procured: 540.54,
+          markup: '10%',      
+          price: 25
+      },
+
+      { id: 3, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+          brand: 'Oishi', 
+          model: '3XCCS5',
+          category: 'Equipment',
+          supplier: 'supplier',
+          stocks: 30,
+          procured: 540.54,
+          markup: '10%',      
+          price: 25
+      },
+
+      { id: 4, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+        brand: 'Oishi', 
+        model: '3XCCS5',
+        category: 'Equipment',
+        supplier: 'supplier',
+        stocks: 30,
+        procured: 540.54,
+        markup: '10%',      
+        price: 25
+    },
+
+    { id: 5, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great 		choice for staying energized during workouts or daily activities. ", 
+        brand: 'Oishi', 
+        model: '3XCCS5',
+        category: 'Equipment',
+        supplier: 'supplier',
+        stocks: 30,
+        procured: 540.54,
+        markup: '10%',      
+        price: 25
+    },
+
+    { id: 6, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+        brand: 'Oishi', 
+        model: '3XCCS5',
+        category: 'Equipment',
+        supplier: 'supplier',
+        stocks: 30,
+        procured: 540.54,
+        markup: '10%',      
+        price: 25
+    },
+
+    {id: 7, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+      brand: 'Oishi', 
+      model: '3XCCS5',
+      category: 'Equipment',
+      supplier: 'supplier',
+      stocks: 30,
+      procured: 540.54,
+      markup: '10%',      
+      price: 25
+    },
+
+    {id: 8, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+      brand: 'Oishi', 
+      model: '3XCCS5',
+      category: 'Equipment',
+      supplier: 'supplier',
+      stocks: 30,
+      procured: 540.54,
+      markup: '10%',      
+      price: 25
+    },
+
+    {id: 9, product: 'gatoradesd blue 25ml', description:" A refreshing sports drink, Gatorade Blue (25ml) is perfect for hydration and replenishing electrolytes. With its crisp blue flavor, it's a great choice for staying energized during workouts or daily activities. ", 
+      brand: 'Oishi', 
+      model: '3XCCS5',
+      category: 'Equipment',
+      supplier: 'supplier',
+      stocks: 30,
+      procured: 540.54,
+      markup: '10%',      
+      price: 25
+    },
+      
+  ]
     
     
     // Handle Closing of Dropdowns When Clicked Outside of Its Div
@@ -109,32 +188,13 @@ const Pos = () => {
       <div className='pos__body'>
         <div className='pos__content-wrapper'>
           <div className='pos__inventory-wrapper'>
-            <h5 className='pos__table-title'>Inventory</h5>
-            <div className='pos__inventory-table-wrapper'>
-              <table className='pos__table'>
-                <thead>
-                  <tr>
-                    <th className='pos__table-th'>Name</th>
-                    <th className='pos__table-th'>Brand</th>
-                    <th className='pos__table-th'>Model</th>
-                    <th className='pos__table-th'>Price</th>
-                    <th className='pos__table-th'></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {inventoryData.map((inventory =>
-                    <tr className='pos__table-tr' key={inventory.id} >
-                      <td className='pos__table-td'>{inventory.product}</td>
-                      <td className='pos__table-td'>{inventory.brand}</td>
-                      <td className='pos__table-td'>{inventory.model}</td>
-                      <td className='pos__table-td'>{inventory.price}</td>
-                      <td className='suppliers__table-td'><i className="pos__icon-td fa-solid fa-cart-shopping" onClick={toggleAddToCartModal}></i></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {isAddToCartModalOpen && <AddToCartModal onClick={toggleAddToCartModal}/>}
+            {dummyData.map((products => 
+              <ProductCard 
+                key={products.id} 
+                product={products}
+                
+              />
+            ))}
           </div>
 
           <div className='pos__orders-wrapper'>
@@ -151,15 +211,13 @@ const Pos = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {inventoryData.map((inventory =>
-                    <tr className='pos__table-tr' key={inventory.id} >
-                      <td className='pos__table-td'>{inventory.product}</td>
-                      <td className='pos__table-td'>{inventory.brand}</td>
-                      <td className='pos__table-td'>{inventory.model}</td>
-                      <td className='pos__table-td'>{inventory.price}</td>
+                    <tr className='pos__table-tr'>
+                      <td className='pos__table-td'>asdasd</td>
+                      <td className='pos__table-td'>asdasd</td>
+                      <td className='pos__table-td'>asdasd</td>
+                      <td className='pos__table-td'>asdasdasd</td>
                       <td className='suppliers__table-td'><i className="pos__icon-td fa-solid fa-trash"></i></td>
                     </tr>
-                  ))}
                 </tbody>
               </table>
             </div>
@@ -179,6 +237,7 @@ const Pos = () => {
         </div>    
         
       </div>
+      {isAddToCartModalOpen && <AddToCartModal onClick={toggleAddToCartModal}/>}
     </div>
   )
 }

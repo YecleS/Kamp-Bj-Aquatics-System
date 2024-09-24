@@ -27,19 +27,22 @@
     cursor: pointer;
 }
 
+/* STYLE FOR THE WHOLE FORM */
 .modal__form {
     display: flex;
     flex-direction: column;
-    gap: 35px;
-    margin-top: 15px;
+    gap: 30px;
+    
 }
 
+/* STYLE FOR THE FIELD WRAPPER */
 .modal__input-field-wrapper {
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
+/* STYLE FOR THE IMAGE PREVIEW */
 .modal__image-preview-wrapper {
     display: flex;
     align-items: center;
@@ -54,6 +57,7 @@
     border-radius: 5px;
 }
 
+/* STYLE FOR THE IMAGE UPLOADING */
 .modal__upload-img-label-wrapper {
     display: flex;
     align-items: center;
@@ -80,9 +84,10 @@
     border: 1px solid var(--blue-color);
 }
 
+/* STYLE FOR THE INPUT FIELDS */
 .modal__input-field {
     width: 350px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     padding: 0.3rem 1rem;
     border-radius: 5px;
@@ -105,13 +110,15 @@
 }
 
 .modal__input-field-error {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: rgb(207, 2, 2);
     position: absolute;
     left: 0;
-    bottom: -22px;
+    bottom: -20px;
 }
 
+
+/* STYLE FOR THE MODAL BUTTON */
 .modal__insert {
     width: 350px;
     font-size: 1rem;
@@ -136,6 +143,7 @@
 }
 
 
+
 /* FOR CHECK BOX GROUP ONLY */
 .checkbox-group__title {
     font-size: 1rem;
@@ -154,6 +162,47 @@
 .checkbox-group__checkbox-label {
     font-size: 1rem;
 }
+
+/* STYLE FOR THE DESCRIPTION FIELD ONLY */
+.description {
+    height: 80px !important;
+    resize: none;
+}
+
+/* STYLE FOR THE MARKUP FIELDS ONLY */
+.modal__markup-field-wrapper {
+    display: flex;
+    gap: 5px;
+}
+
+.markup-field {
+    width: 90%;
+}
+
+.modal__percentage-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--blue-color);
+    width: 10%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* MEDIA QUERIES */

@@ -76,7 +76,7 @@ const OwnerSidebar = () => {
             className={''}
             onClick={toggleProductsDropdown}
             icon={<i className="sidebar-link__nav-icon fa-solid fa-box-open"></i>}
-            item='Products'
+            item='Product Management'
         />
         {isProductsDropdownOpen && 
             <div className='owner-sidebar__dropdown-wrapper'>
@@ -85,7 +85,14 @@ const OwnerSidebar = () => {
                     className={location.pathname === '/admin/add-products' ? 'sidebar-link-active': ''}
                     onClick={() => {}}
                     icon={<i className="sidebar-link__nav-icon fa-solid fa-boxes-packing"></i>}
-                    item='Products'
+                    item='Add Products'
+                />
+                <SidebarLink 
+                    to='restock-products'
+                    className={location.pathname === '/admin/restock-products' ? 'sidebar-link-active' : ''}
+                    onClick={() => {}}
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-truck-ramp-box"></i>}
+                    item='Restock Products'
                 />
                 <SidebarLink 
                     to='void-products'
@@ -126,7 +133,7 @@ const OwnerSidebar = () => {
             className={''}
             onClick={toggleExpensesDropdown}
             icon={<i className="sidebar-link__nav-icon fa-solid fa-box-open"></i>}
-            item='Expenses'
+            item='Business Expenses'
         />
         {isExpensesDropdownOpen && 
             <div className='owner-sidebar__dropdown-wrapper'>
@@ -136,13 +143,6 @@ const OwnerSidebar = () => {
                     onClick={() => {}}
                     icon={<i className="sidebar-link__nav-icon fa-solid fa-plug"></i>}
                     item='Utilities'
-                />
-                <SidebarLink 
-                    to='restock-products'
-                    className={location.pathname === '/admin/restock-products' ? 'sidebar-link-active' : ''}
-                    onClick={() => {}}
-                    icon={<i className="sidebar-link__nav-icon fa-solid fa-truck-ramp-box"></i>}
-                    item='Restock Products'
                 />
                 <SidebarLink 
                     to='expenses-record'

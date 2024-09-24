@@ -1,0 +1,77 @@
+.view-expenses-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100svh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.493);
+    z-index: 999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.view-expenses-modal_wrapper {
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 900px;
+}
+
+/* IMAGE STYLE */
+.view-expenses-modal__img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+}
+
+
+/* DETAILS STYLE */
+.view-expenses-modal__title {
+    text-transform: capitalize;
+    font-size: 1.2rem;
+}
+
+.view-expenses-modal__description {
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.view-expenses-modal__label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+
+.view-expenses-modal__brand {
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.view-expenses-modal__model {
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.view-expenses-modal__price {
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+
+/* BUTTON STYLE */
+.view-expenses-modal__back-button {
+    margin-top: 1rem;
+    width: 100%;
+}

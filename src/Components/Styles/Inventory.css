@@ -51,6 +51,10 @@
     background: none;
 }
 
+.inventory__status-legend {
+    margin-left: auto;
+}
+
 /* FILTER DROPDOWN */
 .inventory__filter-dropdown {
     position: absolute;

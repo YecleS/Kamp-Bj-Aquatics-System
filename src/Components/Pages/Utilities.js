@@ -3,7 +3,8 @@ import '../Styles/Utilities.css';
 import AddUtilitiesModal from '../UIComponents/AddUtilitiesModal';
 import EditUtilitiesModal from '../UIComponents/EditUtilitiesModal';
 import UpdateIcon from '../UIComponents/UpdateIcon';
-import DeleteIcon from '../UIComponents/DeleteIcon';
+import { ViewExpensesIcon } from '../UIComponents/ActionIcons';
+import TextSlicer from '../Utils/TextSlicer';
 
 const Utilities = () => {
   const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false)
@@ -33,9 +34,8 @@ const Utilities = () => {
 
   // Dummy Data For Table 
   const utilitiesData = [
-    { id: 1, name: 'wifi', date: '10/28/2002', price: 1150 },
-    { id: 2, name: 'Water Bill', date: '10/28/2002', price: 250 },
-    { id: 3, name: 'Electric Bill', date: '10/28/2002', price: 350 },
+    { id: 1, name: 'wifi', description:'Paid wifi bill for PLDT home communication', date: '10/28/2002', time:'11:23', price: 1150.50 },
+    { id: 2, name: 'Water Bill', description:'Paid Water bill for village water supply', date: '11/27/2007', time:'12:23', price: 150.50 },
   ]
 
   // Handle Closing of Dropdowns When Clicked Outside of Its Div
@@ -110,7 +110,9 @@ const Utilities = () => {
             <thead>
               <tr>
                 <th className='utilities__table-th'>Name</th>
+                <th className='utilities__table-th'>Description</th>
                 <th className='utilities__table-th'>Date</th>
+                <th className='utilities__table-th'>Time</th>
                 <th className='utilities__table-th'>Total</th>
                 <th className='utilities__table-th'></th>
               </tr>
@@ -119,11 +121,13 @@ const Utilities = () => {
               {utilitiesData.map((utilities =>
                   <tr className='utilities__table-tr' key={utilities.id} >
                     <td className='utilities__table-td'>{utilities.name}</td>
+                    <td className='utilities__table-td'><TextSlicer text={utilities.description} /></td>
                     <td className='utilities__table-td'>{utilities.date}</td>
-                    <td className='utilities__table-td'>{utilities.price}</td>
+                    <td className='utilities__table-td'>{utilities.time}</td>
+                    <td className='utilities__table-td'>₱ {utilities.price}</td>
                     <td className='utilities__table-td'>
                       <UpdateIcon onClick={toggleEditModal}/>
-                      <DeleteIcon onClick={() => {}} />
+                      <ViewExpensesIcon expenses={utilities} />
                     </td>
                   </tr>
                 ))}

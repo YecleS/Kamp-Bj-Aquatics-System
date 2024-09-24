@@ -58,7 +58,6 @@
     background: none;
 }
 
-
 /* FILTER DROPDOWN */
 .void-products__filter-dropdown {
     position: absolute;
@@ -120,6 +119,24 @@
     color: var(--blue-color);
 }
 
+/* INSERT BUTTON */
+.void-products__insert {
+    font-size: 1rem;
+    padding: 0.3em 0.5em;
+    border: 1px solid transparent;
+    outline: none;
+    background: var(--blue-color);
+    color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.void-products__insert:hover {
+    background: white;
+    border: 1px solid var(--blue-color);
+    color: black;
+}
 
 /* BODY AND TABLE STYLE*/
 .void-products__body {

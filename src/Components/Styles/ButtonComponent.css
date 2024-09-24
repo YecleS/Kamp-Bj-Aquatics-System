@@ -1,0 +1,21 @@
+.Button-component {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    background: var(--blue-color);
+    color: white;
+    border: 1px solid transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.Button-component:hover {
+    background: white;
+    border: 1px solid var(--blue-color);
+    color: black;
+}

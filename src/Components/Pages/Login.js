@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../Styles/Login.css';
 import LoginIMG from '../Assets/loginImg.png';
 import Logo from '../Assets/logo.png';
-import Owner from './Owner';
+import ButtonComponent from '../UIComponents/ButtonComponent';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -93,11 +93,12 @@ const Login = () => {
                     <i className={`login__see-password-icon fa-solid ${isPasswordVisible ? 'fa-eye-slash':'fa-eye'}`} onClick={toggleSeePassword}></i>
                     <ErrorMessage name='password' component='span' className='login__error'/>
                   </div>
+                  
                   <button type='submit' className='login__button'>Login</button>
-              
                 </Form>
               )}
             </Formik>
+            <ButtonComponent buttonCustomClass='login__signup-button' label='Dont Have An Account ?' onClick={() => navigate('/sign-up')} />
           </div>
         </div>
 

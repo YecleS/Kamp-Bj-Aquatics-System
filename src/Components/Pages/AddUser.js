@@ -2,8 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import '../Styles/AddUser.css';
 import AddStaffModal from '../UIComponents/AddStaffModal';
 import EditStaffModal from '../UIComponents/EditStaffModal';
-import UpdateIcon from '../UIComponents/UpdateIcon';
-import DeleteIcon from '../UIComponents/DeleteIcon';
+import ButtonComponent from '../UIComponents/ButtonComponent';
 
 const AddUser = () => {
   const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false)
@@ -32,9 +31,10 @@ const AddUser = () => {
 
   // Dummy Data For Table 
   const staffData = [
-    { id: 1, fullName: 'steven yecla', username:'steven', role: 'admin'},
-    { id: 2, fullName: 'leni labrador', username:'leni', role: 'manager'},
-    { id: 3, fullName: 'bekir beks', username:'bekir', role: 'staff'},
+    {id: 1, firstname: 'steven', lastname:'yecla', username:'stevenyandre', email:'stevenyecla@gmail.com', approval:'pending'},
+    {id: 2, firstname: 'mico', lastname:'bembo', username:'mico233', email:'micobembo@gmail.com', approval:'approved'},
+    {id: 3, firstname: 'willie', lastname:'ong', username:'willieong', email:'willeone@gmail.com', approval:'pending'},
+    {id: 4, firstname: 'willie', lastname:'ong', username:'willieong', email:'willeone@gmail.com', approval:'approved'},
   ]
 
 
@@ -56,6 +56,19 @@ const AddUser = () => {
     setFilters({
       filterBy: '',
     })
+  }
+
+  const StatusAction = (status) => {
+    if(status == 'pending'){
+      return <ButtonComponent label='Approve' onClick={toggleAddModal} />
+    }else {
+      return (
+        <>
+          <ButtonComponent label='Configure' onClick={toggleEditModal} />
+          <ButtonComponent buttonCustomClass='add-user__revoke-button' label='Revoke' />     
+        </>
+      )
+    }
   }
 
   return (
@@ -90,31 +103,30 @@ const AddUser = () => {
             }
           </div>
         </div>
-        <div className='add-user__right-controls-wrapper'>
-          <button className='add-user__insert' onClick={toggleAddModal}><i className="add-user__insert-icon fa-solid fa-plus"></i></button>
-          {isAddModalOpen && <AddStaffModal onClick={toggleAddModal}/>}
-        </div>
       </div>
       <div className='add-user__body'>
         <div className='add-user__table-wrapper'>
           <table className='add-user__table'>
             <thead>
               <tr>
-                <th className='add-user__table-th'>Full Name</th>
+                <th className='add-user__table-th'>Firstname</th>
+                <th className='add-user__table-th'>Lastname</th>
                 <th className='add-user__table-th'>Username</th>
-                <th className='add-user__table-th'>Roles</th>
+                <th className='add-user__table-th'>Email</th>
+                <th className='add-user__table-th'>Approval</th>
                 <th className='add-user__table-th'></th>
               </tr>
             </thead>
             <tbody>
               {staffData.map((staff =>
                   <tr className='add-user__table-tr' key={staff.id} >
-                    <td className='add-user__table-td'>{staff.fullName}</td>
+                    <td className='add-user__table-td'>{staff.firstname}</td>
+                    <td className='add-user__table-td'>{staff.lastname}</td>
                     <td className='add-user__table-td'>{staff.username}</td>
-                    <td className='add-user__table-td'>{staff.role}</td>
+                    <td className='add-user__table-td'>{staff.email}</td>
+                    <td className='add-user__table-td'>{staff.approval}</td>
                     <td className='add-user__table-td'>
-                      <UpdateIcon onClick={toggleEditModal}/>
-                      <DeleteIcon onClick={() => {}}/>
+                      {StatusAction(staff.approval)}
                     </td>
                   </tr>
                 ))}
@@ -122,6 +134,8 @@ const AddUser = () => {
           </table>
         </div>
       </div>
+
+      {isAddModalOpen && <AddStaffModal onClick={toggleAddModal}/>}
       {isEditModalOpen && <EditStaffModal onClick={toggleEditModal}/>}
     </div>
   )
