@@ -3,18 +3,21 @@ import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
+import DatePicker from 'react-datepicker';
 
 const EditUtilitiesModal = ({ onClick }) => {
     //Initial Values 
     const initialValues = {
-      name: "",
+      expenses: "",
+      description: "",
       date: "",
       total: "",
   }
 
     //Validation
     const validationSchema = Yup.object ({
-      name: Yup.string().required('Utilities Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+      expenses: Yup.string().required('Expenses Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+      description: Yup.string().required('Description is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
       date: Yup.string().required('Date is Required'),
       total: Yup.number().required('Total is Required').moreThan(0, 'Invalid Total'),
   })
@@ -47,18 +50,37 @@ const EditUtilitiesModal = ({ onClick }) => {
         <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
         <div className='modal__body'>
           <Formik initialValues={initialValues} onSubmit={update} validationSchema={validationSchema} >
-            {() => (
+          {({ setFieldValue, values }) => (
               <Form className='modal__form'>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='text' name='name' placeholder='Enter Utilites Name' className='modal__input-field'/>
-                  <ErrorMessage name='name' component='span' className='modal__input-field-error' />
+                  <Field as='input' list='expenses-list' name='expenses' placeholder='Enter Expenses' className='modal__input-field' />
+                  <datalist id='expenses-list'>
+                    <option value='Wifi' />
+                    <option value='Water Bill' />
+                    <option value='Company Outing' />
+                    <option value='Maintenance' />
+                  </datalist>
+                  <ErrorMessage name='expenses' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='date' name='date' className='modal__input-field'/>
-                  <ErrorMessage name='date' component='span' className='modal__input-field-error' />
+                  <Field component='textarea' name='description' placeholder='Enter Description' className='modal__input-field description'/>
+                  <ErrorMessage name='description' component='span' className='modal__input-field-error' />
                 </div>
+
+                <div className='modal__input-field-wrapper'>
+                      <DatePicker
+                        value={values.date} // Bind to Formik value
+                        onChange={(date) => setFieldValue('date', date.toLocaleDateString('default', { month:'short', year:'numeric' }))} // Use Formik's setFieldValue to update
+                        dateFormat="yyyy-MM-dd"
+                        showMonthYearPicker
+                        maxDate={new Date()}
+                        placeholderText='Select A Month'
+                        className='modal__monthly-input-field'
+                      />
+                  <ErrorMessage name='date' component='span' className='modal__input-field-error' />
+                </div>  
 
                 <div className='modal__input-field-wrapper'>
                   <Field type='number' name='total' placeholder='Enter Total' className='modal__input-field'/>

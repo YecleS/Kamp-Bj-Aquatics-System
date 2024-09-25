@@ -9,15 +9,16 @@ import AddProducts from '../Pages/AddProducts';
 import VoidProducts from '../Pages/VoidProducts';
 import Pos from '../Pages/Pos';
 import Sales from './Sales';
-import Utilities from '../Pages/Utilities';
+import BusinessExpenses from './BusinessExpenses';
 import RestockProducts from '../Pages/RestockProducts';
-import Expenses from './Expenses';
 import Suppliers from '../Pages/Suppliers';
-import AddUser from './AddUser';
 import SalesReport from '../Pages/SalesReport';
 import ExpensesReport from '../Pages/ExpensesReport';
 import GeneralLedger from '../Pages/GeneralLedger';
 import RoleManagement from './RoleManagement';
+import UserRequest from './UserRequest';
+import Users from './Users';
+import RestockRecords from '../Pages/RestockRecords';
 
 
 const Owner = () => {
@@ -45,12 +46,13 @@ const Owner = () => {
             <Route path='void-products' element={<VoidProducts />}/>
             <Route path='pos' element={<Pos />}/>
             <Route path='sales-record' element={<Sales />} />
-            <Route path='utilities' element={<Utilities />}/>
+            <Route path='expenses' element={<BusinessExpenses />}/>
             <Route path='restock-products' element={<RestockProducts />}/>
-            <Route path='expenses-record' element={<Expenses />}/>
+            <Route path='restock-records' element={<RestockRecords />}/>
             <Route path='suppliers' element={<Suppliers />}/>
             <Route path='role-management' element={<RoleManagement />}/>
-            <Route path='add-user' element={<AddUser />}/>
+            <Route path='user-request' element={<UserRequest />}/>
+            <Route path='users' element={<Users />}/>
             <Route path='sales-report' element={<SalesReport />}/>
             <Route path='expenses-report' element={<ExpensesReport />}/>
             <Route path='ledger' element={<GeneralLedger />}/>

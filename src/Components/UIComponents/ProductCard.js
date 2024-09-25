@@ -5,7 +5,7 @@ import TextSlicer from '../Utils/TextSlicer';
 import '../Styles/ProductCard.css';
 import { ViewProductIcon } from '../UIComponents/ActionIcons'
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, icon}) => {
     
   return (
     <div className='product-card'>
@@ -24,7 +24,7 @@ const ProductCard = ({product}) => {
 
             <div>
                 <ViewProductIcon products={product} />
-                <i class="product-card__icon fa-solid fa-arrow-right"></i>
+                <i class={`product-card__icon fa-solid ${icon}`}></i>
             </div>
             
         </div>

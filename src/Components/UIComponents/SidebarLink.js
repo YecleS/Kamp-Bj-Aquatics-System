@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../Styles/SidebarLink.css';
 
-const SidebarLink = ({to, navLinkClassName, className, onClick, icon, item}) => {
+export const SidebarLink = ({to, navLinkClassName, className, onClick, icon, item}) => {
 
     const linkTo = to || '#';
 
@@ -16,4 +16,13 @@ const SidebarLink = ({to, navLinkClassName, className, onClick, icon, item}) => 
   )
 }
 
-export default SidebarLink
+export const SidebarDropdownLink = ({className, onClick, icon, item}) => {
+  return (
+      <li className={`sidebar-dropdown-link__nav-item ${className}`} onClick={onClick}>
+          {icon}
+          {item}
+          <i className="sidebar-dropdown-link__caret-icon fa-solid fa-caret-down"></i>
+      </li>
+  )
+}
+

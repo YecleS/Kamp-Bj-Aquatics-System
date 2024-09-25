@@ -1,0 +1,224 @@
+.users {
+    height: 100%;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* HEADER AND CONTROLS STYLE*/
+.users__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.users__left-controls-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.users__input-field {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.3em 1em;
+    width: 350px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    transition: all 0.2s ease;
+}
+
+.users__input-field:focus {
+    box-shadow: 0 0 0 3px rgb(152, 200, 255);
+}
+
+
+.users__filter-wrapper {
+    position: relative;
+}
+
+.users__filter-icon {
+    display: block;
+    padding: 0.5rem 0.5rem;
+    font-size: 1.2rem;
+    color: white;
+    background: var(--blue-color);
+    border-radius: 5px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.users__filter-icon:hover {
+    color: black;
+    border: 1px solid var(--blue-color);
+    background: none;
+}
+
+.users__filter-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    z-index: 100;
+    background: white;
+    padding: 1rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.users__filter-dropdown-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.users__filter-label {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.users__filter-field {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.3em 1em;
+    width: 200px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.users__filter-field:focus {
+    box-shadow: 0 0 0 3px rgb(152, 200, 255);
+}
+
+.users__filter-dropdown-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.192);
+}
+
+.users__filter-reset {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.users__filter-reset:hover {
+    color: var(--blue-color);
+}
+
+.users__insert {
+    font-size: 1rem;
+    padding: 0.3em 0.5em;
+    border: 1px solid transparent;
+    outline: none;
+    background: var(--blue-color);
+    color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.users__insert:hover {
+    background: white;
+    border: 1px solid var(--blue-color);
+    color: black;
+}
+
+
+/* BODY AND TABLE STYLE*/
+.users__body {
+    height: 83vh;
+    overflow: auto;
+}
+
+.users__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users__table-th {
+    background: var(--blue-color);
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+.users__table-th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.users__table-th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.users__table-tr:nth-child(even) {
+    background: rgb(193, 223, 255);
+}
+
+.users__table-td {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ACTION BUTTONS */
+.users__revoke-button {
+    margin-left: 0.5rem;
+}
+
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 599px) {
+    
+    .users__input-field {
+        font-size: 0.9rem;
+        width: 220px;
+    }
+
+    .users__filter-icon {
+        font-size: 0.9rem;
+    }
+
+    .users__filter-label {
+        font-size: 0.9rem;
+    }
+
+    .users__filter-field {
+        font-size: 0.9rem;
+    }
+
+    .users__insert {
+        font-size: 0.9rem;
+        padding: 0.4em 0.5em;
+    }
+
+    .users__body {
+        height: 80vh;
+        overflow: auto;
+    }
+
+    .users__table-th {
+        font-size: 0.9rem;
+    }
+
+    .users__table-td {
+        font-size: 0.9rem;
+    }
+}

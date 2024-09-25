@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../Styles/OwnerSidebar.css';
-import SidebarLink from './SidebarLink';
+import { SidebarLink, SidebarDropdownLink } from './SidebarLink';
 
 
 const OwnerSidebar = () => {
     const[isProductsDropdownOpen, isSetProductsDropdownOpen] = useState(false)
     const[isSalesDropdownOpen, isSetSalesDropdownOpen] = useState(false)
-    const[isExpensesDropdownOpen, isSetExpensesDropdownOpen] = useState(false)
     const[isReportDropdownOpen, isSetReportDropdownOpen] = useState(false)
+    const[isUserManagementDropdownOpen, isSetUsermanagementDropdownOpen] = useState(false);
     const location = useLocation()
 
     const closeDropdowns = () => {
         isSetProductsDropdownOpen(false);
         isSetSalesDropdownOpen(false);
-        isSetExpensesDropdownOpen(false);
         isSetReportDropdownOpen(false);
+        isSetUsermanagementDropdownOpen(false);
     }
 
     const toggleProductsDropdown = () => {
         isSetProductsDropdownOpen(!isProductsDropdownOpen);
 
         //Close Other Dropdown Menu
-        isSetExpensesDropdownOpen(false);
         isSetReportDropdownOpen(false);
         isSetSalesDropdownOpen(false);
+        isSetUsermanagementDropdownOpen(false);
     }
 
     const toggleSalesDropdown = () => {
@@ -32,17 +32,16 @@ const OwnerSidebar = () => {
 
         //Close Other Dropdown Menu
         isSetProductsDropdownOpen(false)
-        isSetExpensesDropdownOpen(false);
         isSetReportDropdownOpen(false);
+        isSetUsermanagementDropdownOpen(false);
     }
 
-    const toggleExpensesDropdown = () => {
-        isSetExpensesDropdownOpen(!isExpensesDropdownOpen);
+    const toggleUserManagementDropdown = () => {
+        isSetUsermanagementDropdownOpen(!isUserManagementDropdownOpen);
 
         //Close Other Dropdown Menu
-        isSetProductsDropdownOpen(false);
+        isSetProductsDropdownOpen(false)
         isSetReportDropdownOpen(false);
-        isSetSalesDropdownOpen(false);
     }
 
     const toggleReportDropdown = () => {
@@ -50,8 +49,8 @@ const OwnerSidebar = () => {
 
         //Close Other Dropdown Menu
         isSetProductsDropdownOpen(false);
-        isSetExpensesDropdownOpen(false);
         isSetSalesDropdownOpen(false);
+        isSetUsermanagementDropdownOpen(false);
     }
 
   return (
@@ -71,9 +70,7 @@ const OwnerSidebar = () => {
             icon={<i className="sidebar-link__nav-icon fa-solid fa-box-archive"></i>}
             item='Inventory'
         />
-        <SidebarLink 
-            to='#'
-            className={''}
+        <SidebarDropdownLink 
             onClick={toggleProductsDropdown}
             icon={<i className="sidebar-link__nav-icon fa-solid fa-box-open"></i>}
             item='Product Management'
@@ -88,6 +85,13 @@ const OwnerSidebar = () => {
                     item='Add Products'
                 />
                 <SidebarLink 
+                    to='void-products'
+                    className={location.pathname === '/admin/void-products' ? 'sidebar-link-active' : ''}
+                    onClick={() => {}}
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-square-xmark"></i>}
+                    item='Voided Products'
+                />
+                <SidebarLink 
                     to='restock-products'
                     className={location.pathname === '/admin/restock-products' ? 'sidebar-link-active' : ''}
                     onClick={() => {}}
@@ -95,17 +99,15 @@ const OwnerSidebar = () => {
                     item='Restock Products'
                 />
                 <SidebarLink 
-                    to='void-products'
-                    className={location.pathname === '/admin/void-products' ? 'sidebar-link-active' : ''}
+                    to='restock-records'
+                    className={location.pathname === '/admin/restock-records' ? 'sidebar-link-active' : ''}
                     onClick={() => {}}
-                    icon={<i className="sidebar-link__nav-icon fa-solid fa-square-xmark"></i>}
-                    item='Voided Products'
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
+                    item='Restock Records'
                 />
             </div>
         }
-        <SidebarLink 
-            to='#'
-            className={''}
+        <SidebarDropdownLink 
             onClick={toggleSalesDropdown}
             icon={<i className="sidebar-link__nav-icon fa-solid fa-coins"></i>}
             item='Sales'
@@ -129,30 +131,12 @@ const OwnerSidebar = () => {
             </div>
         }
         <SidebarLink 
-            to='#'
-            className={''}
-            onClick={toggleExpensesDropdown}
-            icon={<i className="sidebar-link__nav-icon fa-solid fa-box-open"></i>}
+            to='expenses'
+            className={location.pathname === '/admin/expenses' ? 'sidebar-link-active': ''}
+            onClick={closeDropdowns}
+            icon={<i className="sidebar-link__nav-icon fa-solid fa-plug"></i>}
             item='Business Expenses'
         />
-        {isExpensesDropdownOpen && 
-            <div className='owner-sidebar__dropdown-wrapper'>
-                <SidebarLink 
-                    to='utilities'
-                    className={location.pathname === '/admin/utilities' ? 'sidebar-link-active': ''}
-                    onClick={() => {}}
-                    icon={<i className="sidebar-link__nav-icon fa-solid fa-plug"></i>}
-                    item='Utilities'
-                />
-                <SidebarLink 
-                    to='expenses-record'
-                    className={location.pathname === '/admin/expenses-record' ? 'sidebar-link-active' : ''}
-                    onClick={() => {}}
-                    icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
-                    item='Expenses record'
-                />
-            </div>
-        }
         <SidebarLink 
             to='suppliers'
             className={location.pathname === '/admin/suppliers' ? 'sidebar-link-active': ''}
@@ -160,23 +144,37 @@ const OwnerSidebar = () => {
             icon={<i className="sidebar-link__nav-icon fa-solid fa-truck"></i>}
             item='Suppliers'
         />
-        <SidebarLink 
-            to='role-management'
-            className={location.pathname === '/admin/role-management' ? 'sidebar-link-active': ''}
-            onClick={closeDropdowns}
-            icon={<i className="sidebar-link__nav-icon fa-solid fa-people-group"></i>}
-            item='Role Management'
+        <SidebarDropdownLink 
+            onClick={toggleUserManagementDropdown}
+            icon={<i className="sidebar-link__nav-icon fa-solid fa-person"></i>}
+            item='User Management'
         />
-        <SidebarLink 
-            to='add-user'
-            className={location.pathname === '/admin/add-user' ? 'sidebar-link-active': ''}
-            onClick={closeDropdowns}
-            icon={<i className="sidebar-link__nav-icon fa-solid fa-user"></i>}
-            item='Add User'
-        />
-        <SidebarLink 
-            to='#'
-            className={''}
+        {isUserManagementDropdownOpen &&
+            <div className='owner-sidebar__dropdown-wrapper'>
+                <SidebarLink 
+                    to='role-management'
+                    className={location.pathname === '/admin/role-management' ? 'sidebar-link-active': ''}
+                    onClick={() => {}}
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-people-group"></i>}
+                    item='Role Management'
+                />
+                <SidebarLink 
+                    to='user-request'
+                    className={location.pathname === '/admin/user-request' ? 'sidebar-link-active': ''}
+                    onClick={() => {}}
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-user"></i>}
+                    item='User Request'
+                />
+                <SidebarLink 
+                    to='users'
+                    className={location.pathname === '/admin/users' ? 'sidebar-link-active': ''}
+                    onClick={() => {}}
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-users"></i>}
+                    item='Users'
+                />
+            </div>
+        }
+        <SidebarDropdownLink 
             onClick={toggleReportDropdown}
             icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
             item='Report'

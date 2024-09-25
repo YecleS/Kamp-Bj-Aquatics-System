@@ -1,4 +1,4 @@
-.utilities {
+.business-expenses {
     height: 100%;
     padding: 1rem 1rem;
     display: flex;
@@ -7,40 +7,40 @@
 }
 
 /* HEADER AND CONTROLS STYLE*/
-.utilities__header {
+.business-expenses__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.utilities__left-controls-wrapper {
+.business-expenses__left-controls-wrapper {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
 }
 
-.utilities__input-field {
+.business-expenses__input-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 350px;
+    width: 250px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
     transition: all 0.2s ease;
 }
 
-.utilities__input-field:focus {
+.business-expenses__input-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
 
-.utilities__filter-wrapper {
+.business-expenses__filter-wrapper {
     position: relative;
 }
 
-.utilities__filter-icon {
+.business-expenses__filter-icon {
     display: block;
     padding: 0.5rem 0.5rem;
     font-size: 1.2rem;
@@ -52,14 +52,14 @@
     transition: all 0.3s ease;
 }
 
-.utilities__filter-icon:hover {
+.business-expenses__filter-icon:hover {
     color: black;
     border: 1px solid var(--blue-color);
     background: none;
 }
 
 /* FILTER DROPDOWN */
-.utilities__filter-dropdown {
+.business-expenses__filter-dropdown {
     position: absolute;
     top: 50px;
     right: 0;
@@ -70,19 +70,19 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
-.utilities__filter-dropdown-body {
+.business-expenses__filter-dropdown-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.utilities__filter-label {
+.business-expenses__filter-label {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.utilities__filter-field {
+.business-expenses__filter-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
@@ -94,11 +94,11 @@
     transition: all 0.2s ease;
 }
 
-.utilities__filter-field:focus {
+.business-expenses__filter-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.utilities__filter-dropdown-footer {
+.business-expenses__filter-dropdown-footer {
     margin-top: 20px;
     padding-top: 10px;
     display: flex;
@@ -107,7 +107,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.192);
 }
 
-.utilities__filter-reset {
+.business-expenses__filter-reset {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 700;
@@ -115,11 +115,11 @@
     transition: all 0.3s ease;
 }
 
-.utilities__filter-reset:hover {
+.business-expenses__filter-reset:hover {
     color: var(--blue-color);
 }
 
-.utilities__insert {
+.business-expenses__insert {
     font-size: 1rem;
     padding: 0.3em 0.5em;
     border: 1px solid transparent;
@@ -131,7 +131,7 @@
     cursor: pointer;
 }
 
-.utilities__insert:hover {
+.business-expenses__insert:hover {
     background: white;
     border: 1px solid var(--blue-color);
     color: black;
@@ -139,17 +139,17 @@
 
 
 /* BODY AND TABLE STYLE*/
-.utilities__body {
+.business-expenses__body {
     height: 83vh;
     overflow: auto;
 }
 
-.utilities__table {
+.business-expenses__table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.utilities__table-th {
+.business-expenses__table-th {
     background: var(--blue-color);
     padding: 0.5rem 1rem;
     color: white;
@@ -160,19 +160,19 @@
     top: 0;
 }
 
-.utilities__table-th:first-child {
+.business-expenses__table-th:first-child {
     border-top-left-radius: 10px;
 }
 
-.utilities__table-th:last-child {
+.business-expenses__table-th:last-child {
     border-top-right-radius: 10px;
 }
 
-.utilities__table-tr:nth-child(even) {
+.business-expenses__table-tr:nth-child(even) {
     background: rgb(193, 223, 255);
 }
 
-.utilities__table-td {
+.business-expenses__table-td {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
@@ -181,42 +181,42 @@
 /* MEDIA QUERIES */
 @media screen and (max-width: 599px) {
     
-    .utilities__input-field {
+    .business-expenses__input-field {
         font-size: 0.9rem;
         width: 220px;
     }
 
-    .utilities__filter-icon {
+    .business-expenses__filter-icon {
         font-size: 0.9rem;
     }
 
-    .utilities__filter-label {
+    .business-expenses__filter-label {
         font-size: 0.9rem;
     }
 
-    .utilities__filter-field {
+    .business-expenses__filter-field {
         font-size: 0.9rem;
     }
 
-    .utilities__filter-reset {
+    .business-expenses__filter-reset {
         font-size: 0.9rem;
     }
 
-    .utilities__insert {
+    .business-expenses__insert {
         font-size: 0.9rem;
         padding: 0.4em 0.5em;
     }
 
-    .utilities__body {
+    .business-expenses__body {
         height: 80vh;
         overflow: auto;
     }
 
-    .utilities__table-th {
+    .business-expenses__table-th {
         font-size: 0.9rem;
     }
 
-    .utilities__table-td {
+    .business-expenses__table-td {
         font-size: 0.9rem;
     }
 }

@@ -58,6 +58,18 @@ const AddSupplierModal = ({onClick}) => {
                 </div>
 
                 <div className='modal__input-field-wrapper'>
+                  <div className='modal__supplier-products-wrapper'>
+                    <Field as='input' list='supplierProucts-list' name='supplierProucts' placeholder='Enter Supplier Products' className='modal__input-field supplier-products-field' />
+                    <datalist id='supplierProucts-list'>
+                      <option value='Equipment' />
+                      <option value='Pets' />
+                    </datalist>
+                    <button className='modal__btn-insert-supplier-products'>+</button>
+                  </div>
+                  <ErrorMessage name='supplierProucts' component='span' className='modal__input-field-error' />
+                </div>
+
+                <div className='modal__input-field-wrapper'>
                   <Field type='email' name='email' placeholder='Enter Email' className='modal__input-field'/>
                   <ErrorMessage name='email' component='span' className='modal__input-field-error' />
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../Styles/StaffSidebar.css';
 import { useLocation } from 'react-router-dom';
-import SidebarLink from './SidebarLink';
+import { SidebarLink } from './SidebarLink';
 
 const StaffSidebar = () => {
     const location = useLocation()

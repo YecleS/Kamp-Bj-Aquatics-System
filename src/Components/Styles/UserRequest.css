@@ -1,4 +1,4 @@
-.add-user {
+.user-request {
     height: 100%;
     padding: 1rem 1rem;
     display: flex;
@@ -7,20 +7,20 @@
 }
 
 /* HEADER AND CONTROLS STYLE*/
-.add-user__header {
+.user-request__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.add-user__left-controls-wrapper {
+.user-request__left-controls-wrapper {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
 }
 
-.add-user__input-field {
+.user-request__input-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
@@ -31,16 +31,16 @@
     transition: all 0.2s ease;
 }
 
-.add-user__input-field:focus {
+.user-request__input-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
 
-.add-user__filter-wrapper {
+.user-request__filter-wrapper {
     position: relative;
 }
 
-.add-user__filter-icon {
+.user-request__filter-icon {
     display: block;
     padding: 0.5rem 0.5rem;
     font-size: 1.2rem;
@@ -52,13 +52,13 @@
     transition: all 0.3s ease;
 }
 
-.add-user__filter-icon:hover {
+.user-request__filter-icon:hover {
     color: black;
     border: 1px solid var(--blue-color);
     background: none;
 }
 
-.add-user__filter-dropdown {
+.user-request__filter-dropdown {
     position: absolute;
     top: 50px;
     right: 0;
@@ -69,19 +69,19 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
-.add-user__filter-dropdown-body {
+.user-request__filter-dropdown-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.add-user__filter-label {
+.user-request__filter-label {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.add-user__filter-field {
+.user-request__filter-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
@@ -93,11 +93,11 @@
     transition: all 0.2s ease;
 }
 
-.add-user__filter-field:focus {
+.user-request__filter-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.add-user__filter-dropdown-footer {
+.user-request__filter-dropdown-footer {
     margin-top: 20px;
     padding-top: 10px;
     display: flex;
@@ -106,7 +106,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.192);
 }
 
-.add-user__filter-reset {
+.user-request__filter-reset {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 700;
@@ -114,11 +114,11 @@
     transition: all 0.3s ease;
 }
 
-.add-user__filter-reset:hover {
+.user-request__filter-reset:hover {
     color: var(--blue-color);
 }
 
-.add-user__insert {
+.user-request__insert {
     font-size: 1rem;
     padding: 0.3em 0.5em;
     border: 1px solid transparent;
@@ -130,7 +130,7 @@
     cursor: pointer;
 }
 
-.add-user__insert:hover {
+.user-request__insert:hover {
     background: white;
     border: 1px solid var(--blue-color);
     color: black;
@@ -138,17 +138,17 @@
 
 
 /* BODY AND TABLE STYLE*/
-.add-user__body {
+.user-request__body {
     height: 83vh;
     overflow: auto;
 }
 
-.add-user__table {
+.user-request__table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.add-user__table-th {
+.user-request__table-th {
     background: var(--blue-color);
     padding: 0.5rem 1rem;
     color: white;
@@ -159,26 +159,26 @@
     top: 0;
 }
 
-.add-user__table-th:first-child {
+.user-request__table-th:first-child {
     border-top-left-radius: 10px;
 }
 
-.add-user__table-th:last-child {
+.user-request__table-th:last-child {
     border-top-right-radius: 10px;
 }
 
-.add-user__table-tr:nth-child(even) {
+.user-request__table-tr:nth-child(even) {
     background: rgb(193, 223, 255);
 }
 
-.add-user__table-td {
+.user-request__table-td {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
 }
 
 /* ACTION BUTTONS */
-.add-user__revoke-button {
+.user-request__btn-approve {
     margin-left: 0.5rem;
 }
 
@@ -187,38 +187,38 @@
 /* MEDIA QUERIES */
 @media screen and (max-width: 599px) {
     
-    .add-user__input-field {
+    .user-request__input-field {
         font-size: 0.9rem;
         width: 220px;
     }
 
-    .add-user__filter-icon {
+    .user-request__filter-icon {
         font-size: 0.9rem;
     }
 
-    .add-user__filter-label {
+    .user-request__filter-label {
         font-size: 0.9rem;
     }
 
-    .add-user__filter-field {
+    .user-request__filter-field {
         font-size: 0.9rem;
     }
 
-    .add-user__insert {
+    .user-request__insert {
         font-size: 0.9rem;
         padding: 0.4em 0.5em;
     }
 
-    .add-user__body {
+    .user-request__body {
         height: 80vh;
         overflow: auto;
     }
 
-    .add-user__table-th {
+    .user-request__table-th {
         font-size: 0.9rem;
     }
 
-    .add-user__table-td {
+    .user-request__table-td {
         font-size: 0.9rem;
     }
 }

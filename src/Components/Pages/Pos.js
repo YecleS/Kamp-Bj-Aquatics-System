@@ -192,7 +192,7 @@ const Pos = () => {
               <ProductCard 
                 key={products.id} 
                 product={products}
-                
+                icon='fa-arrow-right'
               />
             ))}
           </div>
