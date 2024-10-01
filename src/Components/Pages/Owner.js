@@ -19,6 +19,7 @@ import RoleManagement from './RoleManagement';
 import UserRequest from './UserRequest';
 import Users from './Users';
 import RestockRecords from '../Pages/RestockRecords';
+import BrandAndCategories from './BrandAndCategories';
 
 
 const Owner = () => {
@@ -43,6 +44,7 @@ const Owner = () => {
             <Route index element={<Dashboard />}/>
             <Route path='inventory' element={<Inventory />}/>
             <Route path='add-products' element={<AddProducts />}/>
+            <Route path='brand-categories' element={<BrandAndCategories />} />
             <Route path='void-products' element={<VoidProducts />}/>
             <Route path='pos' element={<Pos />}/>
             <Route path='sales-record' element={<Sales />} />

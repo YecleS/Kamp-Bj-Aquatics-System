@@ -48,3 +48,10 @@ export const DeleteIcon = ({onClick}) => {
     <i className="action-icons fa-solid fa-trash" onClick={onClick}></i>
   )
 }
+
+//For Edit icon
+export const EditIcon = ({onClick}) => {
+  return (
+    <i className="action-icons fa-solid fa-pen-to-square" onClick={onClick}></i>
+  )
+}
