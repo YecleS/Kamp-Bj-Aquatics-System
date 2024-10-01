@@ -10,7 +10,8 @@
 .restock-products__header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 0.5rem;
 }
 
 .restock-products__left-controls-wrapper {
@@ -137,9 +138,23 @@
 }
 
 
-/* BODY AND TABLE STYLE*/
+/* BODY AND TABLE STYLE */
 .restock-products__body {
-    height: 83vh;
+    height: 80vh;
+    overflow: auto;
+}
+
+.restock-products__content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;  
+    gap: 15px;
+    height: 100%;
+    overflow: auto;
+}
+
+/* STYLE FOR INVENTORY TABLE */
+.restock-products__inventory-wrapper {
+    max-height: 750px;
     overflow: auto;
 }
 
@@ -177,6 +192,23 @@
     font-weight: 500;
 }
 
+/* STYLE FOR ORDER LIST TABLE */
+.restock-products__restock-list-table-wrapper {
+    min-height: 300px;
+    max-height: 300px;    
+    overflow: auto;
+}
+
+.restock-products__table-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.restock-products__submit-restock {
+    width: 100%;
+    margin-top: 0.5rem;
+}
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 599px) {

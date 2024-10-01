@@ -1,41 +1,22 @@
 import React from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner'
 
 export const ToastSuccess = (message) => {
     toast.success(message, {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        });
-}
+        duration: 1500,
 
-export const ToastWarning = (message) => {
-    toast.warn(message, {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        });
-}
+        style: {
+            fontSize: '0.95rem', // Adjust the font size here
+        },
+    });
+};
 
 export const ToastError = (message) => {
     toast.error(message, {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        });
-}
+        duration: 1500,
+
+        style: {
+            fontSize: '0.95rem', // Adjust the font size here
+        },
+    });
+};

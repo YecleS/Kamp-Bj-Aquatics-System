@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { Toaster } from 'sonner';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Components/Pages/Login';
 import SignUp from './Components/Pages/SignUp';
 import Owner from './Components/Pages/Owner';
@@ -18,6 +19,7 @@ function App() {
           <Route path='/staff/*' element={<Staff />} />
         </Routes>
       </Router>
+      <Toaster richColors position="top-right" />
     </div>
   );
 }
