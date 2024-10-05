@@ -89,24 +89,31 @@ const AddProductModal = ({onClick}) => {
                   <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
                 </div>
 
-                <div className='modal__input-field-wrapper'>
-                  <Field as='input' list='brand-list' name='brand' placeholder='Enter Brand' className='modal__input-field' />
-                  <datalist id='brand-list'>
-                    <option value='Nike' />
-                    <option value='Adidas' />
-                    <option value='Puma' />
-                    <option value='Reebok' />
-                    <option value='Under Armour' />
-                  </datalist>
+                <div className='modal__input-field-wrapper'>     
+                  <div className='modal__supplier-products-wrapper'>
+                    <Field as='input' list='brand-list' name='brand' placeholder='Enter Brand' className='modal__input-field' />
+                    <datalist id='brand-list'>
+                      <option value='Nike' />
+                      <option value='Adidas' />
+                      <option value='Puma' />
+                      <option value='Reebok' />
+                      <option value='Under Armour' />
+                    </datalist>
+                    <button className='modal__btn-insert-supplier-products'>+</button>
+                  </div>
                   <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
+
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field as='input' list='category-list' name='category' placeholder='Enter Category' className='modal__input-field' />
-                  <datalist id='category-list'>
-                    <option value='Equipment' />
-                    <option value='Pets' />
-                  </datalist>
+                  <div className='modal__supplier-products-wrapper'>
+                    <Field as='input' list='category-list' name='category' placeholder='Enter Category' className='modal__input-field' />
+                    <datalist id='category-list'>
+                      <option value='Equipment' />
+                      <option value='Pets' />
+                    </datalist>
+                    <button className='modal__btn-insert-supplier-products'>+</button>
+                  </div>
                   <ErrorMessage name='category' component='span' className='modal__input-field-error' />
                 </div>
 

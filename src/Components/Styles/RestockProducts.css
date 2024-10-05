@@ -1,26 +1,21 @@
-.restock-products {
+.pos {
     height: 100%;
     padding: 1rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
+
 
 /* HEADER AND CONTROLS STYLE*/
-.restock-products__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.restock-products__left-controls-wrapper {
+.pos__header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
 }
 
-.restock-products__input-field {
+.pos__input-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
@@ -31,16 +26,15 @@
     transition: all 0.2s ease;
 }
 
-.restock-products__input-field:focus {
+.pos__input-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-
-.restock-products__filter-wrapper {
+.pos__filter-wrapper {
     position: relative;
 }
 
-.restock-products__filter-icon {
+.pos__filter-icon {
     display: block;
     padding: 0.5rem 0.5rem;
     font-size: 1.2rem;
@@ -52,13 +46,14 @@
     transition: all 0.3s ease;
 }
 
-.restock-products__filter-icon:hover {
+.pos__filter-icon:hover {
     color: black;
     border: 1px solid var(--blue-color);
     background: none;
 }
 
-.restock-products__filter-dropdown {
+/* FILTER DROPDOWN */
+.pos__filter-dropdown {
     position: absolute;
     top: 50px;
     right: 0;
@@ -69,23 +64,23 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
-.restock-products__filter-dropdown-body {
+.pos__filter-dropdown-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.restock-products__filter-label {
+.pos__filter-label {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.restock-products__filter-field {
+.pos__filter-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 200px;
+    width: 250px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -93,11 +88,11 @@
     transition: all 0.2s ease;
 }
 
-.restock-products__filter-field:focus {
+.pos__filter-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.restock-products__filter-dropdown-footer {
+.pos__filter-dropdown-footer {
     margin-top: 20px;
     padding-top: 10px;
     display: flex;
@@ -106,7 +101,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.192);
 }
 
-.restock-products__filter-reset {
+.pos__filter-reset {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 700;
@@ -114,41 +109,52 @@
     transition: all 0.3s ease;
 }
 
-.restock-products__filter-reset:hover {
+.pos__filter-reset:hover {
     color: var(--blue-color);
-}
-
-.restock-products__insert {
-    font-size: 1rem;
-    padding: 0.3em 0.5em;
-    border: 1px solid transparent;
-    outline: none;
-    background: var(--blue-color);
-    color: white;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.restock-products__insert:hover {
-    background: white;
-    border: 1px solid var(--blue-color);
-    color: black;
 }
 
 
 /* BODY AND TABLE STYLE*/
-.restock-products__body {
-    height: 83vh;
+.pos__body {
+    height: 100%;
+}
+
+.pos__content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;  
+    gap: 15px;
     overflow: auto;
 }
 
-.restock-products__table {
+.pos__inventory-wrapper{
+    display:initial;
+    max-height: 750px;
+    overflow: hidden;
+}
+
+.pos__inventory-table-wrapper { 
+    max-height: 750px;
+    overflow: auto;
+}
+
+.pos__orders-table-wrapper {
+    max-height: 500px;
+    overflow: auto;
+}
+
+.pos__table-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.pos__table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.restock-products__table-th {
+
+.pos__table-th {
     background: var(--blue-color);
     padding: 0.5rem 1rem;
     color: white;
@@ -159,61 +165,143 @@
     top: 0;
 }
 
-.restock-products__table-th:first-child {
+.pos__table-th:first-child {
     border-top-left-radius: 10px;
 }
 
-.restock-products__table-th:last-child {
+.pos__table-th:last-child {
     border-top-right-radius: 10px;
 }
 
-.restock-products__table-tr:nth-child(even) {
-    background: rgb(193, 223, 255);
+.pos__table-tr:nth-child(even) {
+    background: #c1dfff;
 }
 
-.restock-products__table-td {
+.pos__table-td {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
 }
 
+.pos__icon-td {
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pos__icon-td:hover {
+    transform: scale(1.1);
+}
+
+.pos__orders-details {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-column: 2/3;
+}
+
+.pos__billing-details-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pos__bill-label {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.pos__checkout {
+    margin-top: 20px;
+    font-size: 1rem;
+    padding: 0.5em 1em;
+    background: var(--blue-color);
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pos__checkout:hover {
+    border: 1px solid var(--blue-color);
+    background: white;
+    color: black;
+}
+
+
 
 /* MEDIA QUERIES */
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .pos__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .pos__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+
 @media screen and (max-width: 599px) {
     
-    .restock-products__input-field {
+    .pos__input-field {
         font-size: 0.9rem;
         width: 220px;
     }
 
-    .restock-products__filter-icon {
+    .pos__filter-icon {
         font-size: 0.9rem;
     }
 
-    .restock-products__filter-label {
+    .pos__filter-label {
         font-size: 0.9rem;
     }
 
-    .restock-products__filter-field {
+    .pos__filter-reset {
         font-size: 0.9rem;
     }
 
-    .restock-products__insert {
-        font-size: 0.9rem;
-        padding: 0.4em 0.5em;
-    }
-
-    .restock-products__body {
-        height: 80vh;
-        overflow: auto;
-    }
-
-    .restock-products__table-th {
+    .pos__filter-field {
         font-size: 0.9rem;
     }
 
-    .restock-products__table-td {
-        font-size: 0.9rem;
+    .pos__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
+    .pos__table-th {
+        font-size: 1rem;
+    }
+
+    .pos__table-td {
+        font-size: 0.8rem;
+    }
+
+    .pos__icon-td {
+        font-size: 1rem;
+    }
+
+    .pos__orders-details {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        padding-bottom: 20px;
+    }
+
+    .pos__bill-label {
+        font-size: 0.9rem;
+    }
 }
+
+
