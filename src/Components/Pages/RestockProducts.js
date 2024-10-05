@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/RestockProducts.css';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import AddToRestockListModal from "../UIComponents/AddtoRestockListModal";
 import { RestockProductRightIcon, DeleteIcon } from '../UIComponents/ActionIcons';
 import ButtonComponent from '../UIComponents/ButtonComponent';
@@ -19,8 +19,13 @@ const RestockProducts = () => {
   }); // State for filters
   const filterDropdownRef = useRef(null);
 
-  // Fetch product data from backend
+ 
   useEffect(() => {
+    fetchProductData()
+  }, []);
+
+
+  const fetchProductData = () => {
     fetch('http://localhost/KampBJ-api/server/populateRestockingProducts.php')
       .then((response) => response.json())
       .then((data) => {
@@ -29,7 +34,8 @@ const RestockProducts = () => {
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
-  }, []);
+  }
+
 
   // Toggle Dropdowns
   const toggleFilterDropdown = () => {
