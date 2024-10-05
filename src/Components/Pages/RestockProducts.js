@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/RestockProducts.css';
+import { toast } from 'react-toastify';
 import AddToRestockListModal from "../UIComponents/AddtoRestockListModal";
-import { ToastContainer, toast } from 'react-toastify';
+import { RestockProductRightIcon, DeleteIcon } from '../UIComponents/ActionIcons';
+import ButtonComponent from '../UIComponents/ButtonComponent';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 
 const RestockProducts = () => {
@@ -100,7 +103,7 @@ const RestockProducts = () => {
   // Handle the submission of the restock list
   const handleRestockSubmit = () => {
     if (restockList.length === 0) {
-      toast.error('No items in the restock list.');
+      ToastError('Restock List is Empty');
       return;
     }
 
@@ -118,8 +121,9 @@ const RestockProducts = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          toast.success('Restock processed successfully');
+          ToastSuccess('Restock processed successfully');
           setRestockList([]); // Clear the restock list after successful submission
+          fetchProductData();
         } else {
           toast.error(`Error: ${data.message}`);
         }
@@ -149,28 +153,28 @@ const RestockProducts = () => {
   }, []);
 
   return (
-    <div className="pos">
-      <div className="pos__header">
-        <div className="pos__search-wrapper">
+    <div className="restock-products">
+      <div className="restock-products__header">
+        <div className="restock-products__search-wrapper">
           <input
             type="text"
             placeholder="Search Name, Brand, or Model"
-            className="pos__input-field"
+            className="restock-products__input-field"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} // Update the search query as the user types
           />
         </div>
-        <div className="pos__filter-wrapper" ref={filterDropdownRef}>
-          <i className="pos__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
+        <div className="restock-products__filter-wrapper" ref={filterDropdownRef}>
+          <i className="restock-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
           {isFilterDropdownOpen &&
-            <div className="pos__filter-dropdown">
-              <div className="pos__filter-dropdown-body">
-                <div className="pos__filter-dropdown-field-wrapper">
-                  <p className="pos__filter-label">Filter by</p>
+            <div className="restock-products__filter-dropdown">
+              <div className="restock-products__filter-dropdown-body">
+                <div className="restock-products__filter-dropdown-field-wrapper">
+                  <p className="restock-products__filter-label">Filter by</p>
                   <select
                     value={filters.filterBy}
                     onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
-                    className="pos__filter-field"
+                    className="restock-products__filter-field"
                   >
                     <option value="">Select</option>
                     <option value="name">Name (A - Z)</option>
@@ -179,8 +183,8 @@ const RestockProducts = () => {
                     <option value="quantity-low-to-high">Stocks (Lowest - Highest)</option>
                   </select>
                 </div>
-                <div className="pos__filter-dropdown-footer">
-                  <p className="pos__filter-reset" onClick={resetFilters}>Reset Filters</p>
+                <div className="restock-products__filter-dropdown-footer">
+                  <p className="restock-products__filter-reset" onClick={resetFilters}>Reset Filters</p>
                 </div>
               </div>
             </div>
@@ -188,33 +192,29 @@ const RestockProducts = () => {
         </div>
       </div>
 
-      <div className="pos__body">
-        <div className="pos__content-wrapper">
-          <div className="pos__inventory-wrapper">
-            <h5 className="pos__table-title">Product Stocks:</h5>
-            <div className="pos__inventory-table-wrapper">
-              <table className="pos__table">
+      <div className="restock-products__body">
+        <div className="restock-products__content-wrapper">
+          <div className="restock-products__inventory-wrapper">
+            <div className="restock-products__inventory-table-wrapper">
+              <table className="restock-products__table">
                 <thead>
                   <tr>
-                    <th className="pos__table-th">Name</th>
-                    <th className="pos__table-th">Brand</th>
-                    <th className="pos__table-th">Model</th>
-                    <th className="pos__table-th">Stocks At Hand</th>
-                    <th className="pos__table-th"></th>
+                    <th className="restock-products__table-th">Name</th>
+                    <th className="restock-products__table-th">Brand</th>
+                    <th className="restock-products__table-th">Model</th>
+                    <th className="restock-products__table-th">Stocks At Hand</th>
+                    <th className="restock-products__table-th"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredProducts.map((product) => (
-                    <tr className="pos__table-tr" key={product.productId}>
-                      <td className="pos__table-td">{product.productName}</td>
-                      <td className="pos__table-td">{product.brand}</td>
-                      <td className="pos__table-td">{product.model}</td>
-                      <td className="pos__table-td">{product.quantity}</td>
-                      <td className="pos__table-td">
-                        <i
-                          className="pos__icon-td fa-solid fa-arrow-right"
-                          onClick={() => toggleAddToRestockModal(product)}
-                        ></i>
+                    <tr className="restock-products__table-tr" key={product.productId}>
+                      <td className="restock-products__table-td">{product.productName}</td>
+                      <td className="restock-products__table-td">{product.brand}</td>
+                      <td className="restock-products__table-td">{product.model}</td>
+                      <td className="restock-products__table-td">{product.quantity}</td>
+                      <td className="restock-products__table-td">
+                        <RestockProductRightIcon onClick={() => toggleAddToRestockModal(product)} />
                       </td>
                     </tr>
                   ))}
@@ -230,36 +230,31 @@ const RestockProducts = () => {
             )}
           </div>
 
-          <div className="pos__orders-wrapper">
-            <h5 className="pos__table-title">Restock list</h5>
-            <div className="pos__orders-table-wrapper">
-              <table className="pos__table">
+          <div className="restock-products__restock-list-wrapper">
+            <h5 className="restock-products__table-title">Restock list</h5>
+            <div className="restock-products__restock-list-table-wrapper">
+              <table className="restock-products__table">
                 <thead>
                   <tr>
-                    <th className="pos__table-th">Name</th>
-                    <th className="pos__table-th">Quantity</th>
-                    <th className="pos__table-th"></th>
+                    <th className="restock-products__table-th">Name</th>
+                    <th className="restock-products__table-th">Quantity</th>
+                    <th className="restock-products__table-th"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {restockList.map((item, index) => (
-                    <tr className="pos__table-tr" key={index}>
-                      <td className="pos__table-td">{item.productName}</td>
-                      <td className="pos__table-td">{item.quantity}</td>
-                      <td className="pos__table-td">
-                        <i
-                          className="pos__icon-td fa-solid fa-trash"
-                          onClick={() => removeRestockItem(index)}
-                        ></i>
+                    <tr className="restock-products__table-tr" key={index}>
+                      <td className="restock-products__table-td">{item.productName}</td>
+                      <td className="restock-products__table-td">{item.quantity}</td>
+                      <td className="restock-products__table-td">
+                        <DeleteIcon onClick={() => removeRestockItem(index)} />
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <button className="pos__checkout" onClick={handleRestockSubmit}>
-              Submit Restock
-            </button>
+            <ButtonComponent buttonCustomClass='restock-products__submit-restock' label='Submit Restock' onClick={handleRestockSubmit} /> 
           </div>
         </div>
       </div>

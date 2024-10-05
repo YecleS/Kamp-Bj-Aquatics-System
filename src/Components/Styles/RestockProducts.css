@@ -1,4 +1,4 @@
-.pos {
+.restock-products {
     height: 100%;
     padding: 1rem 1rem;
     display: flex;
@@ -8,14 +8,21 @@
 
 
 /* HEADER AND CONTROLS STYLE*/
-.pos__header {
+.restock-products__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.restock-products__left-controls-wrapper {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
 }
 
-.pos__input-field {
+.restock-products__input-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
@@ -26,15 +33,15 @@
     transition: all 0.2s ease;
 }
 
-.pos__input-field:focus {
+.restock-products__input-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.pos__filter-wrapper {
+.restock-products__filter-wrapper {
     position: relative;
 }
 
-.pos__filter-icon {
+.restock-products__filter-icon {
     display: block;
     padding: 0.5rem 0.5rem;
     font-size: 1.2rem;
@@ -46,14 +53,14 @@
     transition: all 0.3s ease;
 }
 
-.pos__filter-icon:hover {
+.restock-products__filter-icon:hover {
     color: black;
     border: 1px solid var(--blue-color);
     background: none;
 }
 
 /* FILTER DROPDOWN */
-.pos__filter-dropdown {
+.restock-products__filter-dropdown {
     position: absolute;
     top: 50px;
     right: 0;
@@ -64,19 +71,19 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
-.pos__filter-dropdown-body {
+.restock-products__filter-dropdown-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.pos__filter-label {
+.restock-products__filter-label {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.pos__filter-field {
+.restock-products__filter-field {
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
@@ -88,11 +95,11 @@
     transition: all 0.2s ease;
 }
 
-.pos__filter-field:focus {
+.restock-products__filter-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.pos__filter-dropdown-footer {
+.restock-products__filter-dropdown-footer {
     margin-top: 20px;
     padding-top: 10px;
     display: flex;
@@ -101,7 +108,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.192);
 }
 
-.pos__filter-reset {
+.restock-products__filter-reset {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 700;
@@ -109,14 +116,33 @@
     transition: all 0.3s ease;
 }
 
-.pos__filter-reset:hover {
+.restock-products__filter-reset:hover {
     color: var(--blue-color);
+}
+
+.restock-products__insert {
+    font-size: 1rem;
+    padding: 0.3em 0.5em;
+    border: 1px solid transparent;
+    outline: none;
+    background: var(--blue-color);
+    color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.restock-products__insert:hover {
+    background: white;
+    border: 1px solid var(--blue-color);
+    color: black;
 }
 
 
 /* BODY AND TABLE STYLE*/
-.pos__body {
-    height: 100%;
+.restock-products__body {
+    height: 80vh;
+    overflow: auto;
 }
 
 .pos__content-wrapper {
@@ -126,10 +152,12 @@
     overflow: auto;
 }
 
-.pos__inventory-wrapper{
-    display:initial;
-    max-height: 750px;
-    overflow: hidden;
+.restock-products__content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;  
+    gap: 15px;
+    height: 100%;
+    overflow: auto;
 }
 
 .pos__inventory-table-wrapper { 
@@ -137,24 +165,40 @@
     overflow: auto;
 }
 
-.pos__orders-table-wrapper {
-    max-height: 500px;
+
+/* BODY AND TABLE STYLE */
+.restock-products__body {
+    height: 80vh;
     overflow: auto;
 }
 
-.pos__table-title {
+.restock-products__content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;  
+    gap: 15px;
+    height: 100%;
+    overflow: auto;
+}
+
+/* STYLE FOR INVENTORY TABLE */
+.restock-products__inventory-wrapper {
+    max-height: 750px;
+    overflow: auto;
+}
+
+.restock-products__table-title {
     font-size: 1.1rem;
     margin-bottom: 10px;
     font-weight: 600;
 }
 
-.pos__table {
+.restock-products__table {
     width: 100%;
     border-collapse: collapse;
 }
 
 
-.pos__table-th {
+.restock-products__table-th {
     background: var(--blue-color);
     padding: 0.5rem 1rem;
     color: white;
@@ -165,22 +209,40 @@
     top: 0;
 }
 
-.pos__table-th:first-child {
+.restock-products__table-th:first-child {
     border-top-left-radius: 10px;
 }
 
-.pos__table-th:last-child {
+.restock-products__table-th:last-child {
     border-top-right-radius: 10px;
 }
 
-.pos__table-tr:nth-child(even) {
+.restock-products__table-tr:nth-child(even) {
     background: #c1dfff;
 }
 
-.pos__table-td {
+.restock-products__table-td {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 500;
+}
+
+/* STYLE FOR ORDER LIST TABLE */
+.restock-products__restock-list-table-wrapper {
+    min-height: 300px;
+    max-height: 300px;    
+    overflow: auto;
+}
+
+.restock-products__table-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.restock-products__submit-restock {
+    width: 100%;
+    margin-top: 0.5rem;
 }
 
 .pos__icon-td {
@@ -233,6 +295,23 @@
 }
 
 
+/* STYLE FOR ORDER LIST TABLE */
+.restock-products__restock-list-table-wrapper {
+    min-height: 300px;
+    max-height: 300px;    
+    overflow: auto;
+}
+
+.restock-products__table-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.restock-products__submit-restock {
+    width: 100%;
+    margin-top: 0.5rem;
+}
 
 /* MEDIA QUERIES */
 
@@ -253,37 +332,37 @@
 
 @media screen and (max-width: 599px) {
     
-    .pos__input-field {
+    .restock-products__input-field {
         font-size: 0.9rem;
         width: 220px;
     }
 
-    .pos__filter-icon {
+    .restock-products__filter-icon {
         font-size: 0.9rem;
     }
 
-    .pos__filter-label {
+    .restock-products__filter-label {
         font-size: 0.9rem;
     }
 
-    .pos__filter-reset {
+    .restock-products__filter-reset {
         font-size: 0.9rem;
     }
 
-    .pos__filter-field {
+    .restock-products__filter-field {
         font-size: 0.9rem;
     }
 
-    .pos__content-wrapper {
+    .restock-products__content-wrapper {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    .pos__table-th {
+    .restock-products__table-th {
         font-size: 1rem;
     }
 
-    .pos__table-td {
+    .restock-products__table-td {
         font-size: 0.8rem;
     }
 

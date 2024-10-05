@@ -27,10 +27,31 @@ export const ViewExpensesIcon = ({expenses}) => {
     isSetViewExpensesModalOpen(!isViewExpensesModalOpen);
   }
 
-return (
-  <>
-      <i className="action-icons fa-solid fa-eye" onClick={toggleViewExpensesModal}></i>
-      {isViewExpensesModalOpen && <ViewExpensesModal expenses={expenses} onClick={toggleViewExpensesModal}/>}
-  </>
-)
+  return (
+    <>
+        <i className="action-icons fa-solid fa-eye" onClick={toggleViewExpensesModal}></i>
+        {isViewExpensesModalOpen && <ViewExpensesModal expenses={expenses} onClick={toggleViewExpensesModal}/>}
+    </>
+  )
+}
+
+//For right icon
+export const RestockProductRightIcon = ({onClick}) => {
+  return (
+    <i className="action-icons fa-solid fa-arrow-right" onClick={onClick}></i>
+  )
+}
+
+//For delete icon
+export const DeleteIcon = ({onClick}) => {
+  return (
+    <i className="action-icons fa-solid fa-trash" onClick={onClick}></i>
+  )
+}
+
+//For Edit icon
+export const EditIcon = ({onClick}) => {
+  return (
+    <i className="action-icons fa-solid fa-pen-to-square" onClick={onClick}></i>
+  )
 }

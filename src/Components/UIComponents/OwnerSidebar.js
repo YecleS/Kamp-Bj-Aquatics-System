@@ -85,6 +85,13 @@ const OwnerSidebar = () => {
                     item='Add Products'
                 />
                 <SidebarLink 
+                    to='brand-categories'
+                    className={location.pathname === '/admin/brand-categories' ? 'sidebar-link-active' : ''}
+                    onClick={() => {}}
+                    icon={<i className="sidebar-link__nav-icon fa-solid fa-layer-group"></i>}
+                    item='Brand & Categories'
+                />
+                <SidebarLink 
                     to='void-products'
                     className={location.pathname === '/admin/void-products' ? 'sidebar-link-active' : ''}
                     onClick={() => {}}

@@ -24,7 +24,7 @@ const ProductCard = ({product, icon}) => {
 
             <div>
                 <ViewProductIcon products={product} />
-                <i class={`product-card__icon fa-solid ${icon}`}></i>
+                <i className={`product-card__icon fa-solid ${icon}`}></i>
             </div>
             
         </div>
