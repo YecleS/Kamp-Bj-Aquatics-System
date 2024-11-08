@@ -78,17 +78,26 @@ const AddVoidProductRecordModal = ({ onClick, refresh, product }) => {
           <Formik initialValues={initialValues} onSubmit={insertRecord} validationSchema={validationSchema}>
             {({ setFieldValue }) => (
               <Form className='modal__form'>
+
                 <div className='modal__input-field-wrapper'>
                   <div className='modal__image-preview-wrapper'>
-                    <img src={imagePreview} alt="Product Proof" className='modal__image-preview' />
+                    <img src={imagePreview} className='modal__image-preview' />
                   </div>
+                </div>
+
+                <div className='modal__input-field-wrapper'>
                   <input
                     type='file'
                     name='receiptImage'
                     accept='image/jpg, image/jpeg, image/png'
                     onChange={(event) => handleImageChange(event, setFieldValue)}
-                    className='modal__file-input'
+                    id='fileInput'
+                    style={{ display: 'none' }}
                   />
+                  <label htmlFor='fileInput' className='modal__upload-img-label'>
+                    Upload Image
+                  </label>
+                  
                   <ErrorMessage name='receiptImage' component='span' className='modal__input-field-error' />
                 </div>
 

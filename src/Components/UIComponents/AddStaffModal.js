@@ -81,21 +81,21 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
               <Form className='modal__form'>
                 {/* Role selection using datalist */}
                 <div className='modal__input-field-wrapper'>
-                  <label htmlFor='role' className='modal__label'>Role</label>
-                  <Field list='roles' id='role' name='role' className='modal__input' placeholder='Select role' />
+                  <Field list='roles' id='role' name='role' className='modal__input-field' placeholder='Select role' />
                   <datalist id='roles'>
                     {roles.map(role => (
                       <option key={role.roleId} value={role.roleTitle}></option>
                     ))}
                   </datalist>
-                  <ErrorMessage name='role' component='div' className='modal__error' />
+
+                  <ErrorMessage name='role' component='div' className='modal__input-field-error' />
                 </div>
 
                 {/* Salary input field */}
                 <div className='modal__input-field-wrapper'>
-                  <label htmlFor='salary' className='modal__label'>Salary</label>
-                  <Field type='number' id='salary' name='salary' className='modal__input' placeholder='Enter salary' />
-                  <ErrorMessage name='salary' component='div' className='modal__error' />
+                  <Field type='number' id='salary' name='salary' className='modal__input-field' placeholder='Enter salary' />
+
+                  <ErrorMessage name='salary' component='div' className='modal__input-field-error' />
                 </div>
 
                 <button type='submit' className='modal__insert'>Approve</button>

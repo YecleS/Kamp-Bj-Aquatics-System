@@ -113,6 +113,19 @@ const Pos = () => {
       });
   };
 
+  const dummyProducts = [
+    {productId: 1, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 2, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 3, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 4, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 5, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 6, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 7, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 8, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 9, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 10, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+  ]
+
     return (
         <div className='pos'>
             <div className='pos__header'>
@@ -147,7 +160,7 @@ const Pos = () => {
             <div className='pos__body'>
                 <div className='pos__content-wrapper'>
                     <div className='pos__inventory-wrapper'>
-                        {products.map((product) => 
+                        {dummyProducts.map((product) => 
                             <ProductCard 
                                 key={product.productId} 
                                 product={product}

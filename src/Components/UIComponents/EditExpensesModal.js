@@ -100,17 +100,25 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
                     <Formik initialValues={initialValues} onSubmit={updateExpense} validationSchema={validationSchema}>
                         {({ setFieldValue, values }) => (
                             <Form className='modal__form'>
+
                                 <div className='modal__input-field-wrapper'>
                                     <div className='modal__image-preview-wrapper'>
                                         <img src={imagePreview} alt="Receipt Preview" className='modal__image-preview' />
                                     </div>
+                                </div>
+                                
+                                <div className='modal__input-field-wrapper'>
                                     <input
                                         type='file'
                                         name='receiptImage'
                                         accept='image/jpg, image/jpeg, image/png'
                                         onChange={(event) => handleImageChange(event, setFieldValue)}
-                                        className='modal__file-input'
+                                        id='fileInput'
+                                        style={{ display: 'none' }}
                                     />
+                                    <label htmlFor='fileInput' className='modal__upload-img-label'>
+                                        Upload Image
+                                    </label>
                                     <ErrorMessage name='receiptImage' component='span' className='modal__input-field-error' />
                                 </div>
 

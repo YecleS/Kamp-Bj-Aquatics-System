@@ -14,11 +14,12 @@ const ViewVoidedProductsModal = ({ products, onClick }) => {
       <div className='view-products-modal_wrapper'>
         <div className='view-products-modal__img-wrapper'>
           <img src={imageUrl} alt={products.productname} className='view-products-modal__img'/>
-          <p className='view-products-modal__description'>{products.description}</p>
         </div>
         <div className='view-products-modal__details-wrapper'>
           <h1 className='view-products-modal__title'>{products.productName}</h1>
-          
+
+          <p className='view-products-modal__label'>Reason</p>
+          <p className='view-products-modal__description'>{products.description}</p>
 
           <p className='view-products-modal__label'>Brand</p>
           <p className='view-products-modal__brand'>{products.brand}</p>
@@ -27,7 +28,7 @@ const ViewVoidedProductsModal = ({ products, onClick }) => {
           <p className='view-products-modal__model'>{products.model}</p>
 
           <p className='view-products-modal__label'>Category</p>
-          <p className='view-products-modal__model'>{products.category}</p>
+          <p className='view-products-modal__category'>{products.category}</p>
           
           <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />
         </div>

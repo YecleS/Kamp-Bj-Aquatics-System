@@ -1,0 +1,35 @@
+
+.product-list-modal__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.product-list-modal__table-th {
+    background: var(--blue-color);
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+.product-list-modal__table-th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.product-list-modal__table-th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.product-list-modal__table-tr:nth-child(even) {
+    background: rgb(193, 223, 255);
+}
+
+.product-list-modal__table-td {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}

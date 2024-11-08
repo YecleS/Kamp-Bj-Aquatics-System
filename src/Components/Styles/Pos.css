@@ -129,7 +129,7 @@
 
 .pos__inventory-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 0.5rem;
     max-height: 750px;
     overflow: auto;

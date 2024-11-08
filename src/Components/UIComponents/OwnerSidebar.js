@@ -82,7 +82,7 @@ const OwnerSidebar = () => {
                         to='/admin'
                         className={location.pathname === '/admin' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
-                        icon={<i className="sidebar-link__nav-icon fa-solid fa-chart-simple"></i>}
+                        icon={<i className="sidebar-link__nav-icon fa-solid fa-house"></i>}
                         item='Welcome Page'
                     />
                 {access.includes(1) && (
