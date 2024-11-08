@@ -27,6 +27,7 @@ const AddProductModal = ({ onClick, refresh }) => {
     brand: "",
     category: "",
     product: "",
+    lowStock: 0,
     model: "",
     description: "",
     markupPercentage: 0
@@ -37,6 +38,7 @@ const AddProductModal = ({ onClick, refresh }) => {
     brand: Yup.string().required('Brand is required'),
     category: Yup.string().required('Category is required'),
     product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+    lowStock: Yup.number().required('Low Stock Indicator is required!').moreThan(0, 'Invalid Input'),
     model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
     description: Yup.string().required('Description is Required'),
     markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),
@@ -70,6 +72,7 @@ const AddProductModal = ({ onClick, refresh }) => {
     formData.append('brandId', selectedBrand.brandId);
     formData.append('categoryId', selectedCategory.categoryId);
     formData.append('product', values.product);
+    formData.append('lowStock', values.lowStock);
     formData.append('model', values.model);
     formData.append('description', values.description);
     formData.append('markupPercentage', values.markupPercentage);
@@ -118,11 +121,11 @@ const AddProductModal = ({ onClick, refresh }) => {
                     accept='image/jpg, image/jpeg, image/png'
                     onChange={(event) => handleImageChange(event, setFieldValue)}
                     id='fileInput'
-                    // style={{ display: 'none' }}
+                    style={{ display: 'none' }}
                   />
-                  {/* <label htmlFor='fileInput' className='modal__upload-img-label'>
+                  <label htmlFor='fileInput' className='modal__upload-img-label'>
                     Upload Image
-                  </label> */}
+                  </label>
                   <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
                 </div>
 
@@ -155,6 +158,11 @@ const AddProductModal = ({ onClick, refresh }) => {
                 <div className='modal__input-field-wrapper'>
                   <Field type='text' name='product' placeholder='Enter Product Name' className='modal__input-field' />
                   <ErrorMessage name='product' component='span' className='modal__input-field-error' />
+                </div>
+
+                <div className='modal__input-field-wrapper'>
+                  <Field type='number' name='lowStock' placeholder='Enter Low Stock Indicator' className='modal__input-field' />
+                  <ErrorMessage name='lowStock' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>

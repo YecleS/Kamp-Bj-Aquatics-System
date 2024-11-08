@@ -53,6 +53,7 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem('username', data.username);
           localStorage.setItem('roleId', data.roleId);
+          localStorage.setItem('userId', data.userId);
   
           // Navigate to the admin page
           navigate('/admin');

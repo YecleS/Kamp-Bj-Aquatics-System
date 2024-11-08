@@ -70,6 +70,8 @@ const Pos = () => {
 
     const handleCheckout = async () => {
         const orderItems = cart.map(item => ({
+            indicator: item.lowStockIndicator,
+            productName: item.productName,
             productId: item.productId,
             quantity: item.quantity,
             price: item.sellingPrice,

@@ -158,7 +158,7 @@ const Inventory = () => {
                     <td className='inventory__table-td'>{inventoryItem.quantity}</td>
                     <td className='inventory__table-td'>{inventoryItem.sellingPrice}</td>
                     <td className='inventory__table-td'>
-                      <StatusNotifier stocks={inventoryItem.quantity} />
+                      <StatusNotifier stocks={inventoryItem.quantity} lowStockIndicator={inventoryItem.lowStockIndicator}/>
                     </td>
                     <td className='inventory__table-td'>
                       <ViewProductIcon products={inventoryItem} />
