@@ -1,75 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import DefaultImagePreview from '../Assets/image-preview.png';
-import { ToastSuccess } from '../UIComponents/ToastComponent';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
-const AddProductModal = ({onClick}) => {
-    const [imagePreview, setImagePreview] = useState();
+const AddProductModal = ({ onClick, refresh }) => {
+  const [imagePreview, setImagePreview] = useState();
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-    //Initial Values 
-    const initialValues = {
-        productImage: "",
-        brand: "",
-        category:"",
-        product: "",
-        model: "",
-        description: "",
-        markupPercentage: 0
+  // Fetch brand and category data from the backend
+  useEffect(() => {
+    fetch('http://localhost/KampBJ-api/server/fetchBrandCategory.php')
+      .then((response) => response.json())
+      .then((data) => {
+        setBrands(data.brands);
+        setCategories(data.categories);
+      })
+      .catch((error) => console.error('Error fetching brand and category data:', error));
+  }, []);
+
+  const initialValues = {
+    productImage: "",
+    brand: "",
+    category: "",
+    product: "",
+    model: "",
+    description: "",
+    markupPercentage: 0
+  };
+
+  const validationSchema = Yup.object({
+    productImage: Yup.mixed().required('Product Image is Required'),
+    brand: Yup.string().required('Brand is required'),
+    category: Yup.string().required('Category is required'),
+    product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+    model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+    description: Yup.string().required('Description is Required'),
+    markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),
+  });
+
+  const handleImageChange = (event, setFieldValue) => {
+    const file = event.target.files[0];
+    setFieldValue('productImage', file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const insert = (values, { resetForm }) => {
+    // Find the corresponding brandId and categoryId based on selected names
+    const selectedBrand = brands.find((brand) => brand.name === values.brand);
+    const selectedCategory = categories.find((category) => category.name === values.category);
+
+    if (!selectedBrand || !selectedCategory) {
+      ToastError('Invalid brand or category selected');
+      return;
     }
 
-    //Validation di ko nilagyan ng required validation ung brand and model kase may mga products na walang brand or model
-    const validationSchema = Yup.object ({
-        productImage: Yup.mixed().required('Product Image is Required'),
-        brand: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        category: Yup.string().required('Category is required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-        description: Yup.string().required('Description is Required'),
-        markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),
+    const formData = new FormData();
+    formData.append('productImage', values.productImage);
+    formData.append('brandId', selectedBrand.brandId);
+    formData.append('categoryId', selectedCategory.categoryId);
+    formData.append('product', values.product);
+    formData.append('model', values.model);
+    formData.append('description', values.description);
+    formData.append('markupPercentage', values.markupPercentage);
+
+    fetch('http://localhost/KampBJ-api/server/insertProduct.php', {
+      method: 'POST',
+      body: formData,
     })
-
-    const handleImageChange = (event, setFieldValue) => {
-      const file = event.target.files[0];
-      setFieldValue('productImage', file);
-
-      if(file) {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          ToastSuccess('Product Added');
+          resetForm();
+          onClick();
+          setImagePreview(null);
+          refresh();
+        } else {
+          ToastError('Failed to Add Product');
         }
-
-        reader.readAsDataURL(file);
-      }
-    }
-
-    const insert = (Values, {resetForm}) => {
-        console.log(Values);
-        setImagePreview();
-
-        /* Call toast success and enter the message, import the ToastComponent.js FIRST */
-        ToastSuccess('Product Added');
-
-        resetForm();
-    }
+      })
+      .catch((error) => {
+        console.error('Error inserting product:', error);
+        ToastError('Error adding product');
+      });
+  };
 
   return (
     <div className='modal'>
       <div className='modal__wrapper'>
         <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
         <div className='modal__body'>
-          <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema} >
-
+          <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema}>
             {({ setFieldValue }) => (
               <Form className='modal__form'>
 
                 <div className='modal__input-field-wrapper'>
                   <div className='modal__image-preview-wrapper'>
-                    <img src = {imagePreview ? imagePreview : DefaultImagePreview} className='modal__image-preview' />                    
-                  </div>              
+                    <img src={imagePreview ? imagePreview : DefaultImagePreview} className='modal__image-preview' />
+                  </div>
                 </div>
 
                 <div className='modal__input-field-wrapper'>
@@ -79,64 +118,58 @@ const AddProductModal = ({onClick}) => {
                     accept='image/jpg, image/jpeg, image/png'
                     onChange={(event) => handleImageChange(event, setFieldValue)}
                     id='fileInput'
-                    style={{ display: 'none' }}
+                    // style={{ display: 'none' }}
                   />
-                  <div className='modal__upload-img-label-wrapper'>
-                    <label htmlFor='fileInput' className='modal__upload-img-label'>
-                      Upload Image
-                    </label>
-                  </div>
+                  {/* <label htmlFor='fileInput' className='modal__upload-img-label'>
+                    Upload Image
+                  </label> */}
                   <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
                 </div>
 
-                <div className='modal__input-field-wrapper'>     
+                <div className='modal__input-field-wrapper'>
                   <div className='modal__supplier-products-wrapper'>
                     <Field as='input' list='brand-list' name='brand' placeholder='Enter Brand' className='modal__input-field' />
                     <datalist id='brand-list'>
-                      <option value='Nike' />
-                      <option value='Adidas' />
-                      <option value='Puma' />
-                      <option value='Reebok' />
-                      <option value='Under Armour' />
+                      {brands.map((brand) => (
+                        <option key={brand.brandId} value={brand.name}></option>
+                      ))}
                     </datalist>
-                    <button className='modal__btn-insert-supplier-products'>+</button>
+                    {/* <button className='modal__btn-insert-supplier-products'>+</button> */}
                   </div>
                   <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
-
                 </div>
 
                 <div className='modal__input-field-wrapper'>
                   <div className='modal__supplier-products-wrapper'>
                     <Field as='input' list='category-list' name='category' placeholder='Enter Category' className='modal__input-field' />
                     <datalist id='category-list'>
-                      <option value='Equipment' />
-                      <option value='Pets' />
+                      {categories.map((category) => (
+                        <option key={category.categoryId} value={category.name}></option>
+                      ))}
                     </datalist>
-                    <button className='modal__btn-insert-supplier-products'>+</button>
+                    {/* <button className='modal__btn-insert-supplier-products'>+</button> */}
                   </div>
                   <ErrorMessage name='category' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='text' name='product' placeholder='Enter Product Name' className='modal__input-field'/>
+                  <Field type='text' name='product' placeholder='Enter Product Name' className='modal__input-field' />
                   <ErrorMessage name='product' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='text' name='model' placeholder='Enter Model' className='modal__input-field'/>
+                  <Field type='text' name='model' placeholder='Enter Model' className='modal__input-field' />
                   <ErrorMessage name='model' component='span' className='modal__input-field-error' />
-                </div>  
+                </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field component='textarea' name='description' placeholder='Enter Description' className='modal__input-field description'/>
+                  <Field component='textarea' name='description' placeholder='Enter Description' className='modal__input-field description' />
                   <ErrorMessage name='description' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  {/* changes made here, added a div for layout of the percentage label and markup-field, refer to modal.css*/}
-                  {/* changes made on initial values and yup too, for error checking. Also change the name of the field as well as the ErrorMessage name */}
                   <div className='modal__markup-field-wrapper'>
-                    <Field type='number' name='markupPercentage' placeholder='Enter Markup Percentage' className='modal__input-field markup-field'/>
+                    <Field type='number' name='markupPercentage' placeholder='Enter Markup Percentage' className='modal__input-field markup-field' />
                     <span className='modal__percentage-label'>%</span>
                   </div>
                   <ErrorMessage name='markupPercentage' component='span' className='modal__input-field-error' />
@@ -144,13 +177,13 @@ const AddProductModal = ({onClick}) => {
 
                 <button type='submit' className='modal__insert'>Add Product</button>
               </Form>
-            )}        
+            )}
           </Formik>
         </div>
       </div>
       <ToastContainer />
     </div>
-  )
-}
+  );
+};
 
-export default AddProductModal
+export default AddProductModal;

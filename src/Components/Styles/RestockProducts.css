@@ -3,8 +3,9 @@
     padding: 1rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
+
 
 /* HEADER AND CONTROLS STYLE*/
 .restock-products__header {
@@ -36,7 +37,6 @@
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-
 .restock-products__filter-wrapper {
     position: relative;
 }
@@ -59,6 +59,7 @@
     background: none;
 }
 
+/* FILTER DROPDOWN */
 .restock-products__filter-dropdown {
     position: absolute;
     top: 50px;
@@ -86,7 +87,7 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 200px;
+    width: 250px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -138,6 +139,33 @@
 }
 
 
+/* BODY AND TABLE STYLE*/
+.restock-products__body {
+    height: 80vh;
+    overflow: auto;
+}
+
+.pos__content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;  
+    gap: 15px;
+    overflow: auto;
+}
+
+.restock-products__content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;  
+    gap: 15px;
+    height: 100%;
+    overflow: auto;
+}
+
+.pos__inventory-table-wrapper { 
+    max-height: 750px;
+    overflow: auto;
+}
+
+
 /* BODY AND TABLE STYLE */
 .restock-products__body {
     height: 80vh;
@@ -158,10 +186,17 @@
     overflow: auto;
 }
 
+.restock-products__table-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
 .restock-products__table {
     width: 100%;
     border-collapse: collapse;
 }
+
 
 .restock-products__table-th {
     background: var(--blue-color);
@@ -183,7 +218,7 @@
 }
 
 .restock-products__table-tr:nth-child(even) {
-    background: rgb(193, 223, 255);
+    background: #c1dfff;
 }
 
 .restock-products__table-td {
@@ -210,7 +245,91 @@
     margin-top: 0.5rem;
 }
 
+.pos__icon-td {
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pos__icon-td:hover {
+    transform: scale(1.1);
+}
+
+.pos__orders-details {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-column: 2/3;
+}
+
+.pos__billing-details-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pos__bill-label {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.pos__checkout {
+    margin-top: 20px;
+    font-size: 1rem;
+    padding: 0.5em 1em;
+    background: var(--blue-color);
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pos__checkout:hover {
+    border: 1px solid var(--blue-color);
+    background: white;
+    color: black;
+}
+
+
+/* STYLE FOR ORDER LIST TABLE */
+.restock-products__restock-list-table-wrapper {
+    min-height: 300px;
+    max-height: 300px;    
+    overflow: auto;
+}
+
+.restock-products__table-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.restock-products__submit-restock {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
 /* MEDIA QUERIES */
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .pos__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .pos__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+
 @media screen and (max-width: 599px) {
     
     .restock-products__input-field {
@@ -226,26 +345,42 @@
         font-size: 0.9rem;
     }
 
+    .restock-products__filter-reset {
+        font-size: 0.9rem;
+    }
+
     .restock-products__filter-field {
         font-size: 0.9rem;
     }
 
-    .restock-products__insert {
-        font-size: 0.9rem;
-        padding: 0.4em 0.5em;
-    }
-
-    .restock-products__body {
-        height: 80vh;
-        overflow: auto;
+    .restock-products__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .restock-products__table-th {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .restock-products__table-td {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
+    .pos__icon-td {
+        font-size: 1rem;
+    }
+
+    .pos__orders-details {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        padding-bottom: 20px;
+    }
+
+    .pos__bill-label {
+        font-size: 0.9rem;
+    }
 }
+
+

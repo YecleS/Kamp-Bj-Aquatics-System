@@ -22,10 +22,11 @@ const SignUp = () => {
 
     //Initial Values
     const initialValues = {
-        userImage: '',
+        contactNum: "",
+        userImage: DefaultImagePreview,
         username: "",
         fullname: "",
-        age: 0,
+        age: "",
         email: "",
         gender: "",
         address: '',
@@ -62,11 +63,38 @@ const SignUp = () => {
     }
 
     //Handle the onClick for login
-    const signup = (values, {resetForm}) => {
-        console.log(values);
-        ToastSuccess('Sign Up Request Submitted');
-        resetForm();
-    }
+    const signup = (values, { resetForm }) => {
+      const formData = new FormData();
+      formData.append('username', values.username);
+      formData.append('fullname', values.fullname);
+      formData.append('age', values.age);
+      formData.append('email', values.email);
+      formData.append('contactNum', values.contactNum);
+      formData.append('gender', values.gender);
+      formData.append('address', values.address);
+      formData.append('password', values.password);
+      formData.append('userImage', values.userImage); // Append the image file
+  
+      fetch('http://localhost/KampBJ-api/server/insertUserRegistration.php', {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              ToastSuccess('Sign Up Request Submitted');
+              resetForm();
+              setImagePreview(DefaultImagePreview); // Reset image preview to default
+          } else {
+              console.error(data.message);
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  };
+  
+  
 
   return (
     <div className='sign-up'>
@@ -104,10 +132,6 @@ const SignUp = () => {
                         id='fileInput'
                         style={{ display: 'none' }}
                       />
-                      <div className='sign-up__input-field-wrapper username'>              
-                        <Field type='text' name='username' placeholder='Username' className='sign-up__input-field' />
-                        <ErrorMessage name='username' component='span' className='sign-up__error'/>
-                      </div>
 
                       <label htmlFor='fileInput' className='sign-up__image-input-field-label'>
                         <i className="fa-solid fa-upload"></i>
@@ -116,6 +140,11 @@ const SignUp = () => {
                       <ErrorMessage name='userImage' component='span' className='sign-up__error' />
                     </div>    
                   </div>
+
+                  <div className='sign-up__input-field-wrapper username'>              
+                        <Field type='text' name='username' placeholder='Username' className='sign-up__input-field' />
+                        <ErrorMessage name='username' component='span' className='sign-up__error'/>
+                      </div>
 
 
                   <div className='sign-up__input-field-wrapper fullname'>              
@@ -127,6 +156,11 @@ const SignUp = () => {
                   <div className='sign-up__input-field-wrapper age'>              
                     <Field type='number' name='age' placeholder='Age' className='sign-up__input-field' />
                     <ErrorMessage name='age' component='span' className='sign-up__error'/>
+                  </div>
+
+                  <div className='sign-up__input-field-wrapper contactNum'>              
+                    <Field type='text' name='contactNum' placeholder='Contact Number' className='sign-up__input-field' />
+                    <ErrorMessage name='contactNum' component='span' className='sign-up__error'/>
                   </div> 
 
 
@@ -137,14 +171,17 @@ const SignUp = () => {
 
                   <div className="sign-up__gender-field">
                     <p className='sign-up__input-field-gender-title'>Gender: </p>
-                    <label>      
-                      <Field type="radio" name="gender" value="female" />
-                      Female
-                    </label>
-                    <label>
-                      <Field type="radio" name="gender" value="male" />
-                      Male
-                    </label>
+                    <div className='sign-up__radio-wrapper'>
+                      <label>      
+                        <Field type="radio" name="gender" value="female" />
+                        Female
+                      </label>
+                      <label>
+                        <Field type="radio" name="gender" value="male" />
+                        Male
+                      </label>
+                    </div>
+                    
                     <ErrorMessage name="gender" component="span" className="sign-up__error" />
                   </div>
                   

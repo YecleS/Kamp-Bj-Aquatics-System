@@ -3,10 +3,10 @@ import '../Styles/ViewProductsModal.css';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
 
-const ViewProductsModal = ({ products, onClick }) => {
+const ViewVoidedProductsModal = ({ products, onClick }) => {
   // Check if the product has an image; if not, use the default ImagePreview
   const imageUrl = products.image 
-    ? `http://localhost/KampBJ-api/server/uploads/products/${products.image}` 
+    ? `http://localhost/KampBJ-api/server/uploads/voidRecords/${products.image}` 
     : ImagePreview;
 
   return (
@@ -29,15 +29,6 @@ const ViewProductsModal = ({ products, onClick }) => {
           <p className='view-products-modal__label'>Category</p>
           <p className='view-products-modal__model'>{products.category}</p>
           
-          <p className='view-products-modal__label'>Procured price</p>
-          <p className='view-products-modal__model'>₱ {products.procuredPrice}</p>
-
-          <p className='view-products-modal__label'>Markup Percentage</p>
-          <p className='view-products-modal__model'>{products.markup}%</p>
-
-          <p className='view-products-modal__label'>Selling Price</p>
-          <p className='view-products-modal__price'>₱ {products.sellingPrice}</p>
-
           <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />
         </div>
       </div>
@@ -45,4 +36,4 @@ const ViewProductsModal = ({ products, onClick }) => {
   );
 }
 
-export default ViewProductsModal;
+export default ViewVoidedProductsModal;

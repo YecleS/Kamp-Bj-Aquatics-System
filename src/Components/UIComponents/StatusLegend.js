@@ -12,6 +12,10 @@ const StatusLegend = ({customClass}) => {
         <i className="low-stocks fa-solid fa-circle-exclamation"></i>
         <p className='status-legend__icon-description'>Low Stocks</p>
       </div>
+      <div className='status-legend__icon-wrapper'>
+        <i className="high-stocks fa-solid fa-circle-exclamation"></i>
+        <p className='status-legend__icon-description'>High Stocks</p>
+      </div>
     </div>
   )
 }

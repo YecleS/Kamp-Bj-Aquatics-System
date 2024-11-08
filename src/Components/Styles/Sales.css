@@ -176,6 +176,20 @@
 }
 
 
+.sales__show-products-btn{
+    margin: 2px;
+    font-size: 1rem;
+    padding: 0.5em 0.9em;
+    background: var(--blue-color);
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    border-radius: 5px;
+    font-weight: 450;
+    transition: all 0.3s ease;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 599px) {
     

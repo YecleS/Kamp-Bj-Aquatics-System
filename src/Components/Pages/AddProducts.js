@@ -5,85 +5,71 @@ import '../Styles/AddProducts.css';
 import UpdateIcon from '../UIComponents/UpdateIcon';
 import DeleteIcon from '../UIComponents/DeleteIcon';
 import { ViewProductIcon } from '../UIComponents/ActionIcons';
-import TextSlicer from '../Utils/TextSlicer';
 
 const AddProducts = () => {
-  const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false)
-  const[isAddModalOpen, isSetAddModalOpen] = useState(false)
-  const[isEditModalOpen, isSetEditModalOpen] = useState(false)
-  const filterDropdownRef = useRef(null)
+  const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
+  const [isAddModalOpen, isSetAddModalOpen] = useState(false);
+  const [isEditModalOpen, isSetEditModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+  const [productsData, setProductsData] = useState([]); // State to hold products data
+  const filterDropdownRef = useRef(null);
 
-  //Initial Values For Filters Store In useState
-  const[filters, setFilters] = useState({
+  // Initial Values For Filters Store In useState
+  const [filters, setFilters] = useState({
     filterBy: '',
-  })
+  });
+
+  // Fetch products from the server
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost/KampBJ-api/server/getProducts.php');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setProductsData(data);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    }
+  };
+
+  // Fetch products on component mount
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   // Toggle Dropdowns
-  const toggleFilterDropdown = () => {
-    isSetFilterDropdownOpen(!isFilterDropdownOpen);
-  }
-
-  const toggleAddModal = () => {
-    isSetAddModalOpen(!isAddModalOpen);
-  }
-
-  const toggleEditModal = () => {
+  const toggleFilterDropdown = () => isSetFilterDropdownOpen(!isFilterDropdownOpen);
+  const toggleAddModal = () => isSetAddModalOpen(!isAddModalOpen);
+  const toggleEditModal = (product) => {
+    setSelectedProduct(product); // Set the selected product before opening the modal
     isSetEditModalOpen(!isEditModalOpen);
-  }
-
+  };
 
   // Handle Closing of Dropdowns When Clicked Outside of Its Div 
   useEffect(() => {
-    let handler = (e) => {
-      if(filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)){
+    const handler = (e) => {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)) {
         isSetFilterDropdownOpen(false);
       }
-    }
+    };
     document.addEventListener('click', handler);
     return () => document.removeEventListener('click', handler);
   }, []);
 
-
-  // Dummy Data For Table 
-  const productsData = [
-    { id: 1, 
-      product: 'gatoradesd blue 25ml', 
-      description:'Stay refreshed and energized with Gatorade Blue. Packed in a convenient 25ml bottle, this sports drink is designed to replenish essential electrolytes lost during physical activity, keeping you hydrated and ready to perform at your best.', 
-      brand: 'Oishi', 
-      model: '3XCCS5', 
-      quantity: 320,
-      procured: 15.25,
-      markup: 10,
-      price: 25.30
-    },
-
-    { id: 2, 
-      product: 'TANGINANG CAPSTONE TO', 
-      description: "Quench your thirst and fuel your performance with Gatorade Blue. This compact 25ml bottle is packed with electrolytes to help you stay hydrated and maintain peak performance during intense physical activity.", 
-      brand: 'Hayp', 
-      model: '1XCCS5', 
-      quantity: 100,
-      procured: 10.25,
-      markup: 15,
-      price: 40.30
-    },
-  ]
-
-
-  //Reset Filters
+  // Reset Filters
   const resetFilters = () => {
     setFilters({
       filterBy: '',
-    })
-  }
+    });
+  };
 
   return (
     <div className='add-products'>
-
       <div className='add-products__header'>
         <div className='add-products__left-controls-wrapper'>
           <div className='add-products__search-wrapper'>
-            <input type='text' placeholder='Search' className='add-products__input-field'/>
+            <input type='text' placeholder='Search' className='add-products__input-field' />
           </div>
           <div className='add-products__filter-wrapper' ref={filterDropdownRef}>
             <i className="add-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
@@ -92,13 +78,13 @@ const AddProducts = () => {
                 <div className='add-products__filter-dropdown-body'>
                   <div className='add-products__filter-dropdown-field-wrapper'>
                     <p className='add-products__filter-label'>Filter by</p>
-                    <select value={filters.filterBy} 
-                      onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })} 
+                    <select value={filters.filterBy}
+                      onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
                       className='add-products__filter-field'
                     >
                       <option></option>
-                      <option value='name' >Name</option>
-                      <option value='price' >Price</option>
+                      <option value='name'>Name</option>
+                      <option value='price'>Price</option>
                     </select>
                   </div>
                 </div>
@@ -110,8 +96,10 @@ const AddProducts = () => {
           </div>
         </div>
         <div className='add-products__right-controls-wrapper'>
-          <button className='add-products__insert' onClick={toggleAddModal}><i className="add-products__insert-icon fa-solid fa-plus"></i></button>
-          {isAddModalOpen && <AddProductModal onClick={toggleAddModal}/>}
+          <button className='add-products__insert' onClick={toggleAddModal}>
+            <i className="add-products__insert-icon fa-solid fa-plus"></i>
+          </button>
+          {isAddModalOpen && <AddProductModal onClick={toggleAddModal} />}
         </div>
       </div>
 
@@ -121,42 +109,43 @@ const AddProducts = () => {
             <thead>
               <tr>
                 <th className='add-products__table-th'>Name</th>
-                <th className='add-products__table-th'>Description</th>
+                <th className='add-products__table-th'>Category</th>
                 <th className='add-products__table-th'>Brand</th>
                 <th className='add-products__table-th'>Model</th>
-                <th className='add-products__table-th'>Quantity</th>
-                <th className='add-products__table-th'>Procured Price</th>
-                <th className='add-products__table-th'>Markup %</th>
-                <th className='add-products__table-th'>Selling Price</th>
+                <th className='add-products__table-th'>Markup percent</th>
                 <th className='add-products__table-th'></th>
               </tr>
             </thead>
             <tbody>
-              {productsData.map((products =>
-                  <tr className='add-products__table-tr' key={products.id} >
-                    <td className='add-products__table-td'>{products.product}</td>
-                    <td className='add-products__table-td'><TextSlicer text={products.description} /></td>
-                    <td className='add-products__table-td'>{products.brand}</td>
-                    <td className='add-products__table-td'>{products.model}</td>
-                    <td className='add-products__table-td'>{products.quantity} pcs</td>
-                    <td className='add-products__table-td'>{products.procured}</td>
-                    <td className='add-products__table-td'>{products.markup} %</td>
-                    <td className='add-products__table-td'>{products.price}</td>
-                    <td className='add-products__table-td'>
-                      <UpdateIcon onClick={toggleEditModal}/>
-                      <ViewProductIcon products={products}/>
-                      <DeleteIcon onClick={() => {}}/>
-                    </td>
-                  </tr>
-                ))}
+              {productsData.map((product) => (
+                <tr className='add-products__table-tr' key={product.productId}>
+                  <td className='add-products__table-td'>{product.productName}</td>
+                  <td className='add-products__table-td'>{product.category}</td>
+                  <td className='add-products__table-td'>{product.brand}</td>
+                  <td className='add-products__table-td'>{product.model}</td>
+                  <td className='add-products__table-td'>{product.markup} %</td>
+                  <td className='add-products__table-td'>
+                    <UpdateIcon onClick={() => toggleEditModal(product)} />
+                    <ViewProductIcon products={product} />
+                    <DeleteIcon onClick={() => { }} />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {isEditModalOpen && <EditProductModal onClick={toggleEditModal}/>}
+      {isAddModalOpen && <AddProductModal onClick={toggleAddModal} refresh={fetchProducts} />}
+      {isEditModalOpen && (
+        <EditProductModal 
+          onClick={toggleEditModal} 
+          productData={selectedProduct} // Pass the selected product to the modal
+          refresh={fetchProducts}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default AddProducts
+export default AddProducts;
