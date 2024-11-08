@@ -38,7 +38,7 @@ const VoidProducts = () => {
     isSetFilterDropdownOpen(!isFilterDropdownOpen);
   };
 
-  const toggleVoidProuctsModal = () => {
+  const toggleVoidProductsModal = () => {
     setIsVoidProductsModalOpen(!isVoidProductsModalOpen);
   };
 
@@ -89,8 +89,8 @@ const VoidProducts = () => {
             }
           </div>
         </div>
-        <button className='void-products__insert' onClick={toggleVoidProuctsModal}>
-          <i className="add-products__insert-icon fa-solid fa-plus"></i>
+        <button className='void-products__insert' onClick={toggleVoidProductsModal}>
+          View Products
         </button>
       </div>
       <div className='void-products__body'>
@@ -127,7 +127,7 @@ const VoidProducts = () => {
           </table>
         </div>
       </div>
-      {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProuctsModal} />}
+      {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProductsModal} />}
     </div>
   );
 };

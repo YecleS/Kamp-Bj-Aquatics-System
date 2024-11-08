@@ -10,7 +10,9 @@ const ProductCard = ({ product, icon, onClick }) => {
     <div className='product-card' onClick={onClick}> {/* Optional: Make the entire card clickable */}
       <div className='product-card__header'>
         <img
-          src={`http://localhost/KampBJ-api/server/uploads/products/${product.image}`}
+        //src={`http://localhost/KampBJ-api/server/uploads/products/${product.image}`}
+        
+          src={`http://localhost/KampBJ-api/server/uploads/products/WaterLights.png`}
           className='product-card__img'
           alt={product.productName}
         />

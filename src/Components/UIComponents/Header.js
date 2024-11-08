@@ -4,7 +4,7 @@ import '../Styles/Header.css';
 import Logo from '../Assets/logo.png';
 import Notification from './Notification';
 
-const Header = ({ onClick }) => {
+const Header = ({ onClick, hamburgerMenuRef }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotifDropdownOpen, setIsNotifDropdownOpen] = useState(false);
   const [username, setUsername] = useState('');
@@ -72,7 +72,7 @@ const Header = ({ onClick }) => {
   return (
     <div className='header'>
       <div className='header__logo-wrapper'>
-        <i className="header__hamburger-menu fa-solid fa-bars" onClick={onClick}></i>
+        <i className="header__hamburger-menu fa-solid fa-bars" onClick={onClick} ref={hamburgerMenuRef}></i>
         <img src={Logo} className='header__logo-img' />
         <p className='header__logo-text'>Kamp BJ Aquatics</p>
       </div>

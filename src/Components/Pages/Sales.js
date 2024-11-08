@@ -56,6 +56,7 @@ const Sales = () => {
         return () => document.removeEventListener('click', handler);
     }, []);
 
+    
     const handleShowProducts = async (salesId) => {  
         try {
             const response = await fetch('http://localhost/KampBJ-api/server/fetchSalesProducts.php', {
@@ -63,7 +64,9 @@ const Sales = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ salesId }) // Ensure this is being sent correctly
             });
+
             const data = await response.json();
+
             if (data.success === false) {
                 console.error(data.message); // Log the error message
             } else {
@@ -160,7 +163,7 @@ const Sales = () => {
                 onClose={() => setIsProductListModalOpen(false)}
                 title={'Sales'}
                 selectedTransaction = {selectedTransaction}
-                productList={productList} // Pass productList as prop
+                productList={productList} // Pass productList as prop   
             />
         </div>
     )

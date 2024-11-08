@@ -1,0 +1,9 @@
+.add-void-product-modal__body {
+    margin-top: 1rem;
+}
+
+.add-void-product-modal__cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}

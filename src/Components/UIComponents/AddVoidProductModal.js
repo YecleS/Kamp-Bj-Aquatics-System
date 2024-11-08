@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/Modal.css';
 import '../Styles/Pos.css';
+import '../Styles/AddVoidProductModal.css'
 import AddVoidProductRecord from '../UIComponents/AddVoidProductRecordModal';
 import ProductCard from '../UIComponents/ProductCard';
 
@@ -27,27 +28,37 @@ const AddVoidProductModal = ({onClick}) => {
       isSetAddVoidProductRecordOpen(!isAddVoidProductRecordOpen);
   };
 
+  const dummyProducts = [
+    {productId: 1, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 2, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 3, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 4, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 5, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 6, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 7, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 8, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 9, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+    {productId: 10, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
+  ]
+
   return (
-    <div className='pos'>
-            <div className='pos__header'>
-                <div className='pos__search-wrapper'>
+    <div className='add-void-product-modal'>
+            <div className='add-void-product-modal__header'>
+                <div className='add-void-product-modal__search-wrapper'>
                     <input type='text' placeholder='Search' className='pos__input-field'/>         
                 </div>
                 <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
             </div>
-            <div className='pos__body'>
-                <div className='pos__content-wrapper'>
-                    <div className='pos__inventory-wrapper'>
-                        {products.map((product) => 
-                            <ProductCard 
-                                key={product.productId} 
-                                product={product}
-                                icon='fa-arrow-right'
-                                onClick={() => toggleAddVoidProductRecord(product)}
-                            />
-                        )}
-                    </div>
-
+            <div className='add-void-product-modal__body'>
+                <div className='add-void-product-modal__cards-wrapper'>
+                    {dummyProducts.map((product) => 
+                        <ProductCard 
+                            key={product.productId} 
+                            product={product}
+                            icon='fa-arrow-right'
+                            onClick={() => toggleAddVoidProductRecord(product)}
+                        />
+                    )}
                 </div>    
             </div>
             {isAddVoidProductRecordOpen && (
