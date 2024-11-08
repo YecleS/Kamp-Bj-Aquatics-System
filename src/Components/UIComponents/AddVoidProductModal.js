@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/Modal.css';
-import '../Styles/Pos.css';
 import '../Styles/AddVoidProductModal.css'
 import AddVoidProductRecord from '../UIComponents/AddVoidProductRecordModal';
 import ProductCard from '../UIComponents/ProductCard';
@@ -42,7 +41,8 @@ const AddVoidProductModal = ({onClick}) => {
   ]
 
   return (
-    <div className='add-void-product-modal'>
+    <div className='modal'>
+        <div className='add-void-product-modal__wrapper'>
             <div className='add-void-product-modal__header'>
                 <div className='add-void-product-modal__search-wrapper'>
                     <input type='text' placeholder='Search' className='pos__input-field'/>         
@@ -68,6 +68,7 @@ const AddVoidProductModal = ({onClick}) => {
                 />
             )}
         </div>
+    </div>
   )
 }
 

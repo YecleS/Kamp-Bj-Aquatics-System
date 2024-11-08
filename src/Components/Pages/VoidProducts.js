@@ -8,6 +8,7 @@ const VoidProducts = () => {
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const [voidedProducts, setVoidedProducts] = useState([]);
   const filterDropdownRef = useRef(null);
+  const addVoidProductModalDialog = useRef();
 
   const [filters, setFilters] = useState({
     filterBy: '',
@@ -127,7 +128,8 @@ const VoidProducts = () => {
           </table>
         </div>
       </div>
-      {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProductsModal} />}
+
+      {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProductsModal} />}   
     </div>
   );
 };
