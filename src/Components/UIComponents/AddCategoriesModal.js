@@ -4,46 +4,47 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { ToastSuccess } from './ToastComponent';
 
-const AddCategoriesModal = ({onClick}) => {
-   //Initial Values 
+const AddCategoriesModal = ({ onClick, onSubmit }) => {
+   // Initial Values 
    const initialValues = {
-    categories: '',
-  }
+      categories: '',
+   }
 
-  //Validation di ko nilagyan ng required validation ung brand and model kase may mga products na walang brand or model
-  const validationSchema = Yup.object ({
-    categories: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-  })
+   // Validation schema for the form
+   const validationSchema = Yup.object({
+      categories: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special characters are not allowed').required('Category is required'),
+   });
 
-  const insert = (Values, {resetForm}) => {
-      console.log(Values);
+   // Insert handler
+   const insert = (values, { resetForm }) => {
+      onSubmit(values.categories);  // Call the parent function to insert the category
       ToastSuccess('Successfully Added');
       resetForm();
-  }
+      onClick();  
+   };
 
-  return (
-    <div className='modal'>
-      <div className='modal__wrapper'>
-        <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
-        <div className='modal__body'>
-          <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema} >
+   return (
+      <div className='modal'>
+         <div className='modal__wrapper'>
+            <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
+            <div className='modal__body'>
+               <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema}>
 
-            {() => (
-              <Form className='modal__form'>
+                  {() => (
+                     <Form className='modal__form'>
+                        <div className='modal__input-field-wrapper'>
+                           <Field type='text' name='categories' placeholder='Enter Category' className='modal__input-field' />
+                           <ErrorMessage name='categories' component='span' className='modal__input-field-error' />
+                        </div>
 
-                <div className='modal__input-field-wrapper'>
-                  <Field type='text' name='categories' placeholder='Enter Category' className='modal__input-field'/>
-                  <ErrorMessage name='categories' component='span' className='modal__input-field-error' />
-                </div>
-
-                <button type='submit' className='modal__insert'>Insert Category</button>
-              </Form>
-            )}        
-          </Formik>
-        </div>
+                        <button type='submit' className='modal__insert'>Insert Category</button>
+                     </Form>
+                  )}
+               </Formik>
+            </div>
+         </div>
       </div>
-    </div>
-  )
+   );
 }
 
-export default AddCategoriesModal
+export default AddCategoriesModal;

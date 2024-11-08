@@ -26,7 +26,7 @@ const RestockProducts = () => {
 
 
   const fetchProductData = () => {
-    fetch('http://localhost/KampBJ-api/server/populateRestockingProducts.php')
+    fetch('http://localhost/KampBJ-api/server/getProducts.php')
       .then((response) => response.json())
       .then((data) => {
         setProducts(data); // Store the fetched product data
@@ -48,8 +48,10 @@ const RestockProducts = () => {
     isSetAddToRestockModalOpen(!isAddToRestockModalOpen);
   };
 
-  // Add to restock list
-  const addToRestockList = (quantity, unitPrice) => {
+  const addToRestockList = (quantity, unitPrice, supplier) => {
+    // Ensure unitPrice is a number
+    unitPrice = parseFloat(unitPrice); // Convert to float if it's not already
+  
     setRestockList((prevRestockList) => {
       const existingRestockIndex = prevRestockList.findIndex(
         (restock) => restock.productId === selectedProduct.productId
@@ -59,9 +61,10 @@ const RestockProducts = () => {
         // Update existing restock item quantity and unitPrice
         const updatedRestockList = [...prevRestockList];
         updatedRestockList[existingRestockIndex] = {
-         ...updatedRestockList[existingRestockIndex],
+          ...updatedRestockList[existingRestockIndex],
           quantity: updatedRestockList[existingRestockIndex].quantity + quantity,
           unitPrice, // Update unitPrice
+          supplierName: supplier, // Update supplierName
         };
         return updatedRestockList;
       } else {
@@ -69,7 +72,8 @@ const RestockProducts = () => {
         const restockItem = {
           ...selectedProduct,
           quantity,
-           unitPrice, // Add unitPrice
+          unitPrice, // Add unitPrice
+          supplierName: supplier, // Add supplierName
         };
         return [...prevRestockList, restockItem];
       }
@@ -78,6 +82,8 @@ const RestockProducts = () => {
     setSelectedProduct(null);
     isSetAddToRestockModalOpen(false); // Close the modal
   };
+  
+
 
   // Remove an item from the restock list
   const removeRestockItem = (index) => {
@@ -206,9 +212,10 @@ const RestockProducts = () => {
                 <thead>
                   <tr>
                     <th className="restock-products__table-th">Name</th>
+                    <th className="restock-products__table-th">Category</th>
                     <th className="restock-products__table-th">Brand</th>
                     <th className="restock-products__table-th">Model</th>
-                    <th className="restock-products__table-th">Stocks At Hand</th>
+                    <th className="restock-products__table-th">Stocks</th>
                     <th className="restock-products__table-th"></th>
                   </tr>
                 </thead>
@@ -216,6 +223,7 @@ const RestockProducts = () => {
                   {filteredProducts.map((product) => (
                     <tr className="restock-products__table-tr" key={product.productId}>
                       <td className="restock-products__table-td">{product.productName}</td>
+                      <td className="restock-products__table-td">{product.category}</td>
                       <td className="restock-products__table-td">{product.brand}</td>
                       <td className="restock-products__table-td">{product.model}</td>
                       <td className="restock-products__table-td">{product.quantity}</td>
@@ -244,6 +252,8 @@ const RestockProducts = () => {
                   <tr>
                     <th className="restock-products__table-th">Name</th>
                     <th className="restock-products__table-th">Quantity</th>
+                    <th className="restock-products__table-th">Supplier</th>
+                    <th className="restock-products__table-th">Product Price:</th>
                     <th className="restock-products__table-th"></th>
                   </tr>
                 </thead>
@@ -252,6 +262,8 @@ const RestockProducts = () => {
                     <tr className="restock-products__table-tr" key={index}>
                       <td className="restock-products__table-td">{item.productName}</td>
                       <td className="restock-products__table-td">{item.quantity}</td>
+                      <td className="restock-products__table-td">{item.supplierName}</td>
+                      <td className="restock-products__table-td">{item.unitPrice}</td>
                       <td className="restock-products__table-td">
                         <DeleteIcon onClick={() => removeRestockItem(index)} />
                       </td>
@@ -260,7 +272,7 @@ const RestockProducts = () => {
                 </tbody>
               </table>
             </div>
-            <ButtonComponent buttonCustomClass='restock-products__submit-restock' label='Submit Restock' onClick={handleRestockSubmit} /> 
+            <ButtonComponent buttonCustomClass='restock-products__submit-restock' label='Process Restock' onClick={handleRestockSubmit} /> 
           </div>
         </div>
       </div>

@@ -2,106 +2,186 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/BrandModel.css';
 import AddBrandModal from '../UIComponents/AddBrandModal';
 import EditBrandModal from './EditBrandModal';
-import { EditIcon } from '../UIComponents/ActionIcons';
+import { EditIcon, DeleteIcon } from '../UIComponents/ActionIcons';
 
 const BrandModel = () => {
-    const[isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
     const [isAddBrandModalOpen, isSetAddBrandModalOpen] = useState(false);
     const [isEditBrandModalOpen, isSetEditBrandModalOpen] = useState(false);
+    const [brandsData, setBrandsData] = useState([]); // State for brands
+    const [selectedBrand, setSelectedBrand] = useState(null); // State for the selected brand for editing
+    const [searchInput, setSearchInput] = useState(''); // State for search input
     const filterDropdownRef = useRef(null);
 
-    //Initial Values For Filters Store In useState
-    const[filters, setFilters] = useState({
-        filterBy: '',
-    })
+    // Fetch brands from the API
+    const fetchBrands = async () => {
+        try {
+            const response = await fetch('http://localhost/KampBJ-api/server/fetchBrands.php');
+            const data = await response.json();
+            setBrandsData(data.brands); // Assuming the response is { brands: [...] }
+        } catch (error) {
+            console.error('Error fetching brands:', error);
+        }
+    };
 
-    // Toggle Dropdowns
-    const toggleFilterDropdown = () => {
-        isSetFilterDropdownOpen(!isFilterDropdownOpen);
-    }
+    // Insert a new brand via API call
+    const handleAddBrand = async (brandName) => {
+        try {
+            const response = await fetch('http://localhost/KampBJ-api/server/insertBrand.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    brand: brandName,
+                }),
+            });
 
-    const toggleAddBrandModal = () => {
-        isSetAddBrandModalOpen(!isAddBrandModalOpen);
-    }
+            const result = await response.json();
+            if (result.status === 'success') {
+                fetchBrands(); // Refresh the brands after adding
+                console.log('Brand added:', result.message);
+            } else {
+                console.error('Error adding brand:', result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
-    const toggleEditBrandModal = () => {
-        isSetEditBrandModalOpen(!isEditBrandModalOpen);
-    }
+    const handleEditBrand = async (brandId, newBrandName) => {
+        try {
+            const response = await fetch(`http://localhost/KampBJ-api/server/updateBrand.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    id: brandId,
+                    brand: newBrandName,
+                }),
+            });
 
-    // Dummy Data For Table 
-    const brandModelData = [
-        { id: 1, 
-        brand: 'Suzuki',
-        model: 'GX1033'
-        },
+            const result = await response.json();
+            if (result.status === 'success') {
+                fetchBrands(); // Refresh the brands after editing
+                console.log('Brand updated:', result.message);
+            } else {
+                console.error('Error updating brand:', result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
-        { id: 2, 
-        brand: 'Suzuki', 
-        model: 'ZX1033'
-        },
-        { id: 3, 
-            brand: 'Kawasaki',
-            model: 'DX103'
-        },
-        { id: 4, 
-            brand: 'Kawasaki', 
-            model: 'ZX1034X'
-        },
-    ]
+    // Delete a brand via API call
+    const handleDeleteBrand = async (brandId) => {
+        if (window.confirm('Are you sure you want to delete this brand?')) {
+            try {
+                const response = await fetch('http://localhost/KampBJ-api/server/deleteBrand.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        id: brandId,
+                    }),
+                });
 
-
-    // Handle Closing of Dropdowns When Clicked Outside of Its Div 
-    useEffect(() => {
-        let handler = (e) => {
-            if(filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)){
-                isSetFilterDropdownOpen(false);
+                const result = await response.json();
+                if (result.status === 'success') {
+                    fetchBrands(); // Refresh the brands after deletion
+                    console.log('Brand deleted:', result.message);
+                } else {
+                    console.error('Error deleting brand:', result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
         }
+    };
 
-        document.addEventListener('click', handler);
-        return () => document.removeEventListener('click', handler);
+    // Handle opening the edit modal and setting the selected brand
+    const openEditBrandModal = (brand) => {
+        setSelectedBrand(brand); // Set the brand to be edited
+        isSetEditBrandModalOpen(true); // Open the modal
+    };
+
+    // Fetch brands on component mount
+    useEffect(() => {
+        fetchBrands();
     }, []);
 
-  return (
-    <div className='brand-model'>
+    // Handle search input change
+    const handleSearchInputChange = (event) => {
+        setSearchInput(event.target.value);
+    };
 
-      <div className='brand-model__header'>
-        <div className='brand-model__left-controls-wrapper'>
-          <div className='brand-model__search-wrapper'>
-            <input type='text' placeholder='Search' className='brand-model__input-field'/>
-          </div>
-        </div>
-        <div className='brand-model__right-controls-wrapper'>
-          <button className='brand-model__insert' onClick={toggleAddBrandModal}><i className="brand-model__insert-icon fa-solid fa-plus"></i></button>
-        </div>
-      </div>
+    // Filtered brands based on search input
+    const filteredBrands = brandsData.filter((brand) =>
+        brand.name.toLowerCase().includes(searchInput.toLowerCase())
+    );
 
-      <div className='brand-model__body'>
-        <div className='brand-model__table-wrapper'>
-          <table className='brand-model__table'>
-            <thead>
-              <tr>
-                <th className='brand-model__table-th'>Brands</th>
-                <th className='brand-model__table-th'>Models</th>
-                <th className='brand-model__table-th'></th>
-              </tr>
-            </thead>
-            <tbody>
-              {brandModelData.map((brandModel =>
-                  <tr className='brand-model__table-tr' key={brandModel.id} >
-                    <td className='brand-model__table-td'>{brandModel.brand}</td>
-                    <td className='brand-model__table-td'>{brandModel.model}</td>
-                    <td className='brand-model__table-td'><EditIcon onClick={toggleEditBrandModal} /></td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-        {isAddBrandModalOpen && <AddBrandModal onClick={toggleAddBrandModal} />}
-        {isEditBrandModalOpen && <EditBrandModal onClick={toggleEditBrandModal} />}
-    </div>
-  )
-}
+    return (
+        <div className='brand-model'>
+            <div className='brand-model__header'>
+                <div className='brand-model__left-controls-wrapper'>
+                    <div className='brand-model__search-wrapper'>
+                        <input
+                            type='text'
+                            placeholder='Search'
+                            className='brand-model__input-field'
+                            value={searchInput}
+                            onChange={handleSearchInputChange} // Set up change handler for the input
+                        />
+                    </div>
+                </div>
+                <div className='brand-model__right-controls-wrapper'>
+                    <button className='brand-model__insert' onClick={() => isSetAddBrandModalOpen(true)}>
+                        <i className="brand-model__insert-icon fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
 
-export default BrandModel
+            <div className='brand-model__body'>
+                <div className='brand-model__table-wrapper'>
+                    <table className='brand-model__table'>
+                        <thead>
+                            <tr>
+                                <th className='brand-model__table-th'>Brands</th>
+                                <th className='brand-model__table-th'>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredBrands.map((brand) => ( // Use filtered brands for display
+                                <tr className='brand-model__table-tr' key={brand.brandId}>
+                                    <td className='brand-model__table-td'>{brand.name}</td>
+                                    <td className='brand-model__table-td'>
+                                        <EditIcon onClick={() => openEditBrandModal(brand)} />
+                                        {/* <DeleteIcon onClick={() => handleDeleteBrand(brand.brandId)} /> */}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {isAddBrandModalOpen && (
+                <AddBrandModal
+                    onClick={() => isSetAddBrandModalOpen(false)}
+                    onSubmit={handleAddBrand} // Pass the function to insert the brand
+                />
+            )}
+
+            {isEditBrandModalOpen && selectedBrand && (
+                <EditBrandModal
+                    onClick={() => isSetEditBrandModalOpen(false)}
+                    onSubmit={(newBrandName) => handleEditBrand(selectedBrand.brandId, newBrandName)} // Pass the function to handle editing a brand
+                    initialBrand={selectedBrand.name} // Pass the current brand name for editing
+                />
+            )}
+        </div>
+    );
+};
+
+export default BrandModel;

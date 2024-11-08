@@ -20,6 +20,8 @@ import UserRequest from './UserRequest';
 import Users from './Users';
 import RestockRecords from '../Pages/RestockRecords';
 import BrandAndCategories from './BrandAndCategories';
+import Welcome from './Welcome';
+import ProductLog from './ProductLog';
 
 
 const Owner = () => {
@@ -41,11 +43,13 @@ const Owner = () => {
         </aside>
         <main className='owner__main'>
           <Routes>
-            <Route index element={<Dashboard />}/>
+            <Route index element={<Welcome />}/>
+            <Route path='dashboard' element={<Dashboard />}/>
             <Route path='inventory' element={<Inventory />}/>
             <Route path='add-products' element={<AddProducts />}/>
             <Route path='brand-categories' element={<BrandAndCategories />} />
             <Route path='void-products' element={<VoidProducts />}/>
+            <Route path='Product-Logs' element={<ProductLog />}/>
             <Route path='pos' element={<Pos />}/>
             <Route path='sales-record' element={<Sales />} />
             <Route path='expenses' element={<BusinessExpenses />}/>

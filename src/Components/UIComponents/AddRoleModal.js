@@ -4,89 +4,104 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import CheckboxGroup from './CheckboxGroup';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
-const AddRoleModal = ({onClick}) => {
-    const specialCharsRegex = /^[a-zA-Z0-9\s]*$/
+const AddRoleModal = ({ onClick, refresh }) => {
+    const specialCharsRegex = /^[a-zA-Z0-9\s]*$/;
 
-    //Initial Values 
+    // Initial Values
     const initialValues = {
         roleName: "",
-        modules: [],
-    }
+        modules: [], // Ensure this is always an array
+    };
 
-    //Validation
-    const validationSchema = Yup.object ({
+    // Validation Schema
+    const validationSchema = Yup.object({
         roleName: Yup.string().required('Role name is Required').matches(specialCharsRegex, 'Special Chars are not Allowed'),
-        modules: Yup.array().min(1,'Modules are Required')
-    })
+        modules: Yup.array().min(1, 'Modules are Required'),
+    });
 
-    //Message for Successful Insertion
-    const successMessage = () => {
-        toast.success('Role Added', {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        });
-    }
+    const insert = async (values, { resetForm }) => {
+        try {
+            const response = await fetch('http://localhost/KampBJ-api/server/InsertRole.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
 
-    //dummy data 
-    const data = {
+            const data = await response.json();
+            if (data.success) {
+                onClick();
+                refresh();
+                ToastSuccess('New Role Created!')
+                resetForm();
+            } else {
+                toast.error(data.message, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    theme: "light",
+                });
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again.', {
+                position: "top-right",
+                autoClose: 1500,
+                theme: "light",
+            });
+        }
+    };
 
-    }
+    return (
+        <div className='modal'>
+            <div className='modal__wrapper'>
+                <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
+                <div className='modal__body'>
 
-    const insert = (values, { resetForm }) => {
-      console.log('Form Values:', values);
-      successMessage();
-      resetForm();
-    }
+                    <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema}>
+                        {({ values }) => (
+                            <Form className='modal__form'>
 
-  return (
-    <div className='modal'>
-      <div className='modal__wrapper'>
-        <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
-        <div className='modal__body'>
+                                <div className='modal__input-field-wrapper'>
+                                    <Field
+                                        type='text'
+                                        name='roleName'
+                                        placeholder='Enter Role Name'
+                                        className='modal__input-field'
+                                        value={values.roleName || ''} // Ensures controlled behavior
+                                    />
+                                    <ErrorMessage name='roleName' component='span' className='modal__input-field-error' />
+                                </div>
 
-          <Formik initialValues={initialValues} onSubmit={insert} validationSchema={validationSchema}>
-            {() => (
-              <Form className='modal__form'>
-                
-                <div className='modal__input-field-wrapper'>
-                  <Field type='text' name='roleName' placeholder='Enter Role Name' className='modal__input-field'/>
-                  <ErrorMessage name='roleName' component='span' className='modal__input-field-error' />
+                                <div className='modal__input-field-wrapper'>
+                                    <CheckboxGroup
+                                        label="Access"
+                                        name="modules"
+                                        options={[
+                                            { label: 'Dashboard', value: '1' },
+                                            { label: 'Inventory', value: '2' },
+                                            { label: 'Products', value: '3' },
+                                            { label: 'POS', value: '4' },
+                                            { label: 'Expenses', value: '5' },
+                                            { label: 'Supplier', value: '6' },
+                                            { label: 'User Management', value: '7' },
+                                            { label: 'Reports', value: '8' },
+                                            { label: 'Ledger', value: '9' },
+                                        ]}
+                                    />
+                                </div>
+
+                                <button type='submit' className='modal__insert'>Add Role</button>
+                            </Form>
+                        )}
+                    </Formik>
+
                 </div>
-
-                <div className='modal__input-field-wrapper'>
-                    <CheckboxGroup
-                        label="Access"
-                        name="access"
-                        options={[
-                                { label: 'Inventory', value: 'inventory' },
-                                { label: 'Products', value: 'products' },
-                                { label: 'POS', value: 'pos' },
-                                { label: 'Expenses', value: 'expenses' },
-                                { label: 'Supplier', value: 'supplier' },
-                                { label: 'User Management', value: 'user-management' },
-                                { label: 'Reports', value: 'reports' },
-                                { label: 'Ledger', value: 'ledger' },
-                        ]}
-                    />   
-                </div>
-                 
-                <button type='submit' className='modal__insert'>Add Role</button>
-              </Form>
-            )}        
-          </Formik>
-
+            </div>
+            <ToastContainer />
         </div>
-      </div>
-      <ToastContainer />
-    </div>
-  )
-}
+    );
+};
 
-export default AddRoleModal
+export default AddRoleModal;

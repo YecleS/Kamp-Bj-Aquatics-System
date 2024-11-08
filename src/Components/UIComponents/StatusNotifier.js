@@ -16,6 +16,12 @@ const StatusNotifier = ({stocks}) => {
                 <i className="low-stocks fa-solid fa-circle-exclamation"></i>
             </>
         )
+    }else if (stocks > 10) {
+        return (
+            <>
+                <i className="high-stocks fa-solid fa-circle-exclamation"></i>
+            </>
+        )
     }
 }
 
