@@ -68,6 +68,7 @@ const AddProductModal = ({ onClick, refresh }) => {
     }
 
     const formData = new FormData();
+    formData.append('userId', localStorage.getItem('userId'));
     formData.append('productImage', values.productImage);
     formData.append('brandId', selectedBrand.brandId);
     formData.append('categoryId', selectedCategory.categoryId);
@@ -121,11 +122,11 @@ const AddProductModal = ({ onClick, refresh }) => {
                     accept='image/jpg, image/jpeg, image/png'
                     onChange={(event) => handleImageChange(event, setFieldValue)}
                     id='fileInput'
-                    style={{ display: 'none' }}
+                    // style={{ display: 'none' }}
                   />
-                  <label htmlFor='fileInput' className='modal__upload-img-label'>
+                  {/* <label htmlFor='fileInput' className='modal__upload-img-label'>
                     Upload Image
-                  </label>
+                  </label> */}
                   <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
                 </div>
 

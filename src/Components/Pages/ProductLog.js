@@ -2,25 +2,42 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/ProductLog.css';
 
 const ProductLog = () => {
-    const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
-    const filterDropdownRef = useRef(null);
+  const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
+  const [logs, setLogs] = useState([]);
+  const filterDropdownRef = useRef(null);
 
-    // Toggle Filter Dropdown
-    const toggleFilterDropdown = () => {
-        setFilterDropdownOpen(!isFilterDropdownOpen);
+  // Fetch logs from the backend
+  useEffect(() => {
+    fetch('http://localhost/KampBJ-api/server/fetchProductLogs.php')
+      .then(response => response.json())
+      .then(data => {
+        if (data.logs) {
+          setLogs(data.logs);
+        } else {
+          console.error('No logs found:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching logs:', error);
+      });
+  }, []);
+
+  // Toggle Filter Dropdown
+  const toggleFilterDropdown = () => {
+    setFilterDropdownOpen(!isFilterDropdownOpen);
+  };
+
+  // Close dropdown when clicked outside
+  useEffect(() => {
+    const handler = (e) => {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)) {
+        setFilterDropdownOpen(false);
+      }
     };
 
-    // Close dropdown when clicked outside
-    useEffect(() => {
-        const handler = (e) => {
-        if (filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)) {
-            setFilterDropdownOpen(false);
-        }
-        };
-
-        document.addEventListener('click', handler);
-        return () => document.removeEventListener('click', handler);
-    }, []);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, []);
 
   return (
     <div className='product-log'>
@@ -39,9 +56,7 @@ const ProductLog = () => {
               <div className="product-log__filter-dropdown-body">
                 <div className="product-log__filter-dropdown-field-wrapper">
                   <p className="product-log__filter-label">Sort by</p>
-                  <select
-                    className="product-log__filter-field"
-                  >
+                  <select className="product-log__filter-field">
                     <option value="">Select</option>
                   </select>
                 </div>
@@ -59,23 +74,33 @@ const ProductLog = () => {
           <table className='product-log__table'>
             <thead>
               <tr>
+                <th className='product-log__table-th'>Target</th>
                 <th className='product-log__table-th'>Action</th>
                 <th className='product-log__table-th'>Executed By</th>
                 <th className='product-log__table-th'>Date Executed</th>
               </tr>
             </thead>
             <tbody>
-                <tr className='product-log__table-tr'>
-                    <td className='product-log__table-td'>asdas</td>
-                    <td className='product-log__table-td'>asdasd</td>
-                    <td className='product-log__table-td'>asdasdas</td>
+              {logs.length > 0 ? (
+                logs.map((log, index) => (
+                  <tr key={index} className='product-log__table-tr'>
+                    <td className='product-log__table-td'>{log.target}</td>
+                    <td className='product-log__table-td'>{log.action}</td>
+                    <td className='product-log__table-td'>{log.username}</td>
+                    <td className='product-log__table-td'>{new Date(log.dateExecuted).toLocaleString()}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td className='product-log__table-td' colSpan="3">No logs available</td>
                 </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductLog
+export default ProductLog;

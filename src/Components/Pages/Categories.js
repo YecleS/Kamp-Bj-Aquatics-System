@@ -36,6 +36,7 @@ const Categories = () => {
                 },
                 body: new URLSearchParams({
                     category: categoryName,
+                    userId: localStorage.getItem('userId')
                 }),
             });
 
@@ -54,6 +55,7 @@ const Categories = () => {
     // Edit an existing category via API call
     const handleEditCategory = async (categoryId, newCategoryName) => {
         try {
+            const prevName = selectedCategory.name;
             const response = await fetch('http://localhost/KampBJ-api/server/updateCategory.php', {
                 method: 'POST',
                 headers: {
@@ -62,6 +64,8 @@ const Categories = () => {
                 body: new URLSearchParams({
                     id: categoryId,
                     category: newCategoryName,
+                    prevName, prevName,
+                    userId: localStorage.getItem('userId')
                 }),
             });
 

@@ -121,6 +121,7 @@ const RestockProducts = () => {
 
     const restockData = {
       restockItems: restockList,
+      userId: localStorage.getItem('userId')
     };
 
     fetch('http://localhost/KampBJ-api/server/processRestock.php', {

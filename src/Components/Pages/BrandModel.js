@@ -33,6 +33,7 @@ const BrandModel = () => {
                 },
                 body: new URLSearchParams({
                     brand: brandName,
+                    userId: localStorage.getItem('userId')
                 }),
             });
 
@@ -50,6 +51,7 @@ const BrandModel = () => {
 
     const handleEditBrand = async (brandId, newBrandName) => {
         try {
+            const prevBrand = selectedBrand.name;
             const response = await fetch(`http://localhost/KampBJ-api/server/updateBrand.php`, {
                 method: 'POST',
                 headers: {
@@ -58,6 +60,8 @@ const BrandModel = () => {
                 body: new URLSearchParams({
                     id: brandId,
                     brand: newBrandName,
+                    prevBrand: prevBrand,
+                    userId: localStorage.getItem('userId')
                 }),
             });
 

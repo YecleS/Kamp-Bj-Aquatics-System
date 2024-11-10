@@ -80,6 +80,7 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
     const selectedCategory = categories.find((category) => category.name === values.category);
   
     const formData = new FormData();
+    formData.append('userId', localStorage.getItem('userId'));
     formData.append('productId', productData.productId);
     formData.append('product', values.product);
     formData.append('brandId', selectedBrand.brandId);

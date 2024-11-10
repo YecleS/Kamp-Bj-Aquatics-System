@@ -41,6 +41,7 @@ const AddVoidProductRecordModal = ({ onClick, refresh, product }) => {
     try {
       // Create FormData to handle file upload
       const formData = new FormData();
+      formData.append('userId', localStorage.getItem('userId'));
       formData.append('productId', product.productId);
       formData.append('name', product.productName);
       formData.append('description', values.description);

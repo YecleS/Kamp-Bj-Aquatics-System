@@ -1,27 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/Pos.css';
 import AddToCartModal from '../UIComponents/AddToCartModal';
 import ProductCard from '../UIComponents/ProductCard';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const Pos = () => {
-    const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
     const [isAddToCartModalOpen, isSetAddToCartOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
-    const filterDropdownRef = useRef(null);
-
-    const [filters, setFilters] = useState({
-        filterBy: '',
-        startDate: '',
-        endDate: '',
-    });
+    const [searchTerm, setSearchTerm] = useState(''); // New state for search term
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/getProducts.php');
+                const response = await fetch('http://localhost/KampBJ-api/server/getActiveProducts.php');
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -31,28 +24,24 @@ const Pos = () => {
         fetchProducts();
     }, []);
 
-    const toggleFilterDropdown = () => {
-        isSetFilterDropdownOpen(!isFilterDropdownOpen);
-    };
-
     const toggleAddToCartModal = (product = null) => {
         setSelectedProduct(product);
         isSetAddToCartOpen(!isAddToCartModalOpen);
     };
-  
+
     const addToCart = (product, quantity) => {
         setCart(prevCart => {
             const existingProductIndex = prevCart.findIndex(item => item.productId === product.productId);
             const existingProduct = prevCart[existingProductIndex];
-  
+
             if (existingProductIndex !== -1) {
                 const newQuantity = existingProduct.quantity + quantity;
-                
+
                 if (newQuantity > product.quantity) {
                     alert("The quantity entered exceeds the available stock.");
                     return prevCart;
                 }
-  
+
                 const updatedCart = [...prevCart];
                 updatedCart[existingProductIndex].quantity = newQuantity;
                 ToastSuccess(`${product.productName} added to cart!`);
@@ -93,7 +82,7 @@ const Pos = () => {
                 ToastSuccess("Order processed successfully!");
                 setCart([]); // Clear the cart after successful checkout
                 // Optionally, re-fetch products to update stock availability
-                const productsResponse = await fetch('http://localhost/KampBJ-api/server/getProducts.php');
+                const productsResponse = await fetch('http://localhost/KampBJ-api/server/getActiveProducts.php');
                 const productsData = await productsResponse.json();
                 setProducts(productsData);
             } else {
@@ -105,64 +94,31 @@ const Pos = () => {
         }
     };
 
-    const resetFilters = () => {
-      setFilters({
-          filterBy: '',
-          startDate: '',
-          endDate: '',
-      });
-  };
-
-  const dummyProducts = [
-    {productId: 1, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 2, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 3, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 4, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 5, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 6, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 7, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 8, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 9, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-    {productId: 10, image: 'WaterLights.png', productName: 'Led Aquarium Light', category:'accessories', brand:'aquaboy', model:'XXZZX110', quantity: 30, sellingPrice: 75.3 },
-  ]
+    // Filter products based on the search term
+    const filteredProducts = products.filter(product =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div className='pos'>
             <div className='pos__header'>
                 <div className='pos__search-wrapper'>
-                    <input type='text' placeholder='Search' className='pos__input-field'/>
-                </div>
-                <div className='pos__filter-wrapper' ref={filterDropdownRef}>
-                    <i className="pos__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
-                    {isFilterDropdownOpen && (
-                        <div className='pos__filter-dropdown'>
-                            <div className='pos__filter-dropdown-body'>
-                                <div className='pos__filter-dropdown-field-wrapper'>
-                                    <p className='pos__filter-label'>Filter by</p>
-                                    <select value={filters.filterBy} 
-                                        onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })} 
-                                        className='pos__filter-field'>
-                                        <option></option>
-                                        <option value='name'>Name</option>
-                                        <option value='date'>Date</option>
-                                        <option value='price'>Price</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className='pos__filter-dropdown-footer'>
-                                <p className='pos__filter-reset' onClick={resetFilters}>Reset Filters</p>
-                            </div>
-                        </div>
-                    )}
+                    <input
+                        type='text'
+                        placeholder='Search'
+                        className='pos__input-field'
+                        value={searchTerm} // Bind input value to state
+                        onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+                    />
                 </div>
             </div>
 
             <div className='pos__body'>
                 <div className='pos__content-wrapper'>
                     <div className='pos__inventory-wrapper'>
-                        {dummyProducts.map((product) => 
-                            <ProductCard 
-                                key={product.productId} 
+                        {filteredProducts.map((product) =>
+                            <ProductCard
+                                key={product.productId}
                                 product={product}
                                 icon='fa-arrow-right'
                                 onClick={() => toggleAddToCartModal(product)}
@@ -191,33 +147,20 @@ const Pos = () => {
                                             <td className='pos__table-td'>{item.brand}</td>
                                             <td className='pos__table-td'>{item.model}</td>
                                             <td className='pos__table-td'>{item.quantity}</td>
-                                            <td className='pos__table-td'>₱ {(item.sellingPrice * item.quantity).toFixed(2)}</td>
+                                            <td className='pos__table-td'>{item.sellingPrice}</td>
                                             <td className='pos__table-td'>
-                                                <i className="pos__icon-td fa-solid fa-trash" onClick={() => {
-                                                    setCart(cart.filter((_, i) => i !== index));
-                                                }}></i>
+                                                {/* Additional actions can be added here */}
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
-                        <div className='pos__orders-details'>
-                            <div className='pos__billing-details-wrapper'>
-                                <p className='pos__bill-label'>Sub Total</p>
-                                <p className='pos__bill-label'>₱ {cart.reduce((sum, item) => sum + item.sellingPrice * item.quantity, 0).toFixed(2)}</p>
-                            </div>
-                            <button className='pos__checkout' onClick={handleCheckout}>Checkout</button>
-                        </div>     
                     </div>
-                </div>    
+                </div>
             </div>
             {isAddToCartModalOpen && (
-                <AddToCartModal 
-                    product={selectedProduct} 
-                    onClick={toggleAddToCartModal} 
-                    onAddToCart={addToCart}
-                />
+                <AddToCartModal product={selectedProduct} onAddToCart={addToCart} onClick={toggleAddToCartModal} />
             )}
         </div>
     );

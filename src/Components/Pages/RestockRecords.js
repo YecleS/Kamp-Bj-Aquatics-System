@@ -71,6 +71,7 @@ const RestockRecords = () => {
                             <th className='restock-records__table-th'>Transaction ID</th>
                             <th className='restock-records__table-th'>Date</th>
                             <th className='restock-records__table-th'>Total</th>
+                            <th className='restock-records__table-th'>Procesed By</th>
                             <th className='restock-records__table-th'></th>
                         </tr>
                     </thead>
@@ -80,6 +81,7 @@ const RestockRecords = () => {
                                 <td className='restock-records__table-td'>{restock.restockId}</td>
                                 <td className='restock-records__table-td'>{restock.date}</td>
                                 <td className='restock-records__table-td'>{restock.Total}</td>
+                                <td className='restock-records__table-td'>{restock.username}</td>
                                 <td className='restock-records__table-td'>
                                     <button 
                                         className='restock-records__show-products-btn'

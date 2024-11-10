@@ -9,6 +9,7 @@ const Sales = () => {
     const [isProductListModalOpen, setIsProductListModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [salesData, setSalesData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // New state for search term
     const [filters, setFilters] = useState({
         filterBy: '',
         startDate: '',
@@ -32,6 +33,7 @@ const Sales = () => {
                 id: sale.salesId,
                 date: sale.date,
                 total: sale.total,
+                username: sale.username
             }));
             setSalesData(formattedData);
         } catch (error) {
@@ -79,6 +81,33 @@ const Sales = () => {
         }
     };
     
+     // Filter and sort sales data based on search term, date, and total
+const filteredSalesData = salesData
+.filter(sale => {
+    // Check if the sale matches the search term (ID or username)
+    const matchesSearch = sale.id.toString().includes(searchTerm) || 
+        sale.username.toLowerCase().includes(searchTerm.toLowerCase());
+
+    // Check if the sale falls within the date range (if specified)
+    const saleDate = new Date(sale.date);
+    const startDate = filters.startDate ? new Date(filters.startDate) : null;
+    const endDate = filters.endDate ? new Date(filters.endDate) : null;
+
+    const matchesDate = (!startDate || saleDate >= startDate) && 
+        (!endDate || saleDate <= endDate);
+
+    return matchesSearch && matchesDate;
+})
+.sort((a, b) => {
+    if (filters.filterBy === 'total_high') {
+        return b.total - a.total; // Sort by total descending
+    }
+    if (filters.filterBy === 'total_low') {
+        return a.total - b.total; // Sort by total ascending
+    }
+    return 0; // No sorting applied
+});
+
 
     const resetFilters = () => {
         setFilters({
@@ -92,8 +121,14 @@ const Sales = () => {
         <div className='sales'>
             <div className='sales__header'>
                 <div className='sales__left-controls-wrapper'>
-                    <div className='sales__search-wrapper'>
-                        <input type='text' placeholder='Search' className='sales__input-field' />
+                <div className='sales__search-wrapper'>
+                        <input
+                            type='text'
+                            placeholder='Search ID or facilitator'
+                            className='sales__input-field'
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+                        />
                     </div>
                     <div className='sales__filter-wrapper' ref={filterDropdownRef}>
                         <i className="sales__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
@@ -107,9 +142,8 @@ const Sales = () => {
                                             className='sales__filter-field'
                                         >
                                             <option></option>
-                                            <option value='name'>Name</option>
-                                            <option value='date'>Date</option>
-                                            <option value='price'>Price</option>
+                                            <option value='total_high'>Total (Highest - Lowest)</option>
+                                            <option value='total_low'>Total (Lowest - Highest)</option>
                                         </select>
                                     </div>
                                     <div className='sales__filter-dropdown-field-wrapper'>
@@ -135,15 +169,17 @@ const Sales = () => {
                                 <th className='sales__table-th'>Sales ID</th>
                                 <th className='sales__table-th'>Date</th>
                                 <th className='sales__table-th'>Total</th>
+                                <th className='sales__table-th'>Facilitated By</th>
                                 <th className='sales__table-th'></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {salesData.map((sales) =>
+                            {filteredSalesData.map((sales) =>
                                 <tr className='sales__table-tr' key={sales.id} >
                                     <td className='sales__table-td'>{sales.id}</td>
                                     <td className='sales__table-td'>{sales.date}</td>
                                     <td className='sales__table-td'>₱ {sales.total}</td>
+                                    <td className='sales__table-td'>{sales.username}</td>
                                     <td className='sales__table-td'>
                                         <button 
                                             className='sales__show-products-btn'

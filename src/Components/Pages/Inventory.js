@@ -43,26 +43,41 @@ const Inventory = () => {
   }, []); // Runs once when the component mounts
 
   // Filter and sort inventory based on search term and sort option
-  useEffect(() => {
-    let filtered = inventoryData.filter(item =>
-      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.model.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  // Filter and sort inventory based on search term and sort option
+useEffect(() => {
+  let filtered = inventoryData.filter(item =>
+    item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.model.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-    // Sort filtered inventory based on selected option
-    if (filters.sortBy === 'priceAsc') {
-      filtered = filtered.sort((a, b) => a.price - b.price);
-    } else if (filters.sortBy === 'priceDesc') {
-      filtered = filtered.sort((a, b) => b.price - a.price);
-    } else if (filters.sortBy === 'stocksAsc') {
+  // Sort filtered inventory based on selected option
+  switch (filters.sortBy) {
+    case 'priceAsc':
+      filtered = filtered.sort((a, b) => a.sellingPricerice - b.sellingPrice);
+      break;
+    case 'priceDesc':
+      filtered = filtered.sort((a, b) => b.sellingPrice - a.sellingPrice);
+      break;
+    case 'stocksAsc':
       filtered = filtered.sort((a, b) => a.quantity - b.quantity);
-    } else if (filters.sortBy === 'stocksDesc') {
+      break;
+    case 'stocksDesc':
       filtered = filtered.sort((a, b) => b.quantity - a.quantity);
-    }
+      break;
+    case 'category':
+      filtered = filtered.sort((a, b) => a.category.localeCompare(b.category));
+      break;
+    case 'brand':
+      filtered = filtered.sort((a, b) => a.brand.localeCompare(b.brand));
+      break;
+    default:
+      break;
+  }
 
-    setFilteredInventory(filtered);
-  }, [searchTerm, filters.sortBy, inventoryData]);
+  setFilteredInventory(filtered);
+}, [searchTerm, filters.sortBy, inventoryData]);
+
 
   // Toggle Filter Dropdown
   const toggleFilterDropdown = () => {
@@ -111,16 +126,19 @@ const Inventory = () => {
                 <div className="inventory__filter-dropdown-field-wrapper">
                   <p className="inventory__filter-label">Sort by</p>
                   <select
-                    value={filters.sortBy}
-                    onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
-                    className="inventory__filter-field"
+                  value={filters.sortBy}
+                  onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                  className="inventory__filter-field"
                   >
-                    <option value="">Select</option>
-                    <option value="priceAsc">Price (Lowest - Highest)</option>
-                    <option value="priceDesc">Price (Highest - Lowest)</option>
-                    <option value="stocksAsc">Stocks (Lowest - Highest)</option>
-                    <option value="stocksDesc">Stocks (Highest - Lowest)</option>
-                  </select>
+                  <option value="">Select</option>
+                  <option value="category">Category</option>
+                  <option value="brand">Brand</option>
+                  <option value="priceAsc">Price (Lowest - Highest)</option>
+                  <option value="priceDesc">Price (Highest - Lowest)</option>
+                  <option value="stocksAsc">Stocks (Lowest - Highest)</option>
+                  <option value="stocksDesc">Stocks (Highest - Lowest)</option>
+                </select>
+
                 </div>
               </div>
               <div className="inventory__filter-dropdown-footer">
