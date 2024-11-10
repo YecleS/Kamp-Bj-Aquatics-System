@@ -119,10 +119,10 @@
 
 /* BODY AND TABLE STYLE*/
 .inventory__body {
-    height: 83vh;
-    overflow: auto;
 }
 
+.inventory__table-wrapper{
+}
 
 .inventory__table {
     width: 100%;
@@ -159,6 +159,13 @@
 }
 
 /*MEDIA QUERIES*/
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+}
 
 @media screen and (max-width: 599px) {
 

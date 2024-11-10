@@ -9,8 +9,6 @@ const VoidProducts = () => {
   const [voidedProducts, setVoidedProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
   const filterDropdownRef = useRef(null);
-  const addVoidProductModalDialog = useRef();
-
   const [filters, setFilters] = useState({
     filterBy: '',
   });

@@ -33,6 +33,18 @@ const RestockRecords = () => {
         fetchExpenseRecords();
     }, []);
 
+    // Handle Closing of Dropdowns When Clicked Outside of Its Div
+    useEffect(() => {
+        const handler = (e) => {
+            if (filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)) {
+                setFilterDropdownOpen(false);
+            }
+        };
+        
+        document.addEventListener('click', handler);
+        return () => document.removeEventListener('click', handler);
+    }, []);
+
     const handleShowProducts = async (restockId) => {  
         try {
             const response = await fetch('http://localhost/KampBJ-api/server/fetchTransactionProductList.php', {
@@ -61,9 +73,47 @@ const RestockRecords = () => {
         });
     };
 
+    // Toggle Filter Dropdown
+  const toggleFilterDropdown = () => {
+    setFilterDropdownOpen(!isFilterDropdownOpen);
+  };
+
     return (
         <div className='restock-records'>
-            {/* ...rest of your code, header and table for restock transactions */}
+            <div className='restock-records__header'>
+                <div className='restock-records__search-wrapper'>
+                    <input 
+                        type='text' 
+                        placeholder='Search Name, Brand, or Model' 
+                        className='restock-records__input-field' 
+                    />
+                </div>
+                <div className='restock-records__filter-wrapper' ref={filterDropdownRef}>
+                    <i className="restock-records__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
+                    { isFilterDropdownOpen && 
+                        <div className="restock-records__filter-dropdown">
+                            <div className="restock-records__filter-dropdown-body">
+                                <div className="restock-records__filter-dropdown-field-wrapper">
+                                    <p className="restock-records__filter-label">Sort by</p>
+                                    <select className="restock-records__filter-field">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                                <div className='restock-records__filter-dropdown-field-wrapper'>
+                                    <p className='restock-records__filter-label'>Starting Date</p>
+                                    <input type='date' className='restock-records__filter-field' />
+                                    <p className='restock-records__filter-label'>To</p>
+                                    <input type='date' className='restock-records__filter-field' />
+                                </div>
+                            </div>
+                            <div className="restock-records__filter-dropdown-footer">
+                                <p className="restock-records__filter-reset">Reset Filters</p>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
             <div className='restock-records__table-wrapper'>
                 <table className='restock-records__table'>
                     <thead>

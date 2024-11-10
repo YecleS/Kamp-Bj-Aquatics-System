@@ -147,7 +147,7 @@ useEffect(() => {
             </div>
           )}
         </div>
-        <StatusLegend customClass='inventory__status-legend' />
+        {/* <StatusLegend customClass='inventory__status-legend' /> */}
       </div>
 
       <div className='inventory__body'>
