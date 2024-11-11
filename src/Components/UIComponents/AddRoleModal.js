@@ -23,12 +23,13 @@ const AddRoleModal = ({ onClick, refresh }) => {
 
     const insert = async (values, { resetForm }) => {
         try {
+            const userId = localStorage.getItem('userId');
             const response = await fetch('http://localhost/KampBJ-api/server/InsertRole.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(values, userId),
             });
 
             const data = await response.json();
