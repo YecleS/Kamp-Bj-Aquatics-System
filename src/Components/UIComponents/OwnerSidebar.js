@@ -229,6 +229,13 @@ const OwnerSidebar = () => {
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-users"></i>}
                             item='Users'
                         />
+                        <SidebarLink 
+                            to='user-management_Logs'
+                            className={location.pathname === '/admin/user-management_Logs' ? 'sidebar-link-active': ''}
+                            onClick={() => {}}
+                            icon={<i className="sidebar-link__nav-icon fa-regular fa-newspaper"></i>}
+                            item='Management Logs'
+                        />
                     </div>
                 )}
                 {access.includes(8) && (

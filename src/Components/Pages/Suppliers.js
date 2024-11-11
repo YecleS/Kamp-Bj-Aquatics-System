@@ -12,6 +12,7 @@ const Suppliers = () => {
   const [supplierData, setSupplierData] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const filterDropdownRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [filters, setFilters] = useState({
     filterBy: '',
@@ -24,6 +25,24 @@ const Suppliers = () => {
     setEditModalOpen(!!supplier); 
   };
   
+    // Filter suppliers by name or category
+    const filteredSupplierData = supplierData
+    .filter(supplier => {
+      if (searchTerm) {
+        const matchesSupplierName = supplier.supplierName.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategories = supplier.categories.some(category => category.categoryName.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesLocation = supplier.location.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesSupplierName || matchesCategories || matchesLocation; // Match either supplier name or categories
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (filters.filterBy === 'location') {
+        return a.location.localeCompare(b.location); // Sort by location alphabetically
+      }
+      return 0;
+    });
+
 
   const fetchSuppliers = async () => {
     try {
@@ -61,32 +80,8 @@ const Suppliers = () => {
       <div className='suppliers__header'>
         <div className='suppliers__left-controls-wrapper'>
           <div className='suppliers__search-wrapper'>
-            <input type='text' placeholder='Search' className='suppliers__input-field' />
-          </div>
-          <div className='suppliers__filter-wrapper' ref={filterDropdownRef}>
-            <i className="suppliers__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
-            {isFilterDropdownOpen && (
-              <div className='suppliers__filter-dropdown'>
-                <div className='suppliers__filter-dropdown-body'>
-                  <div className='suppliers__filter-dropdown-field-wrapper'>
-                    <p className='suppliers__filter-label'>Filter by</p>
-                    <select
-                      value={filters.filterBy}
-                      onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
-                      className='suppliers__filter-field'
-                    >
-                      <option></option>
-                      <option value='name'>Name</option>
-                      <option value='date'>Date</option>
-                      <option value='price'>Total</option>
-                    </select>
-                  </div>
-                </div>
-                <div className='suppliers__filter-dropdown-footer'>
-                  <p className='suppliers__filter-reset' onClick={resetFilters}>Reset Filters</p>
-                </div>
-              </div>
-            )}
+            <input type='text' placeholder='Search Supplier, Categories or Location' value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}  className='suppliers__input-field' />
           </div>
         </div>
         <div className='suppliers__right-controls-wrapper'>
@@ -110,7 +105,7 @@ const Suppliers = () => {
               </tr>
             </thead>
             <tbody>
-              {supplierData.map((supplier) => (
+              {filteredSupplierData.map((supplier) => (
                 <tr className='suppliers__table-tr' key={supplier.supplierId}>
                   <td className='suppliers__table-td'>{supplier.supplierName}</td>
                   <td className='suppliers__table-td'>

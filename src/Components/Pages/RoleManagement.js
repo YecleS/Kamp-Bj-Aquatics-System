@@ -10,6 +10,8 @@ const RoleManagement = () => {
   const [isEditRoleModalOpen, setIsEditRoleModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
   const [currentRole, setCurrentRole] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   const fetchRoles = async () => {
     try {
@@ -40,6 +42,17 @@ const RoleManagement = () => {
       console.error('Error fetching roles:', error);
     }
   };
+
+    // Filter suppliers by name or category
+    const filteredRoleData = roles
+    .filter(role => {
+      if (searchTerm) {
+        const matchesRoleName = role.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesAccess = role.access.some(access => access.toLowerCase().includes(searchTerm.toLowerCase()));
+        return matchesRoleName || matchesAccess; // Match either role name or access
+      }
+      return true;
+    })
 
   // Fetch roles and their access permissions
   useEffect(() => {
@@ -95,6 +108,12 @@ const RoleManagement = () => {
   return (
     <div className='role-management'>
       <div className='role-management__header'>
+      <div className='role-mangement__left-controls-wrapper'>
+          <div className='role-managament__search-wrapper'>
+            <input type='text' placeholder='Search Roles or Access' value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}  className='role-management__input-field ' />
+          </div>
+        </div>
         <div className='role-management__right-controls-wrapper'>
           <button className='role-management__insert' onClick={toggleAddModal}>
             <i className="role-management__insert-icon fa-solid fa-plus"></i>
@@ -121,7 +140,7 @@ const RoleManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {roles.map(role => (
+              {filteredRoleData.map(role => (
                 <tr key={role.roleId} className='role-management__table-tr'>
                   <td className='role-management__table-td'>{role.title}</td>
                   <td className='role-management__table-td access-cell'>
@@ -137,7 +156,7 @@ const RoleManagement = () => {
                     {hasAccess(role, 'Products') && <span className='check-mark'>&#10003;</span>}
                   </td>
                   <td className='role-management__table-td access-cell'>
-                    {hasAccess(role, 'POS') && <span className='check-mark'>&#10003;</span>}
+                    {hasAccess(role, 'Sales') && <span className='check-mark'>&#10003;</span>}
                   </td>
                   <td className='role-management__table-td access-cell'>
                     {hasAccess(role, 'Expenses') && <span className='check-mark'>&#10003;</span>}

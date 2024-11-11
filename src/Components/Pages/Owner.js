@@ -22,6 +22,7 @@ import RestockRecords from '../Pages/RestockRecords';
 import BrandAndCategories from './BrandAndCategories';
 import Welcome from './Welcome';
 import ProductLog from './ProductLog';
+import UserManagementLog from './UserManagementLog';
 
 
 const Owner = () => {
@@ -81,6 +82,7 @@ const Owner = () => {
             <Route path='role-management' element={<RoleManagement />}/>
             <Route path='user-request' element={<UserRequest />}/>
             <Route path='users' element={<Users />}/>
+            <Route path='user-management_Logs' element={<UserManagementLog />}/>
             <Route path='sales-report' element={<SalesReport />}/>
             <Route path='expenses-report' element={<ExpensesReport />}/>
             <Route path='ledger' element={<GeneralLedger />}/>

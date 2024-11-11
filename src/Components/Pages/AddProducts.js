@@ -31,7 +31,7 @@ const AddProducts = () => {
   // Fetch products from the server
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/getProducts.php');
+      const response = await fetch('http://localhost/KampBJ-api/server/fetchProducts.php');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

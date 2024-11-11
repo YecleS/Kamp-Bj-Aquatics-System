@@ -17,6 +17,7 @@ const ViewExpensesModal = ({expenses, onClick}) => {
         </div>
         <div className='view-expenses-modal__details-wrapper'>
           <h3 className='view-expenses-modal__title'>{expenses.title}</h3>
+          <h5 className='view-expenses-modal__title'>Reference Number : {expenses.reference}</h5>
           <p className='view-expenses-modal__description'>{expenses.description}</p>
           
           <p className='view-expenses-modal__label'>Date</p>

@@ -10,14 +10,18 @@ const UserRequest = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [userRequests, setUserRequests] = useState([]); // State to store fetched data
-    const [selectedUser, setSelectedUser] = useState();
-    const [requestId, setRequestId] = useState();
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [requestId, setRequestId] = useState(null);
     const filterDropdownRef = useRef(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Initial Values For Filters Store In useState
     const [filters, setFilters] = useState({
         filterBy: '',
+        startDate: '',
+        endDate: ''
     });
+    
 
     const getRequests = () => {
         fetch('http://localhost/KampBJ-api/server/fetchUserRequests.php')
@@ -66,10 +70,27 @@ const UserRequest = () => {
         return () => document.removeEventListener('click', handler);
     }, []);
 
+        // Filter suppliers by name or category
+        const filteredRequestData = userRequests
+        .filter(request => {
+            const matchesSearchTerm = searchTerm ? 
+            (request.fullname.toLowerCase().includes(searchTerm.toLowerCase()) || 
+            request.username.toLowerCase().includes(searchTerm.toLowerCase())) 
+            : true;
+
+            const matchesDateRange = filters.startDate && filters.endDate ?
+            (new Date(request.dateRequested) >= new Date(filters.startDate) &&
+            new Date(request.dateRequested) <= new Date(filters.endDate)) : true;
+
+            return matchesSearchTerm && matchesDateRange;
+        });
+
     // Reset Filters
     const resetFilters = () => {
         setFilters({
             filterBy: '',
+            startDate: '',
+            endDate: ''
         });
     };
 
@@ -110,24 +131,19 @@ const UserRequest = () => {
             <div className='user-request__header'>
                 <div className='user-request__left-controls-wrapper'>
                     <div className='user-request__search-wrapper'>
-                        <input type='text' placeholder='Search' className='user-request__input-field' />
+                        <input type='text' placeholder='Search fullname or username' value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)} className='user-request__input-field' />
                     </div>
                     <div className='user-request__filter-wrapper' ref={filterDropdownRef}>
                         <i className="user-request__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
                         {isFilterDropdownOpen &&
                             <div className='user-request__filter-dropdown'>
                                 <div className='user-request__filter-dropdown-body'>
+                                    
                                     <div className='user-request__filter-dropdown-field-wrapper'>
-                                        <p className='user-request__filter-label'>Filter by</p>
-                                        <select value={filters.filterBy}
-                                            onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
-                                            className='user-request__filter-field'
-                                        >
-                                            <option></option>
-                                            <option value='name'>Name</option>
-                                            <option value='date'>Date</option>
-                                            <option value='price'>Price</option>
-                                        </select>
+                                        <p className='user-request__filter-label'>Starting Date</p>
+                                        <input type='date' value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })} className='user-request__filter-field' />
+                                        <p className='user-request__filter-label'>To</p>
+                                        <input type='date' value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })} className='user-request__filter-field' />
                                     </div>
                                 </div>
                                 <div className='user-request__filter-dropdown-footer'>
@@ -155,7 +171,7 @@ const UserRequest = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {userRequests.map(request => (
+                            {filteredRequestData.map(request => (
                                 <tr className='user-request__table-tr' key={request.requestId}>
                                     <td className='user-request__table-td'>{request.fullname}</td>
                                     <td className='user-request__table-td'>{request.username}</td>

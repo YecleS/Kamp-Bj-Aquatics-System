@@ -53,7 +53,9 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
 
   const insertExpense = (values, { resetForm }) => {
     const formData = new FormData();
+    formData.append('userId', localStorage.getItem('userId'));
     formData.append('receiptImage', values.receiptImage);
+    formData.append('reference', values.reference);
     formData.append('description', values.description);
     formData.append('total', values.total);
     formData.append('date', values.date);
@@ -120,6 +122,11 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
                     ))}
                   </datalist>
                   <ErrorMessage name='expense' component='span' className='modal__input-field-error' />
+                </div>
+
+                <div className='modal__input-field-wrapper'>
+                  <Field type='text' name='reference' placeholder='Reference Number' className='modal__input-field' />
+                  <ErrorMessage name='reference' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>

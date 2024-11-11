@@ -15,6 +15,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
     const initialValues = {
         receiptImage: "",
         expense: selectedExpense.title || "",
+        reference: selectedExpense.reference || "",
         description: selectedExpense.description || "",
         date: selectedExpense.date ? new Date(selectedExpense.date) : "", 
         total: selectedExpense.total || "",
@@ -64,6 +65,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
         formData.append('expenseId', selectedExpense.expenseId);
         formData.append('description', values.description);
         formData.append('total', values.total);
+        formData.append('reference', values.reference);
         formData.append('date', values.date.toISOString().split("T")[0]);
         formData.append('expense', values.expense);
 
@@ -132,6 +134,11 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
                                     <ErrorMessage name='expense' component='span' className='modal__input-field-error' />
                                 </div>
 
+                                <div className='modal__input-field-wrapper'>
+                                    <Field type='text' name='reference' placeholder='Reference Number' className='modal__input-field' />
+                                    <ErrorMessage name='reference' component='span' className='modal__input-field-error' />
+                                </div>
+                                            
                                 <div className='modal__input-field-wrapper'>
                                     <Field component='textarea' name='description' placeholder='Enter Description' className='modal__input-field description' />
                                     <ErrorMessage name='description' component='span' className='modal__input-field-error' />
