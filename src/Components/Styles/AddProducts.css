@@ -143,6 +143,10 @@
 
 /* BODY AND TABLE STYLE*/
 .add-products__body {
+    
+}
+
+.add-products__table-wrapper {
     height: 83vh;
     overflow: auto;
 }
@@ -223,10 +227,10 @@
         padding: 0.4em 0.5em;
     }
 
-    .add-products__body {
+    /* .add-products__body {
         height: 80vh;
         overflow: auto;
-    }
+    } */
 
     .add-products__table-th {
         font-size: 0.9rem;
