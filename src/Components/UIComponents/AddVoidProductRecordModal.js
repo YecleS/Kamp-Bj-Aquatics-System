@@ -7,7 +7,7 @@ import DefaultImagePreview from '../Assets/image-preview.png';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 
-const AddVoidProductRecordModal = ({ onClick, refresh, product }) => {
+const AddVoidProductRecordModal = ({ onClick, exit, product , refresh }) => {
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
 
   const initialValues = {
@@ -39,7 +39,7 @@ const AddVoidProductRecordModal = ({ onClick, refresh, product }) => {
 
   const insertRecord = async (values, { resetForm }) => {
     try {
-      // Create FormData to handle file upload
+      
       const formData = new FormData();
       formData.append('userId', localStorage.getItem('userId'));
       formData.append('productId', product.productId);
@@ -62,6 +62,8 @@ const AddVoidProductRecordModal = ({ onClick, refresh, product }) => {
         ToastSuccess(result.message);
         resetForm();
         onClick();
+        refresh()
+        exit();
       } else {
         ToastError(result.message);
       }

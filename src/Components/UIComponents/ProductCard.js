@@ -25,7 +25,7 @@ const ProductCard = ({ product, icon, onClick }) => {
         <p className='product-card__stock'>Stocks: {product.quantity}</p>
       </div>
       <div className='product-card__footer'>
-        <p className='product-card__total-price'>₱ {product.sellingPrice}</p>
+        <p className='product-card__total-price'>₱ {(product.sellingPrice * 1).toFixed(2)}</p>
         
         <div onClick={(e) => { e.stopPropagation(); onClick(product); }}> {/* Only trigger modal on icon click */}
           <ViewProductIcon products={product} />

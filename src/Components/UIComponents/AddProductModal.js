@@ -39,7 +39,7 @@ const AddProductModal = ({ onClick, refresh }) => {
     category: Yup.string().required('Category is required'),
     product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
     lowStock: Yup.number().required('Low Stock Indicator is required!').moreThan(0, 'Invalid Input'),
-    model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
+    model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed').required('Model is required'),
     description: Yup.string().required('Description is Required'),
     markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),
   });

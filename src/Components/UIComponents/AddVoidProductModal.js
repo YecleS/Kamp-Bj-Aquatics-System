@@ -4,7 +4,7 @@ import '../Styles/AddVoidProductModal.css';
 import AddVoidProductRecord from '../UIComponents/AddVoidProductRecordModal';
 import ProductCard from '../UIComponents/ProductCard';
 
-const AddVoidProductModal = ({ onClick }) => {
+const AddVoidProductModal = ({ onClick, refresh }) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
   const [isAddVoidProductRecordOpen, isSetAddVoidProductRecordOpen] = useState(false);
@@ -69,6 +69,8 @@ const AddVoidProductModal = ({ onClick }) => {
           <AddVoidProductRecord 
             product={selectedProduct} 
             onClick={toggleAddVoidProductRecord}
+            exit={onClick}
+            refresh={refresh}
           />
         )}
       </div>

@@ -168,7 +168,7 @@ const filteredProducts = voidedProducts
             </tbody>
           </table>
         </div>
-        {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProductsModal} />}
+        {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProductsModal} refresh={fetchVoidedProducts} />}
       </div>
     </div>
   );

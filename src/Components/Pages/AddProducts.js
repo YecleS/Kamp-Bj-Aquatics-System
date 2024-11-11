@@ -136,10 +136,6 @@ const AddProducts = () => {
           alert(data.message);
         }
       })
-      // .catch(error => {
-      //   console.error('Error:', error);
-      //   alert('An error occurred while processing the request.');
-      // });
   };
 
   // Reset Filters

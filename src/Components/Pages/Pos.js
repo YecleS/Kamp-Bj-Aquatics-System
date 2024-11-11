@@ -67,14 +67,14 @@ const Pos = () => {
             total: item.sellingPrice * item.quantity
         }));
         const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
-
+        const userId = localStorage.getItem('userId');
         try {
             const response = await fetch('http://localhost/KampBJ-api/server/processCheckout.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ orderItems, totalAmount }),
+                body: JSON.stringify({ orderItems, totalAmount, userId  }),
             });
 
             const result = await response.json();
@@ -137,6 +137,7 @@ const Pos = () => {
                                         <th className='pos__table-th'>Model</th>
                                         <th className='pos__table-th'>Quantity</th>
                                         <th className='pos__table-th'>Price</th>
+                                        <th className='pos__table-th'>Total</th>
                                         <th className='pos__table-th'></th>
                                     </tr>
                                 </thead>
@@ -147,15 +148,25 @@ const Pos = () => {
                                             <td className='pos__table-td'>{item.brand}</td>
                                             <td className='pos__table-td'>{item.model}</td>
                                             <td className='pos__table-td'>{item.quantity}</td>
-                                            <td className='pos__table-td'>{item.sellingPrice}</td>
+                                            <td className='pos__table-td'>{(item.sellingPrice * 1).toFixed(2)}</td>
+                                            <td className='pos__table-td'>₱ {(item.sellingPrice * item.quantity).toFixed(2)}</td>
                                             <td className='pos__table-td'>
-                                                {/* Additional actions can be added here */}
+                                                <i className="pos__icon-td fa-solid fa-trash" onClick={() => {
+                                                        setCart(cart.filter((_, i) => i !== index));
+                                                    }}></i>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
+                        <div className='pos__orders-details'>
+                            <div className='pos__billing-details-wrapper'>
+                                <p className='pos__bill-label'>Sub Total</p>
+                                <p className='pos__bill-label'>₱ {cart.reduce((sum, item) => sum + item.sellingPrice * item.quantity, 0).toFixed(2)}</p>
+                            </div>
+                            <button className='pos__checkout' onClick={handleCheckout}>Checkout</button>
+                        </div> 
                     </div>
                 </div>
             </div>

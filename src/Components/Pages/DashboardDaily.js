@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DateSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardDaily.css';
 import DashboardCards from '../UIComponents/DashboardCards';
@@ -9,10 +9,30 @@ import { ComposedChart, Line, Legend, } from 'recharts';
 
 const DashboardDaily = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
+  const [topProductsData, setTopProductsData] = useState([]);
 
   const handleDatechange = (selectedDate) => {
     setSelectedDate(`${selectedDate.toLocaleDateString()}`);
   }
+
+  useEffect(() => {
+    // Fetch data from the PHP script
+    fetch('http://localhost/KampBJ-api/server/dataAnalysis/getTop5Products.php')
+      .then(response => response.json())
+      .then(data => {
+        // Transform the data to fit the chart format if necessary
+        const formattedData = data.map(item => ({
+          name: item.productName,
+          quantity: parseFloat(item.Total_Sales)
+        }));
+        setTopProductsData(formattedData);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []); // Empty dependency array to fetch data on component mount
+
+
 
   const data = [
     {name: 'Product 1', quantity: 350},
@@ -63,13 +83,14 @@ const DashboardDaily = () => {
         <DashboardCards title="Total Goods Sold" subTitle="Today's Goods Sold" desription='300'/>
         <DashboardCards title="Trasanctions Made" subTitle="Today's Transactions Made" desription='400'/>
         <DashboardCards title="Total Utilities Expenses" subTitle="Today's Utilities Expenses" desription='₱ 5000.00'/>
+        
         <div className='dashboard-daily__most-sold-goods-chart'>
           <p className='dashboard-daily__chart-title'>Most Sold Products (Top 5)</p>
           <ResponsiveContainer width="100%" height="90%">
             <AreaChart
               width={500}
               height={400}
-              data={data}
+              data={topProductsData}
               margin={{
                 top: 10,
                 right: 30,
@@ -85,6 +106,7 @@ const DashboardDaily = () => {
             </AreaChart>
           </ResponsiveContainer>
         </div>
+
         <div className='dashboard-daily__sales-vs-expenses'>
           <p className='dashboard-daily__chart-title'>Sales VS Expenses</p>
           <ResponsiveContainer width="100%" height="90%">
