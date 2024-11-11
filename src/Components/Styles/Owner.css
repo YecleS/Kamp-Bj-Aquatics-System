@@ -12,7 +12,7 @@
 
 .owner__body {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 250px 1fr;
     height: 100%;
 }
 
@@ -39,6 +39,9 @@
     }
 }
 
+.owner__main {
+    grid-column: 1/3;
+}
 
 
 /* MEDIA QUERIES */

@@ -118,10 +118,9 @@
 
 
 /* BODY AND TABLE STYLE*/
-.inventory__body {
-}
-
 .inventory__table-wrapper{
+    height: 80vh;
+    overflow: auto;
 }
 
 .inventory__table {
@@ -161,6 +160,7 @@
 /*MEDIA QUERIES*/
 
 @media screen and (min-width: 769px) and (max-width: 999px) {
+    
 }
 
 
