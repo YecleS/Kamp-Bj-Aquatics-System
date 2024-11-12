@@ -60,7 +60,7 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
         localStorage.removeItem('username');
         localStorage.removeItem('roleId');
         // Redirect to login page
-        navigate('/');
+        navigate('/login');
       } else {
         console.error('Logout failed');
       }
