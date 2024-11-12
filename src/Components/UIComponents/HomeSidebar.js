@@ -79,16 +79,16 @@ const OwnerSidebar = () => {
         return (
             <>
                     <SidebarLink 
-                        to='/admin'
-                        className={location.pathname === '/admin' ? 'sidebar-link-active' : ''}
+                        to='/home'
+                        className={location.pathname === '/home' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-house"></i>}
                         item='Welcome Page'
                     />
                 {access.includes(1) && (
                     <SidebarLink 
-                        to='/admin/dashboard'
-                        className={location.pathname === '/admin/dashboard' ? 'sidebar-link-active' : ''}
+                        to='/home/dashboard'
+                        className={location.pathname === '/home/dashboard' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-chart-simple"></i>}
                         item='Dashboard'
@@ -96,8 +96,8 @@ const OwnerSidebar = () => {
                 )}
                 {access.includes(2) && (
                     <SidebarLink 
-                        to='/admin/inventory'
-                        className={location.pathname === '/admin/inventory' ? 'sidebar-link-active' : ''}
+                        to='/home/inventory'
+                        className={location.pathname === '/home/inventory' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-box-archive"></i>}
                         item='Inventory'
@@ -113,43 +113,43 @@ const OwnerSidebar = () => {
                 {isProductsDropdownOpen && (
                     <div className='owner-sidebar__dropdown-wrapper'>
                         <SidebarLink 
-                            to='/admin/add-products'
-                            className={location.pathname === '/admin/add-products' ? 'sidebar-link-active' : ''}
+                            to='/home/add-products'
+                            className={location.pathname === '/home/add-products' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-boxes-packing"></i>}
                             item='Add Products'
                         />
                         <SidebarLink 
-                            to='/admin/brand-categories'
-                            className={location.pathname === '/admin/brand-categories' ? 'sidebar-link-active' : ''}
+                            to='/home/brand-categories'
+                            className={location.pathname === '/home/brand-categories' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-layer-group"></i>}
                             item='Brand & Categories'
                         />
                         <SidebarLink 
                             to='void-products'
-                            className={location.pathname === '/admin/void-products' ? 'sidebar-link-active' : ''}
+                            className={location.pathname === '/home/void-products' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-square-xmark"></i>}
                             item='Voided Products'
                         />
                         <SidebarLink 
                             to='restock-products'
-                            className={location.pathname === '/admin/restock-products' ? 'sidebar-link-active' : ''}
+                            className={location.pathname === '/home/restock-products' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-truck-ramp-box"></i>}
                             item='Restock Products'
                         />
                         <SidebarLink 
                             to='restock-records'
-                            className={location.pathname === '/admin/restock-records' ? 'sidebar-link-active' : ''}
+                            className={location.pathname === '/home/restock-records' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
                             item='Restock Records'
                         />
                         <SidebarLink 
                             to='Product-Logs'
-                            className={location.pathname === '/admin/Product-Logs' ? 'sidebar-link-active' : ''}
+                            className={location.pathname === '/home/Product-Logs' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
                             item='Product Logs'
@@ -166,15 +166,15 @@ const OwnerSidebar = () => {
                 {isSalesDropdownOpen && (
                     <div className='owner-sidebar__dropdown-wrapper'>
                         <SidebarLink 
-                            to='/admin/pos'
-                            className={location.pathname === '/admin/pos' ? 'sidebar-link-active' : ''}
+                            to='/home/pos'
+                            className={location.pathname === '/home/pos' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-money-bill-transfer"></i>}
                             item='POS'
                         />
                         <SidebarLink 
-                            to='/admin/sales-record'
-                            className={location.pathname === '/admin/sales-record' ? 'sidebar-link-active' : ''}
+                            to='/home/sales-record'
+                            className={location.pathname === '/home/sales-record' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
                             item='Sales Record'
@@ -183,8 +183,8 @@ const OwnerSidebar = () => {
                 )}
                 {access.includes(5) && (
                     <SidebarLink 
-                        to='/admin/expenses'
-                        className={location.pathname === '/admin/expenses' ? 'sidebar-link-active' : ''}
+                        to='/home/expenses'
+                        className={location.pathname === '/home/expenses' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-plug"></i>}
                         item='Business Expenses'
@@ -192,8 +192,8 @@ const OwnerSidebar = () => {
                 )}
                 {access.includes(6) && (
                     <SidebarLink 
-                        to='/admin/suppliers'
-                        className={location.pathname === '/admin/suppliers' ? 'sidebar-link-active' : ''}
+                        to='/home/suppliers'
+                        className={location.pathname === '/home/suppliers' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-truck"></i>}
                         item='Suppliers'
@@ -209,29 +209,29 @@ const OwnerSidebar = () => {
                 {isUserManagementDropdownOpen && (
                     <div className='owner-sidebar__dropdown-wrapper'>
                         <SidebarLink 
-                            to='/admin/role-management'
-                            className={location.pathname === '/admin/role-management' ? 'sidebar-link-active' : ''}
+                            to='/home/role-management'
+                            className={location.pathname === '/home/role-management' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-people-group"></i>}
                             item='Role Management'
                         />
                         <SidebarLink 
-                            to='/admin/user-request'
-                            className={location.pathname === '/admin/user-request' ? 'sidebar-link-active' : ''}
+                            to='/home/user-request'
+                            className={location.pathname === '/home/user-request' ? 'sidebar-link-active' : ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-user"></i>}
                             item='User Request'
                         />
                         <SidebarLink 
                             to='users'
-                            className={location.pathname === '/admin/users' ? 'sidebar-link-active': ''}
+                            className={location.pathname === '/home/users' ? 'sidebar-link-active': ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-users"></i>}
                             item='Users'
                         />
                         <SidebarLink 
                             to='user-management_Logs'
-                            className={location.pathname === '/admin/user-management_Logs' ? 'sidebar-link-active': ''}
+                            className={location.pathname === '/home/user-management_Logs' ? 'sidebar-link-active': ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-regular fa-newspaper"></i>}
                             item='Management Logs'
@@ -240,8 +240,8 @@ const OwnerSidebar = () => {
                 )}
                 {access.includes(8) && (
                     <SidebarLink 
-                        to='/admin/reports'
-                        className={location.pathname === '/admin/reports' ? 'sidebar-link-active' : ''}
+                        to='/home/reports'
+                        className={location.pathname === '/home/reports' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
                         item='Report'
@@ -249,8 +249,8 @@ const OwnerSidebar = () => {
                 )}
                 {access.includes(9) && (
                     <SidebarLink 
-                        to='/admin/ledger'
-                        className={location.pathname === '/admin/ledger' ? 'sidebar-link-active' : ''}
+                        to='/home/ledger'
+                        className={location.pathname === '/home/ledger' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-file-lines"></i>}
                         item='General Ledger'

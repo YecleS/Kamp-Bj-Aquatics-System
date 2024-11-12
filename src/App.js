@@ -4,8 +4,7 @@ import { Toaster } from 'sonner';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Components/Pages/Login';
 import SignUp from './Components/Pages/SignUp';
-import Owner from './Components/Pages/Owner';
-import Staff from './Components/Pages/Staff';
+import Owner from './Components/Pages/Home';
 import LandingPage from './Components/LandingPageWebsite/LandingPage';
 
 function App() {
@@ -17,8 +16,8 @@ function App() {
           <Route path='/*' element={<LandingPage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/sign-up' element={<SignUp />} />
-          <Route path='/admin/*' element={<Owner />} />
-          <Route path='/staff/*' element={<Staff />} />
+          <Route path='/home/*' element={<Owner />} />
+
         </Routes>
       </Router>
       <Toaster richColors position="top-right" />

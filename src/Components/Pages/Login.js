@@ -56,7 +56,7 @@ const Login = () => {
           localStorage.setItem('userId', data.userId);
   
           // Navigate to the admin page
-          navigate('/admin');
+          navigate('/home');
           resetForm();
         } else {
           // Show error message on failed login
