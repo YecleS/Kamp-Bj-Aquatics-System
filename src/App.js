@@ -6,6 +6,7 @@ import Login from './Components/Pages/Login';
 import SignUp from './Components/Pages/SignUp';
 import Owner from './Components/Pages/Owner';
 import Staff from './Components/Pages/Staff';
+import LandingPage from './Components/LandingPageWebsite/LandingPage';
 
 function App() {
 
@@ -13,7 +14,8 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/' element={<Login />} />
+          <Route path='/*' element={<LandingPage />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/admin/*' element={<Owner />} />
           <Route path='/staff/*' element={<Staff />} />

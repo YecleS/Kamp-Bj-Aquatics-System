@@ -1,0 +1,129 @@
+.landing-page-product-view__content-wrapper {
+    padding: 10rem 1rem;
+}
+
+.landing-page-product-view__content-wrapper {
+    max-width: 1140px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 50px;
+}
+
+.landing-page-product-view__img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.landing-page-product-view__name {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.landing-page-product-view__description {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.landing-page-product-view__Brand {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-top: 1rem;
+}
+
+.landing-page-product-view__Model {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.landing-page-product-view__category {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.landing-page-product-view__stocks {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.landing-page-product-view__price {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.landing-page-product-view__view-more {
+    margin-top: 2rem;
+}
+
+.emphasized {
+    font-weight: 600;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    /* .landing-page-product-view__name {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .landing-page-product-view__details {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+    } */
+    
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .landing-page-product-view__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    /* .landing-page-product-view__name {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .landing-page-product-view__details {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .landing-page-product-view__view-more {
+        margin-top: 40px;
+        font-size: 0.8rem;
+    } */
+}
+
+@media screen and (max-width: 599px) {
+    .landing-page-product-view__content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    /* .landing-page-product-view__name {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .landing-page-product-view__details {
+        margin-top: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .landing-page-product-view__view-more {
+        margin-top: 40px;
+        font-size: 0.9rem;
+    } */
+}

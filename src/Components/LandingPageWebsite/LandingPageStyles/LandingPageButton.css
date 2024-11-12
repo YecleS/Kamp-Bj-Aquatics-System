@@ -1,0 +1,43 @@
+.landing-page-button {
+    padding: 0.5em 1.5em;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background: var(--blue-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.landing-page-button:hover {
+    background: transparent;
+    color: black;
+    border: 1px solid var(--blue-color);
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .landing-page-button {
+        font-size: 0.90rem;
+    }
+}
+
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .landing-page-button {
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+@media screen and (max-width: 599px) {
+    .landing-page-button {
+        font-size: 0.85rem;
+    }
+}
+
+
