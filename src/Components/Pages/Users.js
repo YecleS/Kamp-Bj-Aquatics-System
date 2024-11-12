@@ -2,16 +2,20 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/Users.css';
 import ConfirmationMessageModal from '../UIComponents/ConfirmationMessageModal';
 import ButtonComponent from '../UIComponents/ButtonComponent';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const Users = () => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [userData, setUserData] = useState([]); // State to store fetched user data
+  const [filteredData, setFilteredData] = useState([]); // State to store filtered user data
+  const [selectedUser, setSelectedUser] = useState(null); // Updated to store a single user object
   const filterDropdownRef = useRef(null);
 
   // Initial Values For Filters
   const [filters, setFilters] = useState({
     filterBy: '',
+    searchQuery: '',
   });
 
   // Fetch user data from the server
@@ -22,6 +26,7 @@ const Users = () => {
         .then(data => {
           if (data.users) {
             setUserData(data.users);
+            setFilteredData(data.users); // Set filteredData initially to all users
           } else {
             console.error('Failed to fetch user data');
           }
@@ -39,7 +44,8 @@ const Users = () => {
     setIsFilterDropdownOpen(!isFilterDropdownOpen);
   };
 
-  const toggleConfirmationModal = () => {
+  const toggleConfirmationModal = (user) => {
+    setSelectedUser(user); // Store the user data for confirmation
     setIsConfirmationModalOpen(!isConfirmationModalOpen);
   };
 
@@ -55,23 +61,123 @@ const Users = () => {
     return () => document.removeEventListener('click', handler);
   }, []);
 
+  // Filter users based on search query and filter criteria
+  const filterUsers = () => {
+    let filtered = [...userData];
+
+    // Apply search filter if present
+    if (filters.searchQuery) {
+      filtered = filtered.filter(user => 
+        user.username.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
+        user.roleTitle.toLowerCase().includes(filters.searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply filter by status or salary
+    if (filters.filterBy) {
+      if (filters.filterBy === 'salary_high') {
+        filtered = filtered.sort((a, b) => b.salary - a.salary);
+      } else if (filters.filterBy === 'salary_low') {
+        filtered = filtered.sort((a, b) => a.salary - b.salary);
+      } else if (filters.filterBy === 'active') {
+        filtered = filtered.filter(user => user.status === 'active');
+      } else if (filters.filterBy === 'inactive') {
+        filtered = filtered.filter(user => user.status === 'inactive');
+      }
+    }
+
+    setFilteredData(filtered); // Update the filtered user data
+  };
+
   // Reset Filters
   const resetFilters = () => {
     setFilters({
       filterBy: '',
+      searchQuery: '',
     });
+    setFilteredData(userData); // Reset filtered data to the original user data
   };
 
   const proceed = () => {
-    console.log('REVOKE');
+    if (selectedUser) {
+      const { userId, username, status } = selectedUser;
+
+      // Prepare data for the POST request
+      const data = {
+        executorId: localStorage.getItem('userId'), // Example: Replace with the actual executor ID (you may need to fetch it from context or user session)
+        userId: userId,
+        username: username,
+        status: status,
+      };
+
+      fetch('http://localhost/KampBJ-api/server/revokeUser.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.status === 'success') {
+            // Update the user data after the user status has been revoked
+            setUserData(prevData =>
+              prevData.map(user =>
+                user.userId === userId
+                  ? { ...user, status: status === 'active' ? 'inactive' : 'active' }
+                  : user
+              )
+            );
+            ToastSuccess('User status updated successfully!');
+            setFilteredData(prevData =>
+              prevData.map(user =>
+                user.userId === userId
+                  ? { ...user, status: status === 'active' ? 'inactive' : 'active' }
+                  : user
+              )
+            );
+          } else {
+            ToastError('Failed to update user status');
+          }
+        })
+        .catch(error => {
+          console.error('Error revoking user:', error);
+          ToastError('Error revoking user');
+        })
+        .finally(() => {
+          // Close the confirmation modal
+          setIsConfirmationModalOpen(false);
+        });
+    }
   };
+
+  // Handle changes to the search input
+  const handleSearchChange = (e) => {
+    setFilters({ ...filters, searchQuery: e.target.value });
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, filterBy: e.target.value });
+  };
+
+  // Run filtering when filters or search query change
+  useEffect(() => {
+    filterUsers();
+  }, [filters]);
 
   return (
     <div className='users'>
       <div className='users__header'>
         <div className='users__left-controls-wrapper'>
           <div className='users__search-wrapper'>
-            <input type='text' placeholder='Search' className='users__input-field' />
+            <input 
+              type='text' 
+              placeholder='Search Username or Role' 
+              className='users__input-field'
+              value={filters.searchQuery} 
+              onChange={handleSearchChange} 
+            />
           </div>
           <div className='users__filter-wrapper' ref={filterDropdownRef}>
             <i className="users__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
@@ -82,13 +188,14 @@ const Users = () => {
                     <p className='users__filter-label'>Filter by</p>
                     <select
                       value={filters.filterBy}
-                      onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
+                      onChange={handleFilterChange}
                       className='users__filter-field'
                     >
-                      <option></option>
-                      <option value='name'>Name</option>
-                      <option value='date'>Date</option>
-                      <option value='price'>Price</option>
+                      <option value="">Select</option>
+                      <option value='salary_high'>Salary (highest)</option>
+                      <option value='salary_low'>Salary (lowest)</option>
+                      <option value='active'>Status (active)</option>
+                      <option value='inactive'>Status (inactive)</option>
                     </select>
                   </div>
                 </div>
@@ -116,7 +223,7 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {userData.map(user => (
+              {filteredData.map(user => (
                 <tr className='users__table-tr' key={user.userId}>
                   <td className='users__table-td'>{user.username}</td>
                   <td className='users__table-td'>{user.roleTitle}</td>
@@ -126,7 +233,7 @@ const Users = () => {
                   <td className='users__table-td'>{user.address}</td>
                   <td className='users__table-td'>{user.status}</td>
                   <td className='users__table-td'>
-                  <ButtonComponent buttonCustomClass='users__btn-approve' label='revoke' onClick={toggleConfirmationModal} />
+                    <ButtonComponent buttonCustomClass='users__btn-approve' label='Revoke' onClick={() => toggleConfirmationModal(user)} />
                   </td>
                 </tr>
               ))}
@@ -134,7 +241,8 @@ const Users = () => {
           </table>
         </div>
       </div>
-      {isConfirmationModalOpen && <ConfirmationMessageModal message='Are You Sure, You Want To Revoke This User ?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
+
+      {isConfirmationModalOpen && <ConfirmationMessageModal message='Are you sure you want to change the status of this User ?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
     </div>
   );
 };

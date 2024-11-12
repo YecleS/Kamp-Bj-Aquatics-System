@@ -2,7 +2,6 @@ import React from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent'; // Ensure you have ToastError for error handling
 
 const EditBrandModal = ({ onClick, onSubmit, initialBrand }) => { // Added onSubmit and initialBrand props
 
@@ -21,11 +20,10 @@ const EditBrandModal = ({ onClick, onSubmit, initialBrand }) => { // Added onSub
     const insert = async (values, { resetForm }) => {
         try {
             await onSubmit(values.brand); // Call the onSubmit function passed as prop
-            ToastSuccess('Successfully Updated');
             resetForm();
             onClick();
         } catch (error) {
-            ToastError('Failed to update brand'); // Handle errors
+            alert('Failed to update brand'); // Handle errors
         }
     };
 

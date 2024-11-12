@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/BrandModel.css';
 import AddBrandModal from '../UIComponents/AddBrandModal';
-import EditBrandModal from './EditBrandModal';
+import EditBrandModal from '../UIComponents/EditBrandModal';
 import { EditIcon, DeleteIcon } from '../UIComponents/ActionIcons';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const BrandModel = () => {
     const [isAddBrandModalOpen, isSetAddBrandModalOpen] = useState(false);
@@ -25,55 +26,77 @@ const BrandModel = () => {
 
     // Insert a new brand via API call
     const handleAddBrand = async (brandName) => {
-        try {
-            const response = await fetch('http://localhost/KampBJ-api/server/insertBrand.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    brand: brandName,
-                    userId: localStorage.getItem('userId')
-                }),
-            });
+        // Check if the brand already exists
+        const brandExists = brandsData.some(
+            (brand) => brand.name.toLowerCase() === brandName.toLowerCase()
+        );
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                fetchBrands(); // Refresh the brands after adding
-                console.log('Brand added:', result.message);
-            } else {
-                console.error('Error adding brand:', result.message);
+        if (brandExists) {
+            ToastError('This brand already exists.');
+            return; // Exit if the brand exists
+        }else{
+            try {
+                const response = await fetch('http://localhost/KampBJ-api/server/insertBrand.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        brand: brandName,
+                        userId: localStorage.getItem('userId')
+                    }),
+                });
+    
+                const result = await response.json();
+                if (result.status === 'success') {
+                    ToastSuccess('This brand already exists.');
+                    fetchBrands(); // Refresh the brands after adding
+                    console.log('Brand added:', result.message);
+                } else {
+                    console.error('Error adding brand:', result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
         }
     };
 
     const handleEditBrand = async (brandId, newBrandName) => {
-        try {
-            const prevBrand = selectedBrand.name;
-            const response = await fetch(`http://localhost/KampBJ-api/server/updateBrand.php`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    id: brandId,
-                    brand: newBrandName,
-                    prevBrand: prevBrand,
-                    userId: localStorage.getItem('userId')
-                }),
-            });
+        // Check if the brand already exists
+        const brandExists = brandsData.some(
+            (brand) => brand.name.toLowerCase() === newBrandName.toLowerCase()
+        );
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                fetchBrands(); // Refresh the brands after editing
-                console.log('Brand updated:', result.message);
-            } else {
-                console.error('Error updating brand:', result.message);
+        if (brandExists) {
+            ToastError('This brand already exists.');
+            return; // Exit if the brand exists
+        }else{
+            try {
+                const prevBrand = selectedBrand.name;
+                const response = await fetch(`http://localhost/KampBJ-api/server/updateBrand.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        id: brandId,
+                        brand: newBrandName,
+                        prevBrand: prevBrand,
+                        userId: localStorage.getItem('userId')
+                    }),
+                });
+    
+                const result = await response.json();
+                if (result.status === 'success') {
+                    fetchBrands(); // Refresh the brands after editing
+                    ToastSuccess('Brand Successfully Updated');
+
+                } else {
+                    console.error('Error updating brand:', result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
         }
     };
 

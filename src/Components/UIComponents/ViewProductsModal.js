@@ -4,6 +4,7 @@ import ButtonComponent from '../UIComponents/ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
 
 const ViewProductsModal = ({ products, onClick }) => {
+  console.log(products)
   // Check if the product has an image; if not, use the default ImagePreview
   const imageUrl = products.image 
     ? `http://localhost/KampBJ-api/server/uploads/products/${products.image}` 
@@ -16,6 +17,7 @@ const ViewProductsModal = ({ products, onClick }) => {
           <img src={imageUrl} alt={products.productname} className='view-products-modal__img'/>
           <p className='view-products-modal__description'>{products.description}</p>
         </div>
+        
         <div className='view-products-modal__details-wrapper'>
           <h1 className='view-products-modal__title'>{products.productName}</h1>
           
@@ -31,6 +33,9 @@ const ViewProductsModal = ({ products, onClick }) => {
           
           <p className='view-products-modal__label'>Procured price</p>
           <p className='view-products-modal__model'>₱ {products.procuredPrice}</p>
+
+          <p className='view-products-modal__label'>Critical Stock Level</p>
+          <p className='view-products-modal__model'>{products.lowStockIndicator}</p>
 
           <p className='view-products-modal__label'>Markup Percentage</p>
           <p className='view-products-modal__model'>{products.markup}%</p>

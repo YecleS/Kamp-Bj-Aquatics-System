@@ -40,6 +40,7 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
     const selectedRole = roles.find((role) => role.roleTitle === values.role);
 
     const formData = new FormData();
+    formData.append('userId', localStorage.getItem('userId'));
     formData.append('requestId', selectedUser.requestId);
     formData.append('roleId', selectedRole.roleId);
     formData.append('username', selectedUser.username );

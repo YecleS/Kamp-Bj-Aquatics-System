@@ -40,10 +40,8 @@ const Inventory = () => {
         console.error('Error fetching inventory:', error);
         toast.error('Error connecting to the server');
       });
-  }, []); // Runs once when the component mounts
-
-  // Filter and sort inventory based on search term and sort option
-  // Filter and sort inventory based on search term and sort option
+  }, []);
+   
 useEffect(() => {
   let filtered = inventoryData.filter(item =>
     item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -174,7 +172,7 @@ useEffect(() => {
                     <td className='inventory__table-td'>{inventoryItem.brand}</td>
                     <td className='inventory__table-td'>{inventoryItem.model}</td>
                     <td className='inventory__table-td'>{inventoryItem.quantity}</td>
-                    <td className='inventory__table-td'>{inventoryItem.sellingPrice}</td>
+                    <td className='inventory__table-td'>₱ {(inventoryItem.sellingPrice * 1).toFixed(2)}</td>
                     <td className='inventory__table-td'>
                       <StatusNotifier stocks={inventoryItem.quantity} lowStockIndicator={inventoryItem.lowStockIndicator}/>
                     </td>

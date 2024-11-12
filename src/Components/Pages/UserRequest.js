@@ -53,8 +53,9 @@ const UserRequest = () => {
         setIsAddModalOpen(!isAddModalOpen);
     };
 
-    const toggleConfirmationModal = (requestId) => {
-        setRequestId(requestId);
+    const toggleConfirmationModal = (request) => {
+        setRequestId(request.requestId);
+        setSelectedUser(request);
         setIsConfirmationModalOpen(!isConfirmationModalOpen);
     };
 
@@ -96,21 +97,27 @@ const UserRequest = () => {
 
     // Proceed with the declining of request
     const proceed = () => {
-        if (!requestId) {
-            console.error('No request ID selected');
+        if (!selectedUser || !requestId) {
+            console.error('No user or request ID selected');
             return;
         }
+    
         fetch('http://localhost/KampBJ-api/server/deleteUserRequest.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ requestId: requestId })
+            body: JSON.stringify({ username: selectedUser.username, requestId: requestId, userId: localStorage.getItem('userId') })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
-                ToastSuccess('Request Denied!')
+                ToastSuccess('Request Denied!');
                 // Update the userRequests state to remove the deleted request
                 setUserRequests(prevRequests => prevRequests.filter(request => request.requestId !== requestId));
                 setIsConfirmationModalOpen(false); // Close the modal
@@ -124,6 +131,7 @@ const UserRequest = () => {
             alert('An error occurred while trying to delete the request. Please try again.');
         });
     };
+    
 
 
     return (
@@ -171,8 +179,10 @@ const UserRequest = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredRequestData.map(request => (
-                                <tr className='user-request__table-tr' key={request.requestId}>
+
+                        {filteredRequestData.length > 0 ? (
+                            filteredRequestData.map((request, index) => (
+                                <tr key={index} className='user-request__table-tr'>
                                     <td className='user-request__table-td'>{request.fullname}</td>
                                     <td className='user-request__table-td'>{request.username}</td>
                                     <td className='user-request__table-td'>{request.age}</td>
@@ -182,11 +192,17 @@ const UserRequest = () => {
                                     <td className='user-request__table-td'>{request.address}</td>
                                     <td className='user-request__table-td'>{request.dateRequested}</td>
                                     <td className='user-request__table-td'>
-                                    <ButtonComponent buttonCustomClass='user-request__btn-approve' label='Approve' onClick={() =>toggleAddModal(request)} />
-                                    <ButtonComponent buttonCustomClass='user-request__btn-approve' label='Decline' onClick={() =>toggleConfirmationModal(request.requestId)}/>
+                                        <ButtonComponent buttonCustomClass='user-request__btn-approve' label='Approve' onClick={() => toggleAddModal(request)} />
+                                        <ButtonComponent buttonCustomClass='user-request__btn-approve' label='Decline' onClick={() => toggleConfirmationModal(request)} />
                                     </td>
                                 </tr>
-                            ))}
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="9" className='user-request__table-td'>No requests available</td>
+                            </tr>
+                        )}
+
                         </tbody>
                     </table>
                 </div>

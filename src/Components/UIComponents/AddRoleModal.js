@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import CheckboxGroup from './CheckboxGroup';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
-const AddRoleModal = ({ onClick, refresh }) => {
+const AddRoleModal = ({ onClick, refresh, roles }) => {
     const specialCharsRegex = /^[a-zA-Z0-9\s]*$/;
 
     // Initial Values
@@ -22,14 +22,24 @@ const AddRoleModal = ({ onClick, refresh }) => {
     });
 
     const insert = async (values, { resetForm }) => {
+
+        const roleExists = roles.some(
+          (role) => role.title.toLowerCase() === values.roleName.toLowerCase()
+      );
+    
+      if (roleExists) {
+          ToastError('This role Title already exists.');
+          return; // Exit if the brand exists
+      } else {
         try {
             const userId = localStorage.getItem('userId');
+            const payload = { ...values, userId };
             const response = await fetch('http://localhost/KampBJ-api/server/InsertRole.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values, userId),
+                body: JSON.stringify(payload),
             });
 
             const data = await response.json();
@@ -46,12 +56,14 @@ const AddRoleModal = ({ onClick, refresh }) => {
                 });
             }
         } catch (error) {
+            alert(error);
             toast.error('An error occurred. Please try again.', {
                 position: "top-right",
                 autoClose: 1500,
                 theme: "light",
             });
         }
+      }
     };
 
     return (

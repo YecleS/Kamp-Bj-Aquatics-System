@@ -162,7 +162,7 @@ const filteredProducts = voidedProducts
                   <td className='void-products__table-td'>{product.description}</td>
                   <td className='void-products__table-td'>{product.username}</td>
                   <td className='void-products__table-td'>{product.date}</td>
-                  <td className='void-products__table-td'><ViewVoidedProductIcon /></td>
+                  <td className='void-products__table-td'><ViewVoidedProductIcon products={product} /></td>
                 </tr>
               ))}
             </tbody>

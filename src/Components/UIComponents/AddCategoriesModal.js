@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastSuccess } from './ToastComponent';
 
 const AddCategoriesModal = ({ onClick, onSubmit }) => {
    // Initial Values 
@@ -18,7 +17,6 @@ const AddCategoriesModal = ({ onClick, onSubmit }) => {
    // Insert handler
    const insert = (values, { resetForm }) => {
       onSubmit(values.categories);  // Call the parent function to insert the category
-      ToastSuccess('Successfully Added');
       resetForm();
       onClick();  
    };

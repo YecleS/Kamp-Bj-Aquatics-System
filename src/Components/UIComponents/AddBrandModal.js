@@ -2,7 +2,7 @@ import React from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastSuccess, ToastError } from './ToastComponent';
+
 
 const AddBrandModal = ({ onClick, onSubmit }) => { // Added onSubmit prop
 
@@ -21,11 +21,10 @@ const AddBrandModal = ({ onClick, onSubmit }) => { // Added onSubmit prop
     const insert = async (values, { resetForm }) => {
         try {
             await onSubmit(values.brand);
-            ToastSuccess('Successfully Added');
             resetForm();
             onClick();
         } catch (error) {
-            ToastError('Failed to add brand'); // Handle errors
+            alert('Failed to add brand'); // Handle errors
         }
     };
 

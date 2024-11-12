@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastSuccess } from './ToastComponent';
 
 const EditCategoriesModal = ({ onClick, onSubmit, initialCategory }) => {
     // Set the initial values to the current category being edited
@@ -20,7 +19,6 @@ const EditCategoriesModal = ({ onClick, onSubmit, initialCategory }) => {
     // Handle form submission
     const update = (values, { resetForm }) => {
         onSubmit(values.category); // Pass the updated category name back to the parent component
-        ToastSuccess('Successfully Updated');
         resetForm();
         onClick(); // Close the modal after update
     };

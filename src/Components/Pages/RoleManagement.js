@@ -76,13 +76,16 @@ const RoleManagement = () => {
   
   // Update role function
   const updateRole = async (updatedRole) => {
+    
     try {
+      const userId = localStorage.getItem('userId');
+      const payload = { ...updatedRole, userId };
       const response = await fetch('http://localhost/KampBJ-api/server/updateRole.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedRole),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
@@ -103,6 +106,7 @@ const RoleManagement = () => {
     } catch (error) {
       ToastError('Error updating role:', error);
     }
+    
   };
 
   return (
@@ -180,7 +184,7 @@ const RoleManagement = () => {
         </div>
       </div>
 
-      {isAddRoleModalOpen && <AddRoleModal onClick={toggleAddModal} refresh={fetchRoles} />}
+      {isAddRoleModalOpen && <AddRoleModal onClick={toggleAddModal} refresh={fetchRoles} roles={roles} />}
       {isEditRoleModalOpen && <EditRoleModal currentRole={currentRole} onClose={toggleEditModal} onSubmit={updateRole} />}
     </div>
   );

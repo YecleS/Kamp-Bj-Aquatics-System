@@ -3,6 +3,7 @@ import '../Styles/Categories.css';
 import AddCategoriesModal from '../UIComponents/AddCategoriesModal';
 import EditCategoriesModal from '../UIComponents/EditCategoriesModal';
 import { EditIcon, DeleteIcon } from '../UIComponents/ActionIcons';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const Categories = () => {
     const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
@@ -28,56 +29,75 @@ const Categories = () => {
 
     // Insert a new category via API call
     const handleAddCategory = async (categoryName) => {
-        try {
-            const response = await fetch('http://localhost/KampBJ-api/server/insertCategory.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    category: categoryName,
-                    userId: localStorage.getItem('userId')
-                }),
-            });
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                fetchCategories(); // Refresh the categories after adding a new one
-                console.log('Category added:', result.message);
-            } else {
-                console.log('Error adding category:', result.message);
+        const categoryExists = categoriesData.some(
+            (category) => category.name.toLowerCase() === categoryName.toLowerCase()
+        );
+
+        if (categoryExists) {
+            ToastError('This category already exists.');
+            return; // Exit if the brand exists
+        } else {
+            try {
+                const response = await fetch('http://localhost/KampBJ-api/server/insertCategory.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        category: categoryName,
+                        userId: localStorage.getItem('userId')
+                    }),
+                });
+    
+                const result = await response.json();
+                if (result.status === 'success') {
+                    fetchCategories(); // Refresh the categories after adding a new one
+                    ToastSuccess('New Category added');
+                } else {
+                    console.log('Error adding category:', result.message);
+                }
+            } catch (error) {
+                console.log('Error:', error);
             }
-        } catch (error) {
-            console.log('Error:', error);
         }
     };
 
     // Edit an existing category via API call
     const handleEditCategory = async (categoryId, newCategoryName) => {
-        try {
-            const prevName = selectedCategory.name;
-            const response = await fetch('http://localhost/KampBJ-api/server/updateCategory.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    id: categoryId,
-                    category: newCategoryName,
-                    prevName, prevName,
-                    userId: localStorage.getItem('userId')
-                }),
-            });
+        const categoryExists = categoriesData.some(
+            (category) => category.name.toLowerCase() === newCategoryName.toLowerCase()
+        );
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                fetchCategories();  // Refresh the categories after editing
-                console.log('Category updated:', result.message);
-            } else {
-                console.error('Error updating category:', result.message);
+        if (categoryExists) {
+            ToastError('This category already exists.');
+            return; // Exit if the brand exists
+        }else{
+            try {
+                const prevName = selectedCategory.name;
+                const response = await fetch('http://localhost/KampBJ-api/server/updateCategory.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        id: categoryId,
+                        category: newCategoryName,
+                        prevName, prevName,
+                        userId: localStorage.getItem('userId')
+                    }),
+                });
+    
+                const result = await response.json();
+                if (result.status === 'success') {
+                    fetchCategories();  // Refresh the categories after editing
+                    ToastSuccess('Category updated');
+                } else {
+                    console.error('Error updating category:', result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
         }
     };
 
