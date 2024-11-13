@@ -4,7 +4,6 @@ import ButtonComponent from '../UIComponents/ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
 
 const ViewProductsModal = ({ products, onClick }) => {
-  console.log(products)
   // Check if the product has an image; if not, use the default ImagePreview
   const imageUrl = products.image 
     ? `http://localhost/KampBJ-api/server/uploads/products/${products.image}` 
@@ -41,7 +40,7 @@ const ViewProductsModal = ({ products, onClick }) => {
           <p className='view-products-modal__model'>{products.markup}%</p>
 
           <p className='view-products-modal__label'>Selling Price</p>
-          <p className='view-products-modal__price'>₱ {products.sellingPrice}</p>
+          <p className='view-products-modal__price'>₱ {(products.sellingPrice * 1).toFixed(2)}</p>
 
           <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />
         </div>

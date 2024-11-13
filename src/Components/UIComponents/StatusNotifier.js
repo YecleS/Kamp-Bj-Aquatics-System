@@ -9,12 +9,14 @@ const StatusNotifier = ({ stocks, lowStockIndicator}) => {
             </>
         );
     } else if (stocks <= lowStockIndicator) {
+        
         return (
             <>
                 <i className="low-stocks fa-solid fa-circle-exclamation"></i>
             </>
         );
-    } else {
+    } else if (stocks > lowStockIndicator) {
+        console.log(stocks, lowStockIndicator);
         return (
             <>
                 <i className="high-stocks fa-solid fa-circle-exclamation"></i>

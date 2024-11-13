@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { MonthSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardMonthly.css';
 import DashboardCards from '../UIComponents/DashboardCards';
-import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { LineChart, Brush, AreaChart } from 'recharts';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
+  ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
+  PolarAngleAxis, Legend, Rectangle } from 'recharts';
 
 const DashboardMonthly = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().toLocaleDateString('default', { month:'long', year:'numeric' }));
@@ -13,7 +13,22 @@ const DashboardMonthly = () => {
     setSelectedMonth(selectedMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' }));
   }
 
-  
+  const sales = [
+    { day: 'Week 1', sales: 3500 },
+    { day: 'Week 2', sales: 1200 },
+    { day: 'Week 3', sales: 3255 },
+    { day: 'Week 4', sales: 8853 },
+    { day: 'Week 5', sales: 4454 },
+  ];
+
+  const mostProductSold = [
+    { name: 'Product1', quantity: 3500 },
+    { name: 'Product2', quantity: 1200 },
+    { name: 'Product3', quantity: 3255 },
+    { name: 'Product4', quantity: 8853 },
+    { name: 'Product5', quantity: 4454 },
+  ];
+
   const dataSalesExpenses = [
     { day: 'Week 1', sales: 1000, expenses: 1400 },
     { day: 'Week 2', sales: 1200, expenses: 1200 },
@@ -22,36 +37,14 @@ const DashboardMonthly = () => {
     { day: 'Week 5', sales: 400, expenses: 6000 },
   ];
 
-  const dataMonthlygoodsSold = [
-    { day: 'Week 1', quantity: 3500 },
-    { day: 'Week 2', quantity: 1200 },
-    { day: 'Week 3', quantity: 3255 },
-    { day: 'Week 4', quantity: 8853 },
-    { day: 'Week 5', quantity: 4454 },
-  ];
-
-  const dataMonthlySales = [
-    { day: 'Week 1', sales: 3500 },
-    { day: 'Week 2', sales: 1200 },
-    { day: 'Week 3', sales: 3255 },
-    { day: 'Week 4', sales: 8853 },
-    { day: 'Week 5', sales: 4454 },
-  ];
-
-  const dataMonthlyExpensesDemographics = [
-    { day: 'W1', restocks: 3533, utilities: 3500 },
-    { day: 'W2', restocks: 2433, utilities: 1200 },
-    { day: 'W3', restocks: 1433, utilities: 3255 },
-    { day: 'W4', restocks: 7433, utilities: 8853 },
-    { day: 'W5', restocks: 5433, utilities: 4454 },
-  ];
-
-  const dataMonthlyExpenses = [
-    { day: 'Week 1', expenses: 3500 },
-    { day: 'Week 2', expenses: 1200 },
-    { day: 'Week 3', expenses: 3255 },
-    { day: 'Week 4', expenses: 8853 },
-    { day: 'Week 5', expenses: 4454 },
+  const expenses = [
+    { name: 'Water Bill', total: 800 },
+    { name: 'Equipment Repair', total: 4000 },
+    { name: 'Company Outing', total: 11200 },
+    { name: 'Staff Equipment', total: 5833 },
+    { name: 'Cleaning Essentials', total: 13500 },
+    { name: 'Pet Essentials', total: 7500 },
+    { name: 'Pet Feeds', total: 8500 },
   ];
 
   return (
@@ -63,120 +56,93 @@ const DashboardMonthly = () => {
         />
       </div>
       <div className='dashboard-monthly__body'>
-        <DashboardCards customCardsClass='card1' title="Total Sales" subTitle="Monthly Sales" desription='₱ 3500.00'/>
-        <DashboardCards customCardsClass='card2' title="Total Expenses" subTitle="Monthly Expenses" desription='₱ 5000.00'/>
 
-        <div className='dashboard-monthly__chart-container monthy-sales-expenses'>
-          <p className='dashboard-monthly__chart-title'>Monthly Sales VS Expenses</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <ComposedChart
-              layout="vertical"
+        <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
+        <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
+        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
+        <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
+
+        <div className='graph-container total-sales'>
+          <h3 className='graph-title'>Total Sales</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <AreaChart
               width={500}
               height={400}
+              data={sales}
+              margin={{
+                top: 30,
+                right: 30,
+                left: 0,
+                bottom: 10,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="day" dy={10} tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }}/>
+              <Tooltip />
+              <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className='graph-container most-sold-products'>
+          <h3 className='graph-title'>Most Sold Products</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <BarChart
+              width={500}
+              height={300}
+              data={mostProductSold}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 10,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" tick={{ fontSize: 14 }} dy={5} />
+              <YAxis tick={{ fontSize: 14 }}/>
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="quantity" stackId="a" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className='graph-container sales-vs-expenses'>
+          <h3 className='graph-title'>Sales vs Expenses</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <BarChart
+              width={500}
+              height={300}
               data={dataSalesExpenses}
               margin={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 20,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis type="number" />
-              <YAxis dataKey="day" type="category" scale="band" />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="sales" barSize={20} fill="#413ea0" />
-              <Bar dataKey="expenses" barSize={20} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className='dashboard-monthly__chart-container monthly-goods-sold'>
-          <p className='dashboard-monthly__chart-title'>Monthly Goods Sold</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <ComposedChart
-              layout="vertical"
-              width={500}
-              height={400}
-              data={dataMonthlygoodsSold}
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 20,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis type="number" />
-              <YAxis dataKey="day" type="category" scale="band" />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="quantity" barSize={20} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className='dashboard-monthly__chart-container monthly-sales'>
-          <p className='dashboard-monthly__chart-title'>Monthly Sales</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <AreaChart
-              width={500}
-              height={200}
-              data={dataMonthlySales}
-              margin={{
-                top: 10,
+                top: 5,
                 right: 30,
-                left: 0,
-                bottom: 0,
+                left: 20,
+                bottom: 5,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" />
-              <YAxis />
+              <XAxis dataKey="days" tick={{ fontSize: 14 }}/>
+              <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
-              <Area type="monotone" dataKey="sales" stroke="#82ca9d" fill="#82ca9d" />
-            </AreaChart>
+              <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+              <Bar dataKey="expenses" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+            </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className='dashboard-monthly__chart-container monthly-expenses-demographics'>
-          <p className='dashboard-monthly__chart-title'>Monthly Expenses Demographics</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={dataMonthlyExpensesDemographics}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey="day" />
-            <PolarRadiusAxis />
-            <Tooltip />
-            <Legend />
-            <Radar name="Re Stocks" dataKey="restocks" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-            <Radar name="Utilities" dataKey="utilities" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-          </RadarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className='dashboard-monthly__chart-container monthly-expenses'>
-          <p className='dashboard-monthly__chart-title'>Monthly Expenses</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <AreaChart
-              width={500}
-              height={200}
-              data={dataMonthlyExpenses}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day"/>
-              <YAxis />
+        <div className='graph-container expenses-breakdown'>
+          <h3 className='graph-title'>Expenses Breakdown</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
               <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="expenses" stroke="#82ca9d" fill="#82ca9d" />
-            </AreaChart>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="name" />
+              <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+            </RadarChart>
           </ResponsiveContainer>
         </div>
       </div>

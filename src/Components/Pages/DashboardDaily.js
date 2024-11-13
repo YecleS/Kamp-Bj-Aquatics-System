@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { DateSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardDaily.css';
 import DashboardCards from '../UIComponents/DashboardCards';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { BarChart, Bar } from 'recharts';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-import { ComposedChart, Line, Legend, } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
+        ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
+        PolarAngleAxis, Legend, Rectangle } from 'recharts';
 
 const DashboardDaily = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
@@ -32,9 +31,13 @@ const DashboardDaily = () => {
       });
   }, []); // Empty dependency array to fetch data on component mount
 
+  const sales = [
+    { name: '12 AM - 12 PM', value: 1200 },
+    { name: '12 PM - 6 PM', value: 3000 },
+    { name: '6 PM - 12 AM', value: 2000 },
+  ];
 
-
-  const data = [
+  const MostSoldProduct = [
     {name: 'Product 1', quantity: 350},
     {name: 'Product 2', quantity: 288},
     {name: 'Product 3', quantity: 459},
@@ -42,33 +45,17 @@ const DashboardDaily = () => {
     {name: 'Product 5', quantity: 88},
   ];
 
-  const dataSalesExpenses = [
-    {name: 'Sales',uv: 4000},
-    {name: 'Expenses',pv: 1398},
-  ];
+  const expenses = [
+    {name: 'today', sales:5320, expenses:300},
+  ]
+
+  const expensesBreakdown = [
+    { name: 'Company Outing', total: 3000 },
+    { name: 'water Bill', total: 500 },
+    { name: 'Electricity Bill', total: 4500 },
+  ]
 
 
-  const dataExpensesDemographics = [
-    {expense: 'Restocking', total: 120},
-    {expense: 'Wifi', total: 98},
-    {expense: 'Water Utility', total: 86},
-    {expense: 'Electricity Utility', total: 99},
-    {expense: 'Rent', total: 85},
-  ];
-
-  const dataLowStocksAlert = [
-    {name: 'Item 1',quantity: 1},
-    {name: 'Item 2',quantity: 4},
-    {name: 'Item 3',quantity: 5},
-    {name: 'Item 4',quantity: 2},
-    {name: 'Item 5',quantity: 3},
-    {name: 'Item 6',quantity: 3},
-    {name: 'Item 7',quantity: 2},
-    {name: 'Item 8',quantity: 5},
-    {name: 'Item 9',quantity: 7},
-    {name: 'Item 10',quantity: 3},
-  ];
-  
   return (
     <div className='dashboard-daily'>
       <div className='dashboard-daily__header'>
@@ -78,87 +65,95 @@ const DashboardDaily = () => {
         />
       </div>
       <div className='dashboard-daily__body'>
-        <DashboardCards title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-        <DashboardCards title="Total Restocks" subTitle="Today's Restocks" desription='₱ 400.00'/>
-        <DashboardCards title="Total Goods Sold" subTitle="Today's Goods Sold" desription='300'/>
-        <DashboardCards title="Trasanctions Made" subTitle="Today's Transactions Made" desription='400'/>
-        <DashboardCards title="Total Utilities Expenses" subTitle="Today's Utilities Expenses" desription='₱ 5000.00'/>
+        <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
+        <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
+        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
+        <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
         
-        <div className='dashboard-daily__most-sold-goods-chart'>
-          <p className='dashboard-daily__chart-title'>Most Sold Products (Top 5)</p>
-          <ResponsiveContainer width="100%" height="90%">
+        <div className='graph-container total-sales'>
+          <h3 className='graph-title'>Total Sales</h3>
+          <ResponsiveContainer width="100%" height="95%">
             <AreaChart
               width={500}
               height={400}
-              data={topProductsData}
+              data={sales}
               margin={{
-                top: 10,
+                top: 30,
                 right: 30,
                 left: 0,
-                bottom: 0,
+                bottom: 10,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }}/>
+              <Tooltip />
+              <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className='graph-container most-sold-products'>
+          <h3 className='graph-title'>Most Sold Products</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <BarChart
+              width={500}
+              height={300}
+              data={MostSoldProduct}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 10,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" tick={{ fontSize: 14 }} dy={10} />
+              <YAxis tick={{ fontSize: 14 }}/>
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="quantity" stackId="a" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className='graph-container sales-vs-expenses'>
+          <h3 className='graph-title'>Sales vs Expenses</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <BarChart
+              width={500}
+              height={300}
+              data={expenses}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="quantity" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className='dashboard-daily__sales-vs-expenses'>
-          <p className='dashboard-daily__chart-title'>Sales VS Expenses</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <BarChart 
-              width={150} 
-              height={40} 
-              data={dataSalesExpenses}
-              barSize={100}
-            >
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="uv" fill="#8884d8" />
-              <Bar dataKey="pv" fill="#82ca9d" />
+              <Legend />
+              <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+              <Bar dataKey="expenses" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className='dashboard-daily__expenses-demographics'>
-          <p className='dashboard-daily__chart-title'>Expenses Demographics</p>
-          <ResponsiveContainer width="100%" height="90%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={dataExpensesDemographics}>
-              <PolarGrid />
-              <PolarAngleAxis dataKey="expense" />  {/* Use 'expense' as the data key */}
-              <PolarRadiusAxis />
-              <Radar name="Expenses" dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+
+        <div className='graph-container expenses-breakdown'>
+          <h3 className='graph-title'>Expenses Breakdown</h3>
+          <ResponsiveContainer width="100%" height="95%">
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expensesBreakdown}>
               <Tooltip />
+              <PolarGrid />
+              <PolarAngleAxis dataKey="name" />
+              <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
             </RadarChart>
           </ResponsiveContainer>
         </div>
-        <div className='dashboard-daily__low-stock-alert'>
-          <p className='dashboard-daily__chart-title'>Stocks Monitoring</p>
-          <ResponsiveContainer width="100%" height="90%">
-          <ComposedChart
-            width={500}
-            height={400}
-            data={dataLowStocksAlert}
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 20,
-              left: 20,
-            }}
-          >
-            <CartesianGrid stroke="#f5f5f5" />
-            <XAxis dataKey="name" scale="band" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="quantity" barSize={20} fill="#b80c0c" />
-          </ComposedChart>
-          </ResponsiveContainer>
-        </div>
+        
       </div>
     </div>
   )
