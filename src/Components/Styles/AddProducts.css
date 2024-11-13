@@ -21,10 +21,10 @@
 }
 
 .add-products__input-field {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    padding: 0.3em 1em;
-    width: 350px;
+    padding: 0.3em 0.5em;
+    width: 280px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -42,7 +42,7 @@
 
 .add-products__filter-icon {
     display: block;
-    padding: 0.5rem 0.5rem;
+    padding: 0.4rem 0.5rem;
     font-size: 1.2rem;
     color: white;
     background: var(--blue-color);
@@ -84,9 +84,9 @@
 }
 
 .add-products__filter-field {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    padding: 0.3em 1em;
+    padding: 0.3em 0.5em;
     width: 200px;
     border-radius: 5px;
     outline: none;
@@ -147,7 +147,7 @@
 }
 
 .add-products__table-wrapper {
-    height: 83vh;
+    height: 80vh;
     overflow: auto;
 }
 
@@ -182,7 +182,7 @@
 
 .add-products__table-td {
     padding: 0.5rem 1rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
 }
 
@@ -198,50 +198,15 @@
 }
 
 
-/* MEDIA QUERIES */
-@media screen and (max-width: 599px) {
-    
+/*MEDIA QUERIES*/
+@media screen and (min-width: 600px) and (max-width: 768px) {
     .add-products__input-field {
-        font-size: 0.9rem;
-        width: 220px;
+        width: 180px;
     }
+}
 
-    .add-products__filter-icon {
-        font-size: 0.9rem;
-    }
-
-    .add-products__filter-label {
-        font-size: 0.9rem;
-    }
-
-    .add-products__filter-field {
-        font-size: 0.9rem;
-    }
-
-    .add-products__filter-reset {
-        font-size: 0.9rem;
-    }
-    
-    .add-products__insert {
-        font-size: 0.9rem;
-        padding: 0.4em 0.5em;
-    }
-
-    /* .add-products__body {
-        height: 80vh;
-        overflow: auto;
-    } */
-
-    .add-products__table-th {
-        font-size: 0.9rem;
-    }
-
-    .add-products__table-td {
-        font-size: 0.9rem;
-    }
-
-    .add-products__icon-td {
-        font-size: 1.4rem;
-        margin-bottom: 5px;
-    }
+@media screen and (max-width: 599px) {
+    .add-products__input-field {
+        width: 180px;
+    }    
 }

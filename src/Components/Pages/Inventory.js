@@ -107,44 +107,47 @@ useEffect(() => {
   return (
     <div className='inventory'>
       <div className='inventory__header'>
-        <div className='inventory__search-wrapper'>
-          <input 
-            type='text' 
-            placeholder='Search Name, Brand, or Model' 
-            className='inventory__input-field' 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className='inventory__filter-wrapper' ref={filterDropdownRef}>
-          <i className="inventory__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
-          {isFilterDropdownOpen && (
-            <div className="inventory__filter-dropdown">
-              <div className="inventory__filter-dropdown-body">
-                <div className="inventory__filter-dropdown-field-wrapper">
-                  <p className="inventory__filter-label">Sort by</p>
-                  <select
-                  value={filters.sortBy}
-                  onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
-                  className="inventory__filter-field"
-                  >
-                  <option value="">Select</option>
-                  <option value="category">Category</option>
-                  <option value="brand">Brand</option>
-                  <option value="priceAsc">Price (Lowest - Highest)</option>
-                  <option value="priceDesc">Price (Highest - Lowest)</option>
-                  <option value="stocksAsc">Stocks (Lowest - Highest)</option>
-                  <option value="stocksDesc">Stocks (Highest - Lowest)</option>
-                </select>
+        <div className='inventory__controls-wrapper'>
+          <div className='inventory__search-wrapper'>
+            <input 
+              type='text' 
+              placeholder='Search Name, Brand' 
+              className='inventory__input-field' 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className='inventory__filter-wrapper' ref={filterDropdownRef}>
+            <i className="inventory__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
+            {isFilterDropdownOpen && (
+              <div className="inventory__filter-dropdown">
+                <div className="inventory__filter-dropdown-body">
+                  <div className="inventory__filter-dropdown-field-wrapper">
+                    <p className="inventory__filter-label">Sort by</p>
+                    <select
+                    value={filters.sortBy}
+                    onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                    className="inventory__filter-field"
+                    >
+                    <option value="">Select</option>
+                    <option value="category">Category</option>
+                    <option value="brand">Brand</option>
+                    <option value="priceAsc">Price (Lowest - Highest)</option>
+                    <option value="priceDesc">Price (Highest - Lowest)</option>
+                    <option value="stocksAsc">Stocks (Lowest - Highest)</option>
+                    <option value="stocksDesc">Stocks (Highest - Lowest)</option>
+                  </select>
 
+                  </div>
+                </div>
+                <div className="inventory__filter-dropdown-footer">
+                  <p className="inventory__filter-reset" onClick={resetFilters}>Reset Filters</p>
                 </div>
               </div>
-              <div className="inventory__filter-dropdown-footer">
-                <p className="inventory__filter-reset" onClick={resetFilters}>Reset Filters</p>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+    
         <StatusLegend customClass='inventory__status-legend' />
       </div>
 

@@ -23,6 +23,7 @@ import BrandAndCategories from './BrandAndCategories';
 import Welcome from './Welcome';
 import ProductLog from './ProductLog';
 import UserManagementLog from './UserManagementLog';
+import ProductBatch from './ProductBatch';
 
 
 const Owner = () => {
@@ -86,6 +87,7 @@ const Owner = () => {
             <Route path='sales-report' element={<SalesReport />}/>
             <Route path='expenses-report' element={<ExpensesReport />}/>
             <Route path='ledger' element={<GeneralLedger />}/>
+            <Route path='view-batch' element={<ProductBatch />}/>
           </Routes> 
         </main>
       </div>

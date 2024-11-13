@@ -10,11 +10,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
 
 .view-products-modal_wrapper {
-    background: white;
+    background: rgb(255, 255, 255);
     padding: 1rem;
     border-radius: 5px;
     position: relative;
@@ -22,7 +21,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    max-width: 700px;
+    max-width: 600px;
 }
 
 /* IMAGE STYLE */
@@ -34,50 +33,79 @@
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
 }
 
-
 /* DETAILS STYLE */
 .view-products-modal__title {
     text-transform: capitalize;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
-.view-products-modal__description {
+.view-products-modal__label {
     font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+
+.view-products-modal__description {
+    font-size: 0.9rem;
     font-weight: 400;
     text-transform: capitalize;
 }
 
-.view-products-modal__label {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 1rem;
-}
-
-
 .view-products-modal__brand {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 400;
 }
 
 .view-products-modal__model {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 400;
 }
 
 .view-products-modal__category {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 400;
     text-transform: capitalize;
 }
 
 .view-products-modal__price {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 400;
 }
 
-
 /* BUTTON STYLE */
+.view-products-modal__button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
 .view-product-modal__back-button {
     margin-top: 1rem;
     width: 100%;
+}
+
+
+/* Media Query */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+}
+
+
+@media screen and (min-width: 1000px) and (max-width: 1199px) {
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+}
+
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+}
+
+
+
+
+@media screen and (max-width: 599px) {
 }

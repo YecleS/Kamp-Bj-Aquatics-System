@@ -2,8 +2,11 @@ import React from 'react';
 import '../Styles/ViewProductsModal.css';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
+import { useNavigate } from 'react-router-dom';
 
 const ViewProductsModal = ({ products, onClick }) => {
+  const navigate = useNavigate();
+
   // Check if the product has an image; if not, use the default ImagePreview
   const imageUrl = products.image 
     ? `http://localhost/KampBJ-api/server/uploads/products/${products.image}` 
@@ -14,13 +17,13 @@ const ViewProductsModal = ({ products, onClick }) => {
       <div className='view-products-modal_wrapper'>
         <div className='view-products-modal__img-wrapper'>
           <img src={imageUrl} alt={products.productname} className='view-products-modal__img'/>
+          <p className='view-products-modal__label'>Description</p>
           <p className='view-products-modal__description'>{products.description}</p>
         </div>
         
         <div className='view-products-modal__details-wrapper'>
           <h1 className='view-products-modal__title'>{products.productName}</h1>
-          
-
+  
           <p className='view-products-modal__label'>Brand</p>
           <p className='view-products-modal__brand'>{products.brand}</p>
 
@@ -42,7 +45,10 @@ const ViewProductsModal = ({ products, onClick }) => {
           <p className='view-products-modal__label'>Selling Price</p>
           <p className='view-products-modal__price'>₱ {(products.sellingPrice * 1).toFixed(2)}</p>
 
-          <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />
+          <div className='view-products-modal__button-wrapper'>
+            <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />
+            <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Batches' onClick={() => navigate('/home/view-batch')} />
+          </div>
         </div>
       </div>
     </div>

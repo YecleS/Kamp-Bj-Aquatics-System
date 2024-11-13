@@ -1,5 +1,4 @@
 import React from 'react';
-import { ErrorMessage, Field } from 'formik';
 
 const InputFieldsComponent = () => {
   return (

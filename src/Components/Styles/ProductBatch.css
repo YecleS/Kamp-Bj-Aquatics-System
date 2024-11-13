@@ -1,27 +1,27 @@
-.inventory {
+.product-batch {
     height: 100%;
     padding: 1rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0.5rem;
+}
+
+.product-batch__back-button {
+    align-self: self-start;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.7rem;
 }
 
 /* HEADER AND CONTROLS STYLE*/
-.inventory__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.inventory__controls-wrapper {
+.product-batch__header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
 }
 
-.inventory__input-field {
-    font-size: 0.95rem;
+.product-batch__input-field {
+    font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 0.5em;
     width: 280px;
@@ -31,17 +31,17 @@
     transition: all 0.2s ease;
 }
 
-.inventory__input-field:focus {
+.product-batch__input-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.inventory__filter-wrapper {
+.product-batch__filter-wrapper {
     position: relative;
 }
 
-.inventory__filter-icon {
+.product-batch__filter-icon {
     display: block;
-    padding: 0.4rem 0.5rem;
+    padding: 0.5rem 0.5rem;
     font-size: 1.2rem;
     color: white;
     background: var(--blue-color);
@@ -51,20 +51,18 @@
     transition: all 0.3s ease;
 }
 
-.inventory__filter-icon:hover {
+.product-batch__filter-icon:hover {
     color: black;
     border: 1px solid var(--blue-color);
     background: none;
 }
 
-.inventory__status-legend {
+.product-batch__status-legend {
     margin-left: auto;
-    font-size: 0.95rem;
-    font-weight: 600;
 }
 
 /* FILTER DROPDOWN */
-.inventory__filter-dropdown {
+.product-batch__filter-dropdown {
     position: absolute;
     top: 50px;
     right: 0;
@@ -75,22 +73,22 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
-.inventory__filter-dropdown-body {
+.product-batch__filter-dropdown-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.inventory__filter-label {
-    margin-bottom: 1rem;
+.product-batch__filter-label {
+    margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.inventory__filter-field {
-    font-size: 0.95rem;
+.product-batch__filter-field {
+    font-size: 1rem;
     font-weight: 500;
-    padding: 0.3em 0.5em;
+    padding: 0.3em 1em;
     width: 200px;
     border-radius: 5px;
     outline: none;
@@ -99,11 +97,11 @@
     transition: all 0.2s ease;
 }
 
-.inventory__filter-field:focus {
+.product-batch__filter-field:focus {
     box-shadow: 0 0 0 3px rgb(152, 200, 255);
 }
 
-.inventory__filter-dropdown-footer {
+.product-batch__filter-dropdown-footer {
     margin-top: 20px;
     padding-top: 10px;
     display: flex;
@@ -112,7 +110,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.192);
 }
 
-.inventory__filter-reset {
+.product-batch__filter-reset {
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 700;
@@ -120,23 +118,23 @@
     transition: all 0.3s ease;
 }
 
-.inventory__filter-reset:hover {
+.product-batch__filter-reset:hover {
     color: var(--blue-color);
 }
 
 
 /* BODY AND TABLE STYLE*/
-.inventory__table-wrapper{
+.product-batch__table-wrapper{
     height: 80vh;
     overflow: auto;
 }
 
-.inventory__table {
+.product-batch__table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.inventory__table-th {
+.product-batch__table-th {
     background: var(--blue-color);
     padding: 0.5rem 1rem;
     color: white;
@@ -147,49 +145,23 @@
     top: 0;
 }
 
-.inventory__table-td {
+.product-batch__table-td {
     padding: 0.5rem 1rem;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
-.inventory__table-th:first-child {
+.product-batch__table-th:first-child {
     border-top-left-radius: 10px;
 }
 
-.inventory__table-th:last-child {
+.product-batch__table-th:last-child {
     border-top-right-radius: 10px;
 }
 
-.inventory__table-tr:nth-child(even) {
+.product-batch__table-tr:nth-child(even) {
     background: rgb(193, 223, 255);
 }
 
-
-
-/*MEDIA QUERIES*/
-@media screen and (min-width: 600px) and (max-width: 768px) {
-    .inventory__input-field {
-        width: 180px;
-    }
-    
-}
-
-@media screen and (max-width: 599px) {
-    .inventory__input-field {
-        width: 180px;
-    }
-
-    .inventory__header {
-        flex-direction: column;
-        align-items: start;
-        gap: 0.5rem;
-    }
-
-    .inventory__status-legend {
-        margin: 0;
-    }
-    
-}
 
 
