@@ -7,10 +7,11 @@ import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
   const [roles, setRoles] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch roles from the server
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/getRole.php')
+    fetch(`${apiUrl}/KampBJ-api/server/getRole.php`)
       .then(response => response.json())
       .then(data => {
         if (data.roles) {
@@ -54,7 +55,7 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
     formData.append('password', selectedUser.password);
     formData.append('image', selectedUser.image);
  
-    fetch('http://localhost/KampBJ-api/server/insertNewUser.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/insertNewUser.php`, {
       method: 'POST',
       body: formData,
     })

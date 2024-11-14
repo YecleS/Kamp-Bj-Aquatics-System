@@ -11,11 +11,12 @@ const RoleManagement = () => {
   const [roles, setRoles] = useState([]);
   const [currentRole, setCurrentRole] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
 
 
   const fetchRoles = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/fetchRoles.php');
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchRoles.php`);
       const data = await response.json();
 
       // Group roles by roleId and consolidate access
@@ -80,7 +81,7 @@ const RoleManagement = () => {
     try {
       const userId = localStorage.getItem('userId');
       const payload = { ...updatedRole, userId };
-      const response = await fetch('http://localhost/KampBJ-api/server/updateRole.php', {
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/updateRole.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

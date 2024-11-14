@@ -11,6 +11,7 @@ const Users = () => {
   const [filteredData, setFilteredData] = useState([]); // State to store filtered user data
   const [selectedUser, setSelectedUser] = useState(null); // Updated to store a single user object
   const filterDropdownRef = useRef(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Initial Values For Filters
   const [filters, setFilters] = useState({
@@ -21,7 +22,7 @@ const Users = () => {
   // Fetch user data from the server
   useEffect(() => {
     const fetchUsers = () => {
-      fetch('http://localhost/KampBJ-api/server/fetchUserRecords.php')
+      fetch(`${apiUrl}/KampBJ-api/server/fetchUserRecords.php`)
         .then(response => response.json())
         .then(data => {
           if (data.users) {
@@ -110,7 +111,7 @@ const Users = () => {
         status: status,
       };
 
-      fetch('http://localhost/KampBJ-api/server/revokeUser.php', {
+      fetch(`${apiUrl}/KampBJ-api/server/revokeUser.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

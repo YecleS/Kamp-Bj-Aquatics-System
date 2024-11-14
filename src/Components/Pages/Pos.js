@@ -10,11 +10,12 @@ const Pos = () => {
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState(''); // New state for search term
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/getActiveProducts.php');
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -69,7 +70,7 @@ const Pos = () => {
         const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
         const userId = localStorage.getItem('userId');
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/processCheckout.php', {
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/processCheckout.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ const Pos = () => {
                 ToastSuccess("Order processed successfully!");
                 setCart([]); // Clear the cart after successful checkout
                 // Optionally, re-fetch products to update stock availability
-                const productsResponse = await fetch('http://localhost/KampBJ-api/server/getActiveProducts.php');
+                const productsResponse = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
                 const productsData = await productsResponse.json();
                 setProducts(productsData);
             } else {

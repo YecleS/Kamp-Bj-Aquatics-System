@@ -9,6 +9,7 @@ const OwnerSidebar = () => {
     const [isReportDropdownOpen, isSetReportDropdownOpen] = useState(false);
     const [isUserManagementDropdownOpen, isSetUsermanagementDropdownOpen] = useState(false);
     const [access, setAccess] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
     const location = useLocation();
 
     useEffect(() => {
@@ -19,7 +20,7 @@ const OwnerSidebar = () => {
             return;
         }
     
-        fetch(`http://localhost/KampBJ-api/server/fetchAccessFromRoleId.php?roleId=${roleId}`, {
+        fetch(`${apiUrl}/KampBJ-api/server/fetchAccessFromRoleId.php?roleId=${roleId}`, {
             method: 'GET',
             credentials: 'include',  // If you need cookies/sessions
         })

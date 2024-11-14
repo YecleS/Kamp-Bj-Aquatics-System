@@ -11,6 +11,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
     const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
     const [expenseTitles, setExpenseTitles] = useState([]);
     const [isNewImageSelected, setIsNewImageSelected] = useState(false);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const initialValues = {
         receiptImage: "",
@@ -30,7 +31,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
     });
 
     useEffect(() => {
-        fetch('http://localhost/KampBJ-api/server/fetchExpenseTitles.php')
+        fetch(`${apiUrl}/KampBJ-api/server/fetchExpenseTitles.php`)
             .then(response => response.json())
             .then(data => {
                 setExpenseTitles(data);
@@ -42,7 +43,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
 
     useEffect(() => {
         if (selectedExpense && selectedExpense.receiptImage) {
-            setImagePreview(`http://localhost/KampBJ-api/server/uploads/expenseReceipts/${selectedExpense.receiptImage}`);
+            setImagePreview(`${apiUrl}/KampBJ-api/server/uploads/expenseReceipts/${selectedExpense.receiptImage}`);
         }
     }, [selectedExpense]);
 
@@ -73,7 +74,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
             formData.append('receiptImage', values.receiptImage);
         }
 
-        fetch('http://localhost/KampBJ-api/server/updateExpenseRecord.php', {
+        fetch(`${apiUrl}/KampBJ-api/server/updateExpenseRecord.php`, {
             method: 'POST',
             body: formData,
         })

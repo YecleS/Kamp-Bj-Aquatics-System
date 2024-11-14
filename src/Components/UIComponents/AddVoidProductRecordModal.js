@@ -9,6 +9,7 @@ import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const AddVoidProductRecordModal = ({ onClick, exit, product , refresh }) => {
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const initialValues = {
     receiptImage: null,
@@ -51,7 +52,7 @@ const AddVoidProductRecordModal = ({ onClick, exit, product , refresh }) => {
         formData.append('receiptImage', values.receiptImage);
       }
   
-      const response = await fetch('http://localhost/KampBJ-api/server/insertVoidRecord.php', {
+      const response = await fetch(`${apiUrl}ampBJ-api/server/insertVoidRecord.php`, {
         method: 'POST',
         body: formData,
       });

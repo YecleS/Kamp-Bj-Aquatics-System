@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import StatusNotifier from '../UIComponents/StatusNotifier';
 import StatusLegend from '../UIComponents/StatusLegend';
 import { ViewProductIcon } from '../UIComponents/ActionIcons';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const Inventory = () => {
   const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
@@ -26,7 +27,7 @@ const Inventory = () => {
 
   // Fetch inventory data from PHP script when the component mounts
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/fetchInventoryProducts.php') // Update with your actual URL
+    fetch(`${apiUrl}/KampBJ-api/server/fetchInventoryProducts.php`) // Update with your actual URL
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {

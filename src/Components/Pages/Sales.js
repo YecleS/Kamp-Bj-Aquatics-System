@@ -15,6 +15,7 @@ const Sales = () => {
         startDate: '',
         endDate: '',
     });
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Toggle Dropdowns
     const toggleFilterDropdown = () => {
@@ -24,7 +25,7 @@ const Sales = () => {
     // Fetch sales records from the server
     const fetchSalesData = async () => {
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/fetchSalesRecord.php');
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchSalesRecord.php`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -61,7 +62,7 @@ const Sales = () => {
     
     const handleShowProducts = async (salesId) => {  
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/fetchSalesProducts.php', {
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchSalesProducts.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ salesId }) // Ensure this is being sent correctly

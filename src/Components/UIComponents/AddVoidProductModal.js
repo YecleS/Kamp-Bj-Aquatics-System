@@ -9,11 +9,12 @@ const AddVoidProductModal = ({ onClick, refresh }) => {
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
   const [isAddVoidProductRecordOpen, isSetAddVoidProductRecordOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost/KampBJ-api/server/getActiveProducts.php');
+        const response = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
         const data = await response.json();
         setProducts(data);
       } catch (error) {

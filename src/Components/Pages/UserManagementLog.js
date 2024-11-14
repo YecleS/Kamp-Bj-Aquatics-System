@@ -12,12 +12,13 @@ const UserManagementLog = () => {
         endDate: '',
     }); // Filters state
     const filterDropdownRef = useRef(null);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch logs from the server
     useEffect(() => {
         const fetchLogs = async () => {
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/fetchUserLogs.php');
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchUserLogs.php`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch logs');
                 }

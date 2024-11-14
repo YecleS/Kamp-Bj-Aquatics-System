@@ -4,9 +4,10 @@ import ButtonComponent from '../UIComponents/ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
 
 const ViewVoidedProductsModal = ({ products, onClick }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   // Check if the product has an image; if not, use the default ImagePreview
   const imageUrl = products.image 
-    ? `http://localhost/KampBJ-api/server/uploads/voidRecords/${products.image}` 
+    ? `${apiUrl}/KampBJ-api/server/uploads/voidRecords/${products.image}` 
     : ImagePreview;
 
   return (

@@ -12,11 +12,12 @@ const VoidProducts = () => {
   const [filters, setFilters] = useState({
     filterBy: '',
   });
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch voided product records from the backend
   const fetchVoidedProducts = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/fetchVoidedRecords.php');
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchVoidedRecords.php`);
       const data = await response.json();
       
       if (data.status === 'success') {

@@ -3,13 +3,14 @@ import '../Styles/Notification.css';
 
 const Notification = () => {
     const [notifications, setNotifications] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         // Get the userId from localStorage
         const userId = localStorage.getItem('userId');
         if (userId) {
             // Fetch notifications from the backend
-            fetch('http://localhost/KampBJ-api/server/fetchNotifs.php', {
+            fetch(`${apiUrl}/KampBJ-api/server/fetchNotifs.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

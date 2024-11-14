@@ -14,11 +14,12 @@ const Categories = () => {
     const [searchTerm, setSearchTerm] = useState(''); // State to store the search term
     const [selectedCategory, setSelectedCategory] = useState(null); // State to hold the selected category for editing
     const filterDropdownRef = useRef(null);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch categories from the API
     const fetchCategories = async () => {
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/fetchCategories.php');
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchCategories.php`);
             const data = await response.json();
             setCategoriesData(data.categories); // Assuming the response is { categories: [...] }
             setFilteredCategories(data.categories); // Set initial filtered data to full list
@@ -39,7 +40,7 @@ const Categories = () => {
             return; // Exit if the brand exists
         } else {
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/insertCategory.php', {
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/insertCategory.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -75,7 +76,7 @@ const Categories = () => {
         }else{
             try {
                 const prevName = selectedCategory.name;
-                const response = await fetch('http://localhost/KampBJ-api/server/updateCategory.php', {
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/updateCategory.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -104,7 +105,7 @@ const Categories = () => {
     // Delete an existing category via API call
     const handleDeleteCategory = async (categoryId) => {
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/deleteCategory.php', {
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/deleteCategory.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

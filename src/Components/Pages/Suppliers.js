@@ -13,6 +13,7 @@ const Suppliers = () => {
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const filterDropdownRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const [filters, setFilters] = useState({
     filterBy: '',
@@ -46,7 +47,7 @@ const Suppliers = () => {
 
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/fetchSupplier.php');
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchSupplier.php`);
       const data = await response.json();
       if (data.status === 'success') {
         setSupplierData(data.suppliers);

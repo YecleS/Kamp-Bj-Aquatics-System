@@ -4,9 +4,10 @@ import ButtonComponent from './ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
 
 const ViewExpensesModal = ({expenses, onClick}) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const imageUrl = expenses.receiptImage
-  ? `http://localhost/KampBJ-api/server/uploads/expenseReceipts/${expenses.receiptImage}` 
+  ? `${apiUrl}/KampBJ-api/server/uploads/expenseReceipts/${expenses.receiptImage}` 
   : ImagePreview;
 
   return (

@@ -8,10 +8,11 @@ import CheckboxGroup from './CheckboxGroup';
 
 const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
   const [categoriesData, setCategoriesData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/fetchCategories.php');
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchCategories.php`);
       const data = await response.json();
       setCategoriesData(data.categories || []);
     } catch (error) {
@@ -51,7 +52,7 @@ const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
     formData.append('categories', values.categories.join(',')); // Send selected categories as a comma-separated string
 
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/updateSupplier.php', {
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/updateSupplier.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

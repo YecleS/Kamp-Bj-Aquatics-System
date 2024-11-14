@@ -15,6 +15,7 @@ const BusinessExpenses = () => {
   const [expensesData, setExpensesData] = useState([]);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Initial Values For Filters Store In useState
   const [filters, setFilters] = useState({
@@ -30,7 +31,7 @@ const BusinessExpenses = () => {
 
   const fetchExpenses = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/fetchExpenseRecords.php');
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchExpenseRecords.php`);
       const data = await response.json();
       if (Array.isArray(data)) {
         

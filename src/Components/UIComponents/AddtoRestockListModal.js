@@ -13,6 +13,7 @@ const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
   };
 
   const [suppliers, setSuppliers] = useState([]); // State for suppliers
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Validation
   const validationSchema = Yup.object({
@@ -26,7 +27,7 @@ const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
     const fetchSuppliers = async () => {
       if (product && product.categoryId) {
         try {
-          const response = await fetch(`http://localhost/KampBJ-api/server/fetchSupplierByCategory.php?categoryId=${product.categoryId}`);
+          const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchSupplierByCategory.php?categoryId=${product.categoryId}`);
           const data = await response.json();
 
           if (data.status === "success") {

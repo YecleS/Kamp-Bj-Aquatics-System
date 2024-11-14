@@ -10,10 +10,11 @@ const AddProductModal = ({ onClick, refresh }) => {
   const [imagePreview, setImagePreview] = useState();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch brand and category data from the backend
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/fetchBrandCategory.php')
+    fetch(`${apiUrl}/KampBJ-api/server/fetchBrandCategory.php`)
       .then((response) => response.json())
       .then((data) => {
         setBrands(data.brands);
@@ -78,7 +79,7 @@ const AddProductModal = ({ onClick, refresh }) => {
     formData.append('description', values.description);
     formData.append('markupPercentage', values.markupPercentage);
 
-    fetch('http://localhost/KampBJ-api/server/insertProduct.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/insertProduct.php`, {
       method: 'POST',
       body: formData,
     })

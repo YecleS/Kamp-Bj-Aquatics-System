@@ -12,11 +12,12 @@ const BrandModel = () => {
     const [selectedBrand, setSelectedBrand] = useState(null); // State for the selected brand for editing
     const [searchInput, setSearchInput] = useState(''); // State for search input
     const filterDropdownRef = useRef(null);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch brands from the API
     const fetchBrands = async () => {
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/fetchBrands.php');
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchBrands.php`);
             const data = await response.json();
             setBrandsData(data.brands); // Assuming the response is { brands: [...] }
         } catch (error) {
@@ -36,7 +37,7 @@ const BrandModel = () => {
             return; // Exit if the brand exists
         }else{
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/insertBrand.php', {
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/insertBrand.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -73,7 +74,7 @@ const BrandModel = () => {
         }else{
             try {
                 const prevBrand = selectedBrand.name;
-                const response = await fetch(`http://localhost/KampBJ-api/server/updateBrand.php`, {
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/updateBrand.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -104,7 +105,7 @@ const BrandModel = () => {
     const handleDeleteBrand = async (brandId) => {
         if (window.confirm('Are you sure you want to delete this brand?')) {
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/deleteBrand.php', {
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/deleteBrand.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
