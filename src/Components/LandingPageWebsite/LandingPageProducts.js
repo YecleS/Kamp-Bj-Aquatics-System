@@ -10,9 +10,10 @@ const LandingPageProducts = () => {
   const [inventoryData, setInventoryData] = useState([]);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const filterWrapper = useRef(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/fetchInventoryProducts.php') // Update with your actual URL
+    fetch(`${apiUrl}/KampBJ-api/server/fetchInventoryProducts.php`) // Update with your actual URL
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {

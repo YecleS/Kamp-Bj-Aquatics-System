@@ -2,21 +2,22 @@ import React from 'react';
 import '../Styles/StatusNotifier.css';
 
 const StatusNotifier = ({ stocks, lowStockIndicator}) => {
-    if (stocks == 0) {
+    const stock = parseInt(stocks);
+    const indicator = parseInt(lowStockIndicator);
+    if (stock == 0) {
         return (
             <>
                 <i className="out-of-stocks fa-solid fa-circle-exclamation"></i>
             </>
         );
-    } else if (stocks <= lowStockIndicator) {
+    } else if (stock <= indicator) {
         
         return (
             <>
                 <i className="low-stocks fa-solid fa-circle-exclamation"></i>
             </>
         );
-    } else if (stocks > lowStockIndicator) {
-        console.log(stocks, lowStockIndicator);
+    } else if (stock > indicator) {
         return (
             <>
                 <i className="high-stocks fa-solid fa-circle-exclamation"></i>
