@@ -17,18 +17,90 @@
 }
 
 /* POSITIONING OF GRAPHS */
-.total-sales {
+.yearly-total-sales {
     grid-column: 1/3;
 }
 
-.most-sold-products {
+.yearly-most-sold-products {
     grid-column: 3/5;
 }
 
-.sales-vs-expenses {
+.yearly-sales-vs-expenses {
     grid-column: 1/3;
 }
 
-.expenses-breakdown {
+.yearly-expenses-breakdown {
     grid-column: 3/5;
+}
+
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .dashboard-yearly__body{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .yearly-total-sales {
+        grid-column: 1/3;
+    }
+    
+    .yearly-most-sold-products {
+        grid-column: 1/3;
+    }
+    
+    .yearly-sales-vs-expenses {
+        grid-column: 1/3;
+    }
+    
+    .yearly-expenses-breakdown {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .dashboard-yearly__body{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .yearly-total-sales {
+        grid-column: 1/3;
+    }
+    
+    .yearly-most-sold-products {
+        grid-column: 1/3;
+    }
+    
+    .yearly-sales-vs-expenses {
+        grid-column: 1/3;
+    }
+    
+    .yearly-expenses-breakdown {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .dashboard-yearly__body{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .yearly-total-sales {
+        grid-column: 1/2;
+    }
+    
+    .yearly-most-sold-products {
+        grid-column: 1/2;
+    }
+    
+    .yearly-sales-vs-expenses {
+        grid-column: 1/2;
+    }
+    
+    .yearly-expenses-breakdown {
+        grid-column: 1/2;
+    }
 }

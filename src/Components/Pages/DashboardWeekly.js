@@ -78,7 +78,7 @@ const DashboardWeekly = () => {
         <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
         <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
 
-        <div className='graph-container total-sales'>
+        <div className='graph-container weekly-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
           <ResponsiveContainer width="100%" height="95%">
             <AreaChart
@@ -101,7 +101,7 @@ const DashboardWeekly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container most-sold-products'>
+        <div className='graph-container weekly-most-sold-product'>
           <h3 className='graph-title'>Most Sold Products</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -125,7 +125,7 @@ const DashboardWeekly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container sales-vs-expenses'>
+        <div className='graph-container weekly-sales-vs-expenses'>
           <h3 className='graph-title'>Sales vs Expenses</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -134,13 +134,13 @@ const DashboardWeekly = () => {
               data={sales_vs_expenses}
               margin={{
                 top: 5,
-                right: 30,
-                left: 20,
+                right: 10,
+                left: 0,
                 bottom: 5,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="days" tick={{ fontSize: 14 }}/>
+              <XAxis dataKey="days" height={50} tick={{ fontSize: 14, angle: -30, dy: 10 }}/>
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
@@ -150,7 +150,7 @@ const DashboardWeekly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container expenses-breakdown'>
+        <div className='graph-container weekly-expenses-breakdown'>
           <h3 className='graph-title'>Expenses Breakdown</h3>
           <ResponsiveContainer width="100%" height="95%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>

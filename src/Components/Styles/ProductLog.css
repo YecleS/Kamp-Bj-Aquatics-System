@@ -163,29 +163,7 @@
 @media screen and (max-width: 599px) {
 
     .product-log__input-field {
-        font-size: 0.9rem;
-        width: 220px;
-    }
-
-    .product-log__filter-icon {
-        font-size: 0.9rem;
-    }
-
-    .product-log__filter-label {
-        font-size: 0.9rem;
-    }
-
-    .product-log__filter-reset {
-        font-size: 0.9rem;
-    }
-
-    .product-log__filter-field {
-        font-size: 0.9rem;
-    }
-
-    .product-log__body {
-        height: 80vh;
-        overflow: auto;
+        width: 180px;
     }
 
     .product-log__table-th {
@@ -193,7 +171,7 @@
     }
 
     .product-log__table-td {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 }
 

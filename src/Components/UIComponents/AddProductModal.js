@@ -113,46 +113,35 @@ const AddProductModal = ({ onClick, refresh }) => {
                   <div className='modal__image-preview-wrapper'>
                     <img src={imagePreview ? imagePreview : DefaultImagePreview} className='modal__image-preview' />
                   </div>
-                </div>
 
-                <div className='modal__input-field-wrapper'>
                   <input
                     type='file'
                     name='productImage'
                     accept='image/jpg, image/jpeg, image/png'
                     onChange={(event) => handleImageChange(event, setFieldValue)}
                     id='fileInput'
-                    // style={{ display: 'none' }}
+                    className='modal__image-input'
                   />
-                  {/* <label htmlFor='fileInput' className='modal__upload-img-label'>
-                    Upload Image
-                  </label> */}
                   <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <div className='modal__supplier-products-wrapper'>
-                    <Field as='input' list='brand-list' name='brand' placeholder='Enter Brand' className='modal__input-field' />
+                  <Field as='input' list='brand-list' name='brand' placeholder='Enter Brand' className='modal__input-field' />
                     <datalist id='brand-list'>
                       {brands.map((brand) => (
                         <option key={brand.brandId} value={brand.name}></option>
                       ))}
                     </datalist>
-                    {/* <button className='modal__btn-insert-supplier-products'>+</button> */}
-                  </div>
                   <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <div className='modal__supplier-products-wrapper'>
-                    <Field as='input' list='category-list' name='category' placeholder='Enter Category' className='modal__input-field' />
+                  <Field as='input' list='category-list' name='category' placeholder='Enter Category' className='modal__input-field' />
                     <datalist id='category-list'>
                       {categories.map((category) => (
                         <option key={category.categoryId} value={category.name}></option>
                       ))}
                     </datalist>
-                    {/* <button className='modal__btn-insert-supplier-products'>+</button> */}
-                  </div>
                   <ErrorMessage name='category' component='span' className='modal__input-field-error' />
                 </div>
 

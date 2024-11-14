@@ -17,14 +17,89 @@
 }
 
 /* POSITIONING OF GRAPHS */
-.most-sold-products {
-    grid-column: 2/5;
-}
-
-.sales-vs-expenses {
+.daily-total-sales {
     grid-column: 1/3;
 }
 
-.expenses-breakdown {
+.daily-most-sold-products {
     grid-column: 3/5;
+}
+
+.daily-sales-vs-expenses {
+    grid-column: 1/3;
+}
+
+.daily-expenses-breakdown {
+    grid-column: 3/5;
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .dashboard-daily__body{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .daily-total-sales {
+        grid-column: 1/3;
+    }
+    
+    .daily-most-sold-products {
+        grid-column: 1/3;
+    }
+    
+    .daily-sales-vs-expenses {
+        grid-column: 1/3;
+    }
+    
+    .daily-expenses-breakdown {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .dashboard-daily__body{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .daily-total-sales {
+        grid-column: 1/3;
+    }
+    
+    .daily-most-sold-products {
+        grid-column: 1/3;
+    }
+    
+    .daily-sales-vs-expenses {
+        grid-column: 1/3;
+    }
+    
+    .daily-expenses-breakdown {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .dashboard-daily__body{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .daily-total-sales {
+        grid-column: 1/2;
+    }
+    
+    .daily-most-sold-products {
+        grid-column: 1/2;
+    }
+    
+    .daily-sales-vs-expenses {
+        grid-column: 1/2;
+    }
+    
+    .daily-expenses-breakdown {
+        grid-column: 1/2;
+    }
 }

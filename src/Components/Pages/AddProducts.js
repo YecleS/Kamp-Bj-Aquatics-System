@@ -154,7 +154,7 @@ const AddProducts = () => {
           <div className='add-products__search-wrapper'>
             <input
               type='text'
-              placeholder='Search products, brand, or model'
+              placeholder='Search products ...'
               className='add-products__input-field'
               value={filters.searchQuery}
               onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
@@ -232,7 +232,6 @@ const AddProducts = () => {
                   <td className='add-products__table-td'>
                     <UpdateIcon onClick={() => toggleEditModal(product)} />
                     <ViewProductIcon products={product} />
-                    {/* <i className="fa-brands fa-creative-commons-sa" onClick={() => { toggleConfirmationModal(product.productId, product.status, product.productName) }}></i> */}
                     <DeleteIcon onClick={() => { toggleConfirmationModal(product.productId, product.status, product.productName) }} />
                   </td>
                 </tr>

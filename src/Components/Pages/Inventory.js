@@ -111,7 +111,7 @@ useEffect(() => {
           <div className='inventory__search-wrapper'>
             <input 
               type='text' 
-              placeholder='Search Name, Brand' 
+              placeholder='Search product ...' 
               className='inventory__input-field' 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

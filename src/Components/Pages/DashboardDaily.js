@@ -70,7 +70,7 @@ const DashboardDaily = () => {
         <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
         <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
         
-        <div className='graph-container total-sales'>
+        <div className='dashboard-daily__graph-container daily-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
           <ResponsiveContainer width="100%" height="95%">
             <AreaChart
@@ -93,7 +93,7 @@ const DashboardDaily = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container most-sold-products'>
+        <div className='dashboard-daily__graph-container daily-most-sold-products'>
           <h3 className='graph-title'>Most Sold Products</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -117,7 +117,7 @@ const DashboardDaily = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container sales-vs-expenses'>
+        <div className='dashboard-daily__graph-container daily-sales-vs-expenses'>
           <h3 className='graph-title'>Sales vs Expenses</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -142,7 +142,7 @@ const DashboardDaily = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container expenses-breakdown'>
+        <div className='dashboard-daily__graph-container daily-expenses-breakdown'>
           <h3 className='graph-title'>Expenses Breakdown</h3>
           <ResponsiveContainer width="100%" height="95%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expensesBreakdown}>

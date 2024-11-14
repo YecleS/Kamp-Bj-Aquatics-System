@@ -21,7 +21,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    max-width: 600px;
+    width: 500px;
+    margin: 1rem;
+    max-height: 80vh;
+    overflow: auto;
 }
 
 /* IMAGE STYLE */
@@ -108,4 +111,7 @@
 
 
 @media screen and (max-width: 599px) {
+    .view-products-modal_wrapper {
+        grid-template-columns: 1fr;
+    }
 }

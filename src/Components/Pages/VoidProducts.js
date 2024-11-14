@@ -98,7 +98,7 @@ const filteredProducts = voidedProducts
           <div className='void-products__search-wrapper'>
             <input
               type='text'
-              placeholder='Search by ID, product name or username'
+              placeholder='Search Product ...'
               className='void-products__input-field'
               value={searchTerm} // Bind search input to state
               onChange={handleSearchChange} // Handle input change
@@ -132,7 +132,7 @@ const filteredProducts = voidedProducts
           </div>
         </div>
         <button className='void-products__insert' onClick={toggleVoidProductsModal}>
-          View Products
+          +
         </button>
       </div>
       <div className='void-products__body'>

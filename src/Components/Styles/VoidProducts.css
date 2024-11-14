@@ -24,7 +24,7 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 350px;
+    width: 250px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -199,41 +199,19 @@
 }
 
 
-/* MEDIA QUERIES
-@media screen and (max-width: 599px) {
-    
+/* MEDIA QUERIES */
+
+/*MEDIA QUERIES*/
+@media screen and (min-width: 600px) and (max-width: 768px) {
     .void-products__input-field {
-        font-size: 0.9rem;
-        width: 220px;
+        width: 200px;
+    }
+    
+}
+
+@media screen and (max-width: 599px) {
+    .void-products__input-field {
+        width: 180px;
     }
 
-    .void-products__filter-icon {
-        font-size: 0.9rem;
-    }
-
-    .void-products__filter-label {
-        font-size: 0.9rem;
-    }
-
-    .void-products__filter-field {
-        font-size: 0.9rem;
-    }
-
-    .void-products__filter-reset {
-        font-size: 0.9rem;
-    }
-
-    .void-products__body {
-        height: 80vh;
-        overflow: auto;
-    }
-
-    .void-products__table-th {
-        font-size: 0.9rem;
-    }
-
-    .void-products__table-td {
-        font-size: 0.9rem;
-    }
-
-} */
+}

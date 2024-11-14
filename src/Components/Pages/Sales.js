@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/Sales.css';
 import ProductListModal from '../UIComponents/ProductListModal';
+import ButtonComponent from '../UIComponents/ButtonComponent';
 
 const Sales = () => {
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
@@ -181,12 +182,7 @@ const filteredSalesData = salesData
                                     <td className='sales__table-td'>₱ {sales.total}</td>
                                     <td className='sales__table-td'>{sales.username}</td>
                                     <td className='sales__table-td'>
-                                        <button 
-                                            className='sales__show-products-btn'
-                                            onClick={() => handleShowProducts(sales.id)}
-                                        >
-                                            Show Products
-                                        </button>
+                                        <ButtonComponent label='Show Products' onClick={() => handleShowProducts(sales.id)} />
                                     </td>
                                 </tr>
                             )}

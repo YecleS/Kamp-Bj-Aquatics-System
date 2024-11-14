@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/RestockProducts.css';
-import { toast, ToastContainer } from 'react-toastify';
 import AddToRestockListModal from "../UIComponents/AddtoRestockListModal";
 import { RestockProductRightIcon, DeleteIcon } from '../UIComponents/ActionIcons';
 import ButtonComponent from '../UIComponents/ButtonComponent';
@@ -138,12 +137,14 @@ const RestockProducts = () => {
           setRestockList([]); // Clear the restock list after successful submission
           fetchProductData();
         } else {
-          toast.error(`Error: ${data.message}`);
+          ToastError(`Error: ${data.message}`);
+          // toast.error(`Error: ${data.message}`);
         }
       })
       .catch((error) => {
         console.error('Error during restock submission:', error);
-        toast.error('An error occurred during restock submission.');
+        ToastError(`An error occurred during restock submission.`);
+        // toast.error('An error occurred during restock submission.');
       });
   };
 
@@ -171,7 +172,7 @@ const RestockProducts = () => {
         <div className="restock-products__search-wrapper">
           <input
             type="text"
-            placeholder="Search Name, Brand, or Model"
+            placeholder="Search products..."
             className="restock-products__input-field"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} // Update the search query as the user types
@@ -179,6 +180,7 @@ const RestockProducts = () => {
         </div>
         <div className="restock-products__filter-wrapper" ref={filterDropdownRef}>
           <i className="restock-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
+
           {isFilterDropdownOpen &&
             <div className="restock-products__filter-dropdown">
               <div className="restock-products__filter-dropdown-body">
@@ -202,6 +204,7 @@ const RestockProducts = () => {
               </div>
             </div>
           }
+          
         </div>
       </div>
 
@@ -277,7 +280,6 @@ const RestockProducts = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

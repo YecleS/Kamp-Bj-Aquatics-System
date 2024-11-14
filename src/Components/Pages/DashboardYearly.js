@@ -82,7 +82,7 @@ const DashboardYearly = () => {
         <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
         <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
 
-        <div className='graph-container total-sales'>
+        <div className='graph-container yearly-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
           <ResponsiveContainer width="100%" height="95%">
             <AreaChart
@@ -97,7 +97,7 @@ const DashboardYearly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" dy={10} tick={{ fontSize: 14 }} />
+              <XAxis dataKey="month" tick={{ fontSize: 14, angle: -30, dy: 10, }} />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
@@ -105,7 +105,7 @@ const DashboardYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container most-sold-products'>
+        <div className='graph-container yearly-most-sold-products'>
           <h3 className='graph-title'>Most Sold Products</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -129,7 +129,7 @@ const DashboardYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container sales-vs-expenses'>
+        <div className='graph-container yearly-sales-vs-expenses'>
           <h3 className='graph-title'>Sales vs Expenses</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -138,13 +138,13 @@ const DashboardYearly = () => {
               data={dataSalesExpenses}
               margin={{
                 top: 5,
-                right: 30,
-                left: 20,
+                right: 0,
+                left: 0,
                 bottom: 5,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" tick={{ fontSize: 14 }}/>
+              <XAxis dataKey="month" height={50} tick={{ fontSize: 14, angle: -30, dy: 10, }}/>
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
@@ -154,13 +154,13 @@ const DashboardYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container expenses-breakdown'>
+        <div className='graph-container yearly-expenses-breakdown'>
           <h3 className='graph-title'>Expenses Breakdown</h3>
           <ResponsiveContainer width="100%" height="95%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
               <Tooltip />
               <PolarGrid />
-              <PolarAngleAxis dataKey="name" />
+              <PolarAngleAxis dataKey="name" tick={{ fontSize: 14 }} />
               <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
             </RadarChart>
           </ResponsiveContainer>
