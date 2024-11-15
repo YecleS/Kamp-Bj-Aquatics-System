@@ -148,11 +148,9 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
                     accept='image/jpg, image/jpeg, image/png'
                     onChange={(event) => handleImageChange(event, setFieldValue)}
                     id='fileInput'
-                    style={{ display: 'none' }}
+                    className='modal__image-input'
                   />
-                  <label htmlFor='fileInput' className='modal__upload-img-label'>
-                    Upload Image
-                  </label>
+                  
                   <ErrorMessage name='productImage' component='span' className='modal__input-field-error' />
                 </div>
 
