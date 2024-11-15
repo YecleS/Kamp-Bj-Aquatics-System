@@ -17,6 +17,7 @@ const RestockProducts = () => {
     filterBy: '',
   }); // State for filters
   const filterDropdownRef = useRef(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
  
   useEffect(() => {
@@ -25,7 +26,7 @@ const RestockProducts = () => {
 
 
   const fetchProductData = () => {
-    fetch('http://localhost/KampBJ-api/server/getProducts.php')
+    fetch(`${apiUrl}/KampBJ-api/server/getProducts.php`)
       .then((response) => response.json())
       .then((data) => {
         setProducts(data); // Store the fetched product data
@@ -123,7 +124,7 @@ const RestockProducts = () => {
       userId: localStorage.getItem('userId')
     };
 
-    fetch('http://localhost/KampBJ-api/server/processRestock.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/processRestock.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

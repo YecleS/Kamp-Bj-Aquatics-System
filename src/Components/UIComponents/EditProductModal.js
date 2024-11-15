@@ -10,10 +10,11 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch brands and categories from the backend
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/fetchBrandCategory.php')
+    fetch(`${apiUrl}/KampBJ-api/server/fetchBrandCategory.php`)
       .then((response) => response.json())
       .then((data) => {
         setBrands(data.brands);  // Set brands from the API response
@@ -44,7 +45,7 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
 
       useEffect(() => {
         if (productData && productData.image) {
-          setImagePreview(`http://localhost/KampBJ-api/server/uploads/products/${productData.image}`);
+          setImagePreview(`${apiUrl}/KampBJ-api/server/uploads/products/${productData.image}`);
         }
       }, [productData]);
       
@@ -96,7 +97,7 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
       formData.append('productImage', productData.image); // Use the existing image
     }
   
-    fetch('http://localhost/KampBJ-api/server/updateProduct.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/updateProduct.php`, {
       method: 'POST',
       body: formData,
     })

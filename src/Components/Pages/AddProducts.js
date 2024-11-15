@@ -20,6 +20,7 @@ const AddProducts = () => {
   const [productId, setProductId] = useState();
   const [status, setStatus] = useState();
   const [name, setName] = useState();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Initial Values For Filters Store In useState
   const [filters, setFilters] = useState({
@@ -31,7 +32,7 @@ const AddProducts = () => {
   // Fetch products from the server
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/fetchProducts.php');
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchProducts.php`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -119,7 +120,7 @@ const AddProducts = () => {
 
   const proceed = () => {
     // Make a POST request to setProductInactive.php
-    fetch('http://localhost/KampBJ-api/server/setProductInactive.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/setProductInactive.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

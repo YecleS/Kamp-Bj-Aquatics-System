@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 const ViewProductsModal = ({ products, onClick }) => {
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Check if the product has an image; if not, use the default ImagePreview
   const imageUrl = products.image 
-    ? `http://localhost/KampBJ-api/server/uploads/products/${products.image}` 
+    ? `${apiUrl}/KampBJ-api/server/uploads/products/${products.image}` 
     : ImagePreview;
 
   return (

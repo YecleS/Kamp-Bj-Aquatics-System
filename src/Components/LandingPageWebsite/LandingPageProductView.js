@@ -8,9 +8,10 @@ const LandingPageProductView = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/fetchInventoryProducts.php')
+    fetch(`${apiUrl}/KampBJ-api/server/fetchInventoryProducts.php`)
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
@@ -39,7 +40,7 @@ const LandingPageProductView = () => {
       <div className='landing-page-product-view__content-wrapper'>
         <div className='landing-page-product-view__img-wrapper'>
             <img
-                src={product.image ? `http://localhost/KampBJ-api/server/uploads/products/${product.image}` : Product1} // Adjust path as needed
+                src={product.image ? `${apiUrl}/KampBJ-api/server/uploads/products/${product.image}` : Product1} // Adjust path as needed
                 alt={product.productName}
                 className='landing-page-product-view__img'
               />

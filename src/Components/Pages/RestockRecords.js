@@ -16,12 +16,13 @@ const RestockRecords = () => {
         endDate: '',
     });
     const [restockData, setRestockData] = useState([]); // State to store fetched expense data
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch expense records from the API
     useEffect(() => {
         const fetchExpenseRecords = async () => {
             try {
-                const response = await fetch('http://localhost/KampBJ-api/server/fetchRestockTransactions.php');
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchRestockTransactions.php`);
                 const data = await response.json();
                 if (Array.isArray(data)) {
                     setRestockData(data);
@@ -49,7 +50,7 @@ const RestockRecords = () => {
 
     const handleShowProducts = async (restockId) => {  
         try {
-            const response = await fetch('http://localhost/KampBJ-api/server/fetchTransactionProductList.php', {
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchTransactionProductList.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ restockId })

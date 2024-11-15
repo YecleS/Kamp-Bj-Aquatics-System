@@ -8,6 +8,7 @@ import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const AddRoleModal = ({ onClick, refresh, roles }) => {
     const specialCharsRegex = /^[a-zA-Z0-9\s]*$/;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Initial Values
     const initialValues = {
@@ -34,7 +35,7 @@ const AddRoleModal = ({ onClick, refresh, roles }) => {
         try {
             const userId = localStorage.getItem('userId');
             const payload = { ...values, userId };
-            const response = await fetch('http://localhost/KampBJ-api/server/InsertRole.php', {
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/InsertRole.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

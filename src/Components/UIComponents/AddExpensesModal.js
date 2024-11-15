@@ -9,6 +9,7 @@ import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 const AddUtilitiesModal = ({ onClick, refresh }) => {
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
   const [expenseTitles, setExpenseTitles] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const initialValues = {
     receiptImage: "",
@@ -28,7 +29,7 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
 
   useEffect(() => {
     // Fetch distinct expense titles when the component mounts
-    fetch('http://localhost/KampBJ-api/server/fetchExpenseTitles.php') // Update with your actual endpoint
+    fetch(`${apiUrl}/KampBJ-api/server/fetchExpenseTitles.php`) // Update with your actual endpoint
       .then(response => response.json())
       .then(data => {
         setExpenseTitles(data);
@@ -61,7 +62,7 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
     formData.append('date', values.date);
     formData.append('expense', values.expense);
 
-    fetch('http://localhost/KampBJ-api/server/insertExpense.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/insertExpense.php`, {
       method: 'POST',
       body: formData,
     })

@@ -14,6 +14,7 @@ const UserRequest = () => {
     const [requestId, setRequestId] = useState(null);
     const filterDropdownRef = useRef(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Initial Values For Filters Store In useState
     const [filters, setFilters] = useState({
@@ -24,7 +25,7 @@ const UserRequest = () => {
     
 
     const getRequests = () => {
-        fetch('http://localhost/KampBJ-api/server/fetchUserRequests.php')
+        fetch(`${apiUrl}/KampBJ-api/server/fetchUserRequests.php`)
             .then(response => response.json())
             .then(data => {
                 if (data.requests) {
@@ -102,7 +103,7 @@ const UserRequest = () => {
             return;
         }
     
-        fetch('http://localhost/KampBJ-api/server/deleteUserRequest.php', {
+        fetch(`${apiUrl}/KampBJ-api/server/deleteUserRequest.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

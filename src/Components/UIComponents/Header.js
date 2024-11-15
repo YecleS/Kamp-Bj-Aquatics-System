@@ -8,6 +8,7 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotifDropdownOpen, setIsNotifDropdownOpen] = useState(false);
   const [username, setUsername] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate(); // For navigation after logout
 
   const profileDropdownRef = useRef(null);
@@ -48,7 +49,7 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
   const logout = async () => {
     // Call the PHP logout script to destroy the session
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/logout.php', {
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/logout.php`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

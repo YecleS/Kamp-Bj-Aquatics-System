@@ -12,6 +12,7 @@ import ButtonComponent from '../UIComponents/ButtonComponent';
 
 const SignUp = () => {
     const [imagePreview, setImagePreview] = useState();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const navigate = useNavigate();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -75,7 +76,7 @@ const SignUp = () => {
       formData.append('password', values.password);
       formData.append('userImage', values.userImage); // Append the image file
   
-      fetch('http://localhost/KampBJ-api/server/insertUserRegistration.php', {
+      fetch(`${apiUrl}/KampBJ-api/server/insertUserRegistration.php`, {
           method: 'POST',
           body: formData,
       })

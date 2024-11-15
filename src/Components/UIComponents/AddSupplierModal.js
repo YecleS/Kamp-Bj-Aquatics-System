@@ -8,12 +8,13 @@ import { ToastSuccess, ToastError } from './ToastComponent';
 
 const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
   const [categoriesData, setCategoriesData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch categories from the API on mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost/KampBJ-api/server/fetchCategories.php');
+        const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchCategories.php`);
         const data = await response.json();
         setCategoriesData(data.categories || []); // Use empty array as fallback
       } catch (error) {
@@ -64,7 +65,7 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
     values.categories.forEach(categoryId => formData.append('categoryIds[]', categoryId));
   
     try {
-      const response = await fetch('http://localhost/KampBJ-api/server/insertSupplier.php', {
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/insertSupplier.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

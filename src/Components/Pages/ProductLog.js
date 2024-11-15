@@ -11,10 +11,11 @@ const ProductLog = () => {
     startDate: '',
     endDate: '',
   });
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch logs from the backend
   useEffect(() => {
-    fetch('http://localhost/KampBJ-api/server/fetchProductLogs.php')
+    fetch(`${apiUrl}/KampBJ-api/server/fetchProductLogs.php`)
       .then(response => response.json())
       .then(data => {
         if (data.logs) {

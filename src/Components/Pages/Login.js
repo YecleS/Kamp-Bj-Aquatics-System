@@ -12,6 +12,7 @@ import ButtonComponent from '../UIComponents/ButtonComponent';
 const Login = () => {
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const initialValues = {
     username: "",
@@ -37,7 +38,7 @@ const Login = () => {
   };
 
   const login = (values, { resetForm }) => {
-    fetch('http://localhost/KampBJ-api/server/validateUser.php', {
+    fetch(`${apiUrl}/KampBJ-api/server/validateUser.php`, {
       method: 'POST',
       credentials: 'include',
       headers: {
