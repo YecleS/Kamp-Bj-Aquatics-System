@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../Styles/Header.css';
 import Logo from '../Assets/logo.png';
 import Notification from './Notification';
+import ButtonComponent from './ButtonComponent';
 
 const Header = ({ onClick, hamburgerMenuRef }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -89,7 +90,8 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
           {isProfileDropdownOpen && (
             <div className='header__profile-dropdown'>
               <p className='header__dropdown-name'>{username || 'Admin'}</p>
-              <button onClick={logout} className='header__link'>Logout</button> {/* Logout button */}
+              <BackUpRecovery />
+              <ButtonComponent buttonCustomClass='header__dropdown-profile-button' onClick={logout} label='Logout' />
             </div>
           )}
         </div>
@@ -99,3 +101,37 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
 };
 
 export default Header;
+
+
+export const BackUpRecovery = () => {
+  // Create refs for the file input elements
+  const backupFileInputRef = useRef(null);
+  const recoverFileInputRef = useRef(null);
+
+  // Function to trigger the backup file input
+  const handleBackupClick = () => {
+    backupFileInputRef.current.click();  // Triggers the file explorer for backup
+  };
+
+  // Function to trigger the recover file input
+  const handleRecoverClick = () => {
+    recoverFileInputRef.current.click();  // Triggers the file explorer for recovery
+  };
+  return (
+    <div className='backup-recovery'>
+      <li className='backup-recovery__li' onClick={handleBackupClick}><i class="backup-recovery__icon fa-solid fa-cloud-arrow-down"></i><span className='backup-recovery__label'>Back up</span></li>
+      <input
+        type="file"
+        ref={backupFileInputRef}
+        style={{ display: 'none' }}  // Hide the file input
+      />
+
+      <li className='backup-recovery__li' onClick={handleRecoverClick}><i class="backup-recovery__icon fa-solid fa-rotate"></i><span className='backup-recovery__label'>Recover</span></li>
+      <input
+        type="file"
+        ref={recoverFileInputRef}
+        style={{ display: 'none' }}  // Hide the file input
+      />
+    </div>
+  )
+}

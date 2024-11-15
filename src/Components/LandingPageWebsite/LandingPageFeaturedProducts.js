@@ -25,7 +25,7 @@ const LandingPageFeaturedProducts = () => {
     >
         <div className='landing-page-featured-products__content-wrapper'>
             {products.map(products =>(
-                <LandingPageCards key={products.id} id={products.id} image={Img1} name={products.name} description={products.description} price={products.price} />
+                <LandingPageCards key={products.id} product={products} id={products.id} />
             ))}
             <div className='landing-page-featured-products__button-wrapper'>
                 <LandingPageButton label='View More' onClick={() => navigate('/products')}/>

@@ -1,6 +1,7 @@
 import React from 'react';
 import '../LandingPageStyles/LandingPageCards.css';
 import { Link } from 'react-router-dom';
+import TextSlicer from '../../Utils/TextSlicer';
 
 const LandingPageCards = ({ product }) => {
   // Check if product exists before rendering
@@ -20,7 +21,7 @@ const LandingPageCards = ({ product }) => {
         <div className='landing-page-cards__body'>
           <div className='landing-page-cards__title-wrapper'>
             <h5 className='landing-page-cards__title'>{product.productName}</h5>
-            <p className='landing-page-cards__description'>{product.description}</p>
+            <p className='landing-page-cards__description'><TextSlicer text={product.description} /></p>
           </div>
           <div className='landing-page-cards__stocks-wrapper'>
             <p className='landing-page-cards__price'>₱ {product.sellingPrice}</p>

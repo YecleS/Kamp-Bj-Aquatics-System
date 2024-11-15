@@ -3,10 +3,12 @@ import '../Styles/Users.css';
 import ConfirmationMessageModal from '../UIComponents/ConfirmationMessageModal';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import EditUserModal from '../UIComponents/EditUserModal';
 
 const Users = () => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userData, setUserData] = useState([]); // State to store fetched user data
   const [filteredData, setFilteredData] = useState([]); // State to store filtered user data
   const [selectedUser, setSelectedUser] = useState(null); // Updated to store a single user object
@@ -49,6 +51,10 @@ const Users = () => {
     setSelectedUser(user); // Store the user data for confirmation
     setIsConfirmationModalOpen(!isConfirmationModalOpen);
   };
+
+  const toggleEditModal = () => {
+    setIsEditModalOpen(!isEditModalOpen)
+  }
 
   // Handle Closing of Dropdowns When Clicked Outside
   useEffect(() => {
@@ -234,7 +240,8 @@ const Users = () => {
                   <td className='users__table-td'>{user.address}</td>
                   <td className='users__table-td'>{user.status}</td>
                   <td className='users__table-td'>
-                    <ButtonComponent buttonCustomClass='users__btn-approve' label='Revoke' onClick={() => toggleConfirmationModal(user)} />
+                    <ButtonComponent buttonCustomClass='users__btn-edit' label='Edit' onClick={toggleEditModal}/>
+                    <ButtonComponent buttonCustomClass='users__revoke-button' label='Revoke' onClick={() => toggleConfirmationModal(user)} />
                   </td>
                 </tr>
               ))}
@@ -244,6 +251,7 @@ const Users = () => {
       </div>
 
       {isConfirmationModalOpen && <ConfirmationMessageModal message='Are you sure you want to change the status of this User ?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
+      {isEditModalOpen && <EditUserModal onClick={toggleEditModal} />}
     </div>
   );
 };

@@ -1,0 +1,36 @@
+.reports {
+    height: 100%;
+    padding: 1rem 1rem;
+}
+
+.reports__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.reports__filter {
+    padding: 0.4em 1em;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 250px;
+}
+
+/* MEDIA QUERY */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+}
+
+
+@media screen and (max-width: 599px) {
+    .reports__filter {
+        width: 100%;
+    }
+}

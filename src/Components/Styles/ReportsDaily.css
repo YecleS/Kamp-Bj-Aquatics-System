@@ -1,0 +1,34 @@
+.report-daily__body {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Define columns */
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.graph-container {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.graph-title {
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* POSITIONING OF GRAPHS */
+.daily-average-per-product {
+    grid-column: 1/3;
+}
+
+.daily-top-sold-products {
+    grid-column: 3/5;
+}
+
+.daily-sales-vs-expenses {
+    grid-column: 1/3;
+}
+
+.daily-expenses-breakdown {
+    grid-column: 3/5;
+}
