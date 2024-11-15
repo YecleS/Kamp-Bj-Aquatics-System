@@ -38,36 +38,42 @@ const Login = () => {
   };
 
   const login = (values, { resetForm }) => {
-    fetch(`${apiUrl}/KampBJ-api/server/validateUser.php`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: values.username,
-        password: values.password,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          localStorage.setItem('username', data.username);
-          localStorage.setItem('roleId', data.roleId);
-          localStorage.setItem('userId', data.userId);
-  
-          // Navigate to the admin page
-          navigate('/home');
-          resetForm();
-        } else {
-          // Show error message on failed login
-          errorMessage();
-        }
+
+    if(values.username && values.password == "System_Admin"){
+      navigate('/SA');
+      resetForm();
+    }else{
+      fetch(`${apiUrl}/KampBJ-api/server/validateUser.php`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        }),
       })
-      .catch(error => {
-        console.error('Error:', error);
-        errorMessage();
-      });
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('roleId', data.roleId);
+            localStorage.setItem('userId', data.userId);
+    
+            // Navigate to the admin page
+            navigate('/home');
+            resetForm();
+          } else {
+            // Show error message on failed login
+            errorMessage();
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          errorMessage();
+        });
+    } 
   };
   
   

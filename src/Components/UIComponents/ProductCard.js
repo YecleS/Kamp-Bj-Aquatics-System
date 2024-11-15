@@ -7,9 +7,8 @@ const ProductCard = ({ product, icon, onClick }) => {
   return (
     <div className='product-card'>
       <div className='product-card__header'>
-        <img
-        src={`${apiUrl}/KampBJ-api/server/uploads/products/${product.image}`}
-        
+      <img
+          src={`${apiUrl}/KampBJ-api/server/uploads/products/${product.image}`}
           className='product-card__img'
           alt={product.productName}
         />
