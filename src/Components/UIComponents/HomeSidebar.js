@@ -8,6 +8,7 @@ const OwnerSidebar = () => {
     const [isSalesDropdownOpen, isSetSalesDropdownOpen] = useState(false);
     const [isReportDropdownOpen, isSetReportDropdownOpen] = useState(false);
     const [isUserManagementDropdownOpen, isSetUsermanagementDropdownOpen] = useState(false);
+    const [isInventoryManagementDropdownOpen, isSetInventoryManagementDropdownOpen] = useState(false);
     const [access, setAccess] = useState([]);
     const apiUrl = process.env.REACT_APP_API_URL;
     const location = useLocation();
@@ -39,6 +40,16 @@ const OwnerSidebar = () => {
     
 
     const closeDropdowns = () => {
+        isSetProductsDropdownOpen(false);
+        isSetSalesDropdownOpen(false);
+        isSetReportDropdownOpen(false);
+        isSetUsermanagementDropdownOpen(false);
+        isSetInventoryManagementDropdownOpen(false);
+    }
+
+    const toggleInventoryDropdown = () => {
+        isSetInventoryManagementDropdownOpen(!isInventoryManagementDropdownOpen);
+        // Close Other Dropdown Menu
         isSetProductsDropdownOpen(false);
         isSetSalesDropdownOpen(false);
         isSetReportDropdownOpen(false);
@@ -96,14 +107,50 @@ const OwnerSidebar = () => {
                     />
                 )}
                 {access.includes(2) && (
-                    <SidebarLink 
-                        to='/home/inventory'
-                        className={location.pathname === '/home/inventory' ? 'sidebar-link-active' : ''}
-                        onClick={closeDropdowns}
-                        icon={<i className="sidebar-link__nav-icon fa-solid fa-box-archive"></i>}
-                        item='Inventory'
+                    <SidebarDropdownLink 
+                        onClick={toggleInventoryDropdown}
+                        icon={<i className="sidebar-link__nav-icon fa-solid fa-box-open"></i>}
+                        item='Inventory Management'
                     />
+                    
                 )}
+                {
+                    isInventoryManagementDropdownOpen &&
+                        (
+                            <div className='owner-sidebar__dropdown-wrapper'>
+                                <SidebarLink 
+                                    to='/home/inventory'
+                                    className={location.pathname === '/home/inventory' ? 'sidebar-link-active' : ''}
+                                    onClick={() => {}}
+                                    icon={<i className="sidebar-link__nav-icon fa-solid fa-box-archive"></i>}
+                                    item='Inventory'
+                                /> 
+                                <SidebarLink 
+                                    to='void-products'
+                                    className={location.pathname === '/home/void-products' ? 'sidebar-link-active' : ''}
+                                    onClick={() => {}}
+                                    icon={<i className="sidebar-link__nav-icon fa-solid fa-square-xmark"></i>}
+                                    item='Voided Products'
+                                />
+                                <SidebarLink 
+                                    to='restock-products'
+                                    className={location.pathname === '/home/restock-products' ? 'sidebar-link-active' : ''}
+                                    onClick={() => {}}
+                                    icon={<i className="sidebar-link__nav-icon fa-solid fa-truck-ramp-box"></i>}
+                                    item='Restock Products'
+                                />
+                                <SidebarLink 
+                                    to='restock-records'
+                                    className={location.pathname === '/home/restock-records' ? 'sidebar-link-active' : ''}
+                                    onClick={() => {}}
+                                    icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
+                                    item='Restock Records'
+                                />
+                            </div>
+                        )
+                    
+                }
+                    
                 {access.includes(3) && (
                     <SidebarDropdownLink 
                         onClick={toggleProductsDropdown}
@@ -126,27 +173,6 @@ const OwnerSidebar = () => {
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-layer-group"></i>}
                             item='Brand & Categories'
-                        />
-                        <SidebarLink 
-                            to='void-products'
-                            className={location.pathname === '/home/void-products' ? 'sidebar-link-active' : ''}
-                            onClick={() => {}}
-                            icon={<i className="sidebar-link__nav-icon fa-solid fa-square-xmark"></i>}
-                            item='Voided Products'
-                        />
-                        <SidebarLink 
-                            to='restock-products'
-                            className={location.pathname === '/home/restock-products' ? 'sidebar-link-active' : ''}
-                            onClick={() => {}}
-                            icon={<i className="sidebar-link__nav-icon fa-solid fa-truck-ramp-box"></i>}
-                            item='Restock Products'
-                        />
-                        <SidebarLink 
-                            to='restock-records'
-                            className={location.pathname === '/home/restock-records' ? 'sidebar-link-active' : ''}
-                            onClick={() => {}}
-                            icon={<i className="sidebar-link__nav-icon fa-solid fa-receipt"></i>}
-                            item='Restock Records'
                         />
                         <SidebarLink 
                             to='Product-Logs'

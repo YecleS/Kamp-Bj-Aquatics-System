@@ -33,6 +33,7 @@
 .active-sidebar {    
     display: block;
     transform: translateX(0);
+    background: white;
 
     @starting-style {
         transform: translateX(-250px);
