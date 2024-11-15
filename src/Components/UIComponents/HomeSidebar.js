@@ -267,8 +267,8 @@ const OwnerSidebar = () => {
                 )}
                 {access.includes(8) && (
                     <SidebarLink 
-                        to='/home/reports'
-                        className={location.pathname === '/home/reports' ? 'sidebar-link-active' : ''}
+                        to='reports'
+                        className={location.pathname === 'reports' ? 'sidebar-link-active' : ''}
                         onClick={closeDropdowns}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
                         item='Report'

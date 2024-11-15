@@ -24,6 +24,7 @@ import Welcome from './Welcome';
 import ProductLog from './ProductLog';
 import UserManagementLog from './UserManagementLog';
 import ProductBatch from './ProductBatch';
+import Reports from './Reports';
 
 
 const Owner = () => {
@@ -84,8 +85,7 @@ const Owner = () => {
             <Route path='user-request' element={<UserRequest />}/>
             <Route path='users' element={<Users />}/>
             <Route path='user-management_Logs' element={<UserManagementLog />}/>
-            <Route path='sales-report' element={<SalesReport />}/>
-            <Route path='expenses-report' element={<ExpensesReport />}/>
+            <Route path='reports' element={<Reports />} />
             <Route path='ledger' element={<GeneralLedger />}/>
             <Route path='view-batch' element={<ProductBatch />}/>
           </Routes> 

@@ -1,11 +1,12 @@
 .landing-page-cards {
     display: flex;
     flex-direction: column;
-    
+
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.644);
     border-radius: 5px;
     gap: 10px;
     padding: 0.5rem;
+    height: 100%;
 }
 
 .cards__link {
@@ -30,6 +31,7 @@
 .landing-page-cards__body {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 10px;
 }
 

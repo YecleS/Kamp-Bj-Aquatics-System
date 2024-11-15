@@ -33,14 +33,14 @@ const AddToCartModal = ({ onClick, product, onAddToCart }) => {
                                     <ErrorMessage name='quantity' component='span' className='modal__input-field-error'/>
                                 </div>
                                 <div className='modal__input-field-wrapper'>
-                                    <select className='modal__input-field'>
+                                    <Field as='select' name='batch' className='modal__input-field'>
                                         <option>BN001</option>
                                         <option>BN002</option>
                                         <option>BN003</option>
                                         <option>BN004</option>
-                                    </select>
+                                    </Field>
 
-                                    <ErrorMessage name='quantity' component='span' className='modal__input-field-error'/>
+                                    <ErrorMessage name='batch' component='span' className='modal__input-field-error'/>
                                 </div>
                                         
                                 <button type='submit' className='modal__insert'>Add To Cart</button>
