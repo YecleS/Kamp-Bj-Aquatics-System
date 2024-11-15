@@ -1,4 +1,4 @@
-.report-daily__body {
+.reports-monthly__body {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Define columns */
     gap: 1rem;
@@ -37,7 +37,7 @@
 
 /* MEDIA QUERIES */
 @media screen and (min-width: 769px) and (max-width: 999px) {
-    .report-daily__body {
+    .reports-monthly__body {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
@@ -60,7 +60,7 @@
 }
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
-    .report-daily__body {
+    .reports-monthly__body {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
@@ -83,7 +83,7 @@
 }
 
 @media screen and (max-width: 599px) {
-    .report-daily__body {
+    .reports-monthly__body {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
     }

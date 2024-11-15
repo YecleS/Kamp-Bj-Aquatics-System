@@ -12,8 +12,6 @@ import Sales from './Sales';
 import BusinessExpenses from './BusinessExpenses';
 import RestockProducts from './RestockProducts';
 import Suppliers from './Suppliers';
-import SalesReport from './SalesReport';
-import ExpensesReport from './ExpensesReport';
 import GeneralLedger from './GeneralLedger';
 import RoleManagement from './RoleManagement';
 import UserRequest from './UserRequest';
