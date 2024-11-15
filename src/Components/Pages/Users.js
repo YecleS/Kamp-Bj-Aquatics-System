@@ -21,24 +21,24 @@ const Users = () => {
     searchQuery: '',
   });
 
+  const fetchUsers = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/fetchUserRecords.php`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.users) {
+          setUserData(data.users);
+          setFilteredData(data.users); // Set filteredData initially to all users
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  };
+
   // Fetch user data from the server
   useEffect(() => {
-    const fetchUsers = () => {
-      fetch(`${apiUrl}/KampBJ-api/server/fetchUserRecords.php`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.users) {
-            setUserData(data.users);
-            setFilteredData(data.users); // Set filteredData initially to all users
-          } else {
-            console.error('Failed to fetch user data');
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
-        });
-    };
-
     fetchUsers();
   }, []);
 
@@ -52,7 +52,8 @@ const Users = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen);
   };
 
-  const toggleEditModal = () => {
+  const toggleEditModal = (user) => {
+    setSelectedUser(user)
     setIsEditModalOpen(!isEditModalOpen)
   }
 
@@ -240,7 +241,7 @@ const Users = () => {
                   <td className='users__table-td'>{user.address}</td>
                   <td className='users__table-td'>{user.status}</td>
                   <td className='users__table-td'>
-                    <ButtonComponent buttonCustomClass='users__btn-edit' label='Edit' onClick={toggleEditModal}/>
+                    <ButtonComponent buttonCustomClass='users__btn-edit' label='Edit' onClick={() => toggleEditModal(user)}/>
                     <ButtonComponent buttonCustomClass='users__revoke-button' label='Revoke' onClick={() => toggleConfirmationModal(user)} />
                   </td>
                 </tr>
@@ -251,7 +252,7 @@ const Users = () => {
       </div>
 
       {isConfirmationModalOpen && <ConfirmationMessageModal message='Are you sure you want to change the status of this User ?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
-      {isEditModalOpen && <EditUserModal onClick={toggleEditModal} />}
+      {isEditModalOpen && <EditUserModal onClick={toggleEditModal} user={selectedUser} refresh={fetchUsers} />}
     </div>
   );
 };

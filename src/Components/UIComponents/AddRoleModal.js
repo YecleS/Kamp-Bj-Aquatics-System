@@ -102,6 +102,7 @@ const AddRoleModal = ({ onClick, refresh, roles }) => {
                                             { label: 'User Management', value: '7' },
                                             { label: 'Reports', value: '8' },
                                             { label: 'Ledger', value: '9' },
+                                            { label: 'Backup & Restore', value: '10' },
                                         ]}
                                     />
                                 </div>

@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import TextSlicer from '../../Utils/TextSlicer';
 
 const LandingPageCards = ({ product }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   // Check if product exists before rendering
   if (!product) {
     return <p>Loading...</p>; // Or return null to render nothing until product is defined
   }
 
   const encodedItemName = encodeURIComponent(product.productName);
-  const imageUrl = `http://localhost/KampBJ-api/server/uploads/products/${product.image}`;
+  const imageUrl = `${apiUrl}/KampBJ-api/server/uploads/products/${product.image}`;
 
   return (
     <Link to={`/product-view/${product.productId}/${encodedItemName}`} className='cards__link'>

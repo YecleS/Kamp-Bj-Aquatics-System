@@ -141,6 +141,7 @@ const RoleManagement = () => {
                 <th className='role-management__table-th access-cell'>User Management</th>
                 <th className='role-management__table-th access-cell'>Reports</th>
                 <th className='role-management__table-th access-cell'>Ledger</th>
+                <th className='role-management__table-th access-cell'>Backup & Restore</th>
                 <th className='role-management__table-th'></th>
               </tr>
             </thead>
@@ -174,6 +175,9 @@ const RoleManagement = () => {
                   </td>
                   <td className='role-management__table-td access-cell'>
                     {hasAccess(role, 'Ledger') && <span className='check-mark'>&#10003;</span>}
+                  </td>
+                  <td className='role-management__table-td access-cell'>
+                    {hasAccess(role, 'Backup & Restore') && <span className='check-mark'>&#10003;</span>}
                   </td>
                   <td className='role-management__table-td'>
                     <UpdateIcon onClick={() => toggleEditModal(role)} />

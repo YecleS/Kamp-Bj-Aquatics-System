@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './LandingPageStyles/LandingPageFeaturedProducts.css';
-import Img1 from '../Assets/product1.jpg';
 import LandingPageCards from './LandingPageComponents/LandingPageCards';
 import LandingPageSectionComponent from './LandingPageComponents/LandingPageSectionComponent';
 import LandingPageButton from './LandingPageComponents/LandingPageButton';
@@ -8,31 +7,46 @@ import { useNavigate } from 'react-router-dom';
 
 const LandingPageFeaturedProducts = () => {
     const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-    const products = [
-        {id: 1,  name: 'Tempered Glass Aquarium', description: 'A durable and crystal-clear aquarium made with tempered glass.',  stocks: '10', price: 44.5},
-        {id: 2,  name: 'LED Aquarium Light', description: 'Bright and energy-efficient LED light for aquariums.', stocks: '15', price: 84.8},
-        {id: 3,  name: 'Submersible Water Heater', description: 'Efficient water heater with adjustable temperature settings.', stocks: '8', price: 144.2},
-        {id: 4,  name: 'Fish Food Pellets', description: 'Nutritious pellets suitable for most freshwater fish.', stocks: '25', price: 244.3}
-    ];
+    // Fetch the featured products from the PHP script
+    useEffect(() => {
+        fetch(`${apiUrl}/KampBJ-api/server/fetchFeaturedProducts.php`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setProducts(data);
+            })
+            .catch(error => {
+                console.error('There was an issue fetching the products:', error);
+            });
+    }, []);
 
-
-  return (
-    <LandingPageSectionComponent
-        sectionId='product-section'
-        sectionTitle='Featured Products'
-        sectionSubtitle='View Some Of Our Products'
-    >
-        <div className='landing-page-featured-products__content-wrapper'>
-            {products.map(products =>(
-                <LandingPageCards key={products.id} product={products} id={products.id} />
-            ))}
-            <div className='landing-page-featured-products__button-wrapper'>
-                <LandingPageButton label='View More' onClick={() => navigate('/products')}/>
+    return (
+        <LandingPageSectionComponent
+            sectionId='product-section'
+            sectionTitle='Featured Products'
+            sectionSubtitle='View Some Of Our Products'
+        >
+            <div className='landing-page-featured-products__content-wrapper'>
+                {products.length > 0 ? (
+                    products.map(product => (
+                        <LandingPageCards key={product.productId} product={product} id={product.productId} />
+                    ))
+                ) : (
+                    <p>No featured products available at the moment.</p>
+                )}
+                <div className='landing-page-featured-products__button-wrapper'>
+                    <LandingPageButton label='View More' onClick={() => navigate('/products')} />
+                </div>
             </div>
-        </div>
-    </LandingPageSectionComponent>
-  )
-}
+        </LandingPageSectionComponent>
+    );
+};
 
-export default LandingPageFeaturedProducts
+export default LandingPageFeaturedProducts;

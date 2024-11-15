@@ -9,11 +9,37 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotifDropdownOpen, setIsNotifDropdownOpen] = useState(false);
   const [username, setUsername] = useState('');
+  const [access, setAccess] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate(); // For navigation after logout
 
   const profileDropdownRef = useRef(null);
   const notifDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const roleId = localStorage.getItem('roleId'); // Or from session storage
+
+    if (!roleId) {
+        console.error("Role ID is missing in local storage");
+        return;
+    }
+
+    fetch(`${apiUrl}/KampBJ-api/server/fetchAccessFromRoleId.php?roleId=${roleId}`, {
+        method: 'GET',
+        credentials: 'include',  // If you need cookies/sessions
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.access) {
+            setAccess(data.access);
+        } else {
+            console.error('Error fetching access data:', data.error || 'Unknown error');
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching access data:", error);
+    });
+}, []);
 
   useEffect(() => {
     // Check if username is stored in localStorage and set it
@@ -89,8 +115,8 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
           <i className="header__arrow-icon fa-solid fa-caret-down"></i>
           {isProfileDropdownOpen && (
             <div className='header__profile-dropdown'>
-              <p className='header__dropdown-name'>{username || 'Admin'}</p>
-              <BackUpRecovery />
+              <p className='header__dropdown-name'>{username}</p>
+              {access.includes(10) && <BackUpRecovery />}
               <ButtonComponent buttonCustomClass='header__dropdown-profile-button' onClick={logout} label='Logout' />
             </div>
           )}
@@ -119,14 +145,14 @@ export const BackUpRecovery = () => {
   };
   return (
     <div className='backup-recovery'>
-      <li className='backup-recovery__li' onClick={handleBackupClick}><i class="backup-recovery__icon fa-solid fa-cloud-arrow-down"></i><span className='backup-recovery__label'>Back up</span></li>
+      <li className='backup-recovery__li' onClick={handleBackupClick}><i className="backup-recovery__icon fa-solid fa-cloud-arrow-down"></i><span className='backup-recovery__label'>Back up</span></li>
       <input
         type="file"
         ref={backupFileInputRef}
         style={{ display: 'none' }}  // Hide the file input
       />
 
-      <li className='backup-recovery__li' onClick={handleRecoverClick}><i class="backup-recovery__icon fa-solid fa-rotate"></i><span className='backup-recovery__label'>Recover</span></li>
+      <li className='backup-recovery__li' onClick={handleRecoverClick}><i className="backup-recovery__icon fa-solid fa-rotate"></i><span className='backup-recovery__label'>Recover</span></li>
       <input
         type="file"
         ref={recoverFileInputRef}

@@ -13,12 +13,13 @@ const EditRoleModal = ({ currentRole, onClose, onSubmit }) => {
     'Dashboard': '1',
     'Inventory': '2',
     'Products': '3',
-    'POS': '4',
+    'Salesw': '4',
     'Expenses': '5',
     'Supplier': '6',
     'User Management': '7',
     'Reports': '8',
     'Ledger': '9',
+    'Backup & Restore': '10',
   };
 
   // Initial values with fallback to current role or empty values
@@ -94,6 +95,7 @@ const EditRoleModal = ({ currentRole, onClose, onSubmit }) => {
                       { label: 'User Management', value: '7' },
                       { label: 'Reports', value: '8' },
                       { label: 'Ledger', value: '9' },
+                      { label: 'Backup & Restore', value: '10' },
                     ]}
                     selectedValues={initialValues.modules} // Pre-select checkboxes
                   />
