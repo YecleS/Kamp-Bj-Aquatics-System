@@ -21,10 +21,10 @@
 }
 
 .brand-model__input-field {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    padding: 0.3em 1em;
-    width: 350px;
+    padding: 0.3em 0.5em;
+    width: 280px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -42,7 +42,7 @@
 
 .brand-model__filter-icon {
     display: block;
-    padding: 0.5rem 0.5rem;
+    padding: 0.4rem 0.5rem;
     font-size: 1.2rem;
     color: white;
     background: var(--blue-color);
@@ -78,13 +78,13 @@
 }
 
 .brand-model__filter-label {
-    margin-bottom: 5px;
+    margin-bottom: 1rem;
     font-size: 1rem;
     font-weight: 600;
 }
 
 .brand-model__filter-field {
-    font-size: 1rem;
+    font-size: 0.95;
     font-weight: 500;
     padding: 0.3em 1em;
     width: 200px;
@@ -142,11 +142,10 @@
 
 
 /* BODY AND TABLE STYLE*/
-.brand-model__body {
-    height: 83vh;
+.brand-model__table-wrapper {
+    height: 75vh;
     overflow: auto;
 }
-
 
 .brand-model__table {
     width: 100%;
@@ -178,7 +177,7 @@
 
 .brand-model__table-td {
     padding: 0.5rem 1rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
 }
 
@@ -194,50 +193,17 @@
 }
 
 
-/* MEDIA QUERIES */
-@media screen and (max-width: 599px) {
-    
+/*MEDIA QUERIES*/
+@media screen and (min-width: 600px) and (max-width: 768px) {
     .brand-model__input-field {
-        font-size: 0.9rem;
-        width: 220px;
-    }
-
-    .brand-model__filter-icon {
-        font-size: 0.9rem;
-    }
-
-    .brand-model__filter-label {
-        font-size: 0.9rem;
-    }
-
-    .brand-model__filter-field {
-        font-size: 0.9rem;
-    }
-
-    .brand-model__filter-reset {
-        font-size: 0.9rem;
+        width: 200px;
     }
     
-    .brand-model__insert {
-        font-size: 0.9rem;
-        padding: 0.4em 0.5em;
+}
+
+@media screen and (max-width: 599px) {
+    .brand-model__input-field {
+        width: 180px;
     }
 
-    .brand-model__body {
-        height: 80vh;
-        overflow: auto;
-    }
-
-    .brand-model__table-th {
-        font-size: 0.9rem;
-    }
-
-    .brand-model__table-td {
-        font-size: 0.9rem;
-    }
-
-    .brand-model__icon-td {
-        font-size: 1.4rem;
-        margin-bottom: 5px;
-    }
 }

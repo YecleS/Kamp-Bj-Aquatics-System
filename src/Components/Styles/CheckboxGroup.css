@@ -2,3 +2,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
+
+.checkbox-group__checkbox-label {
+    font-size: 0.85em;
+}

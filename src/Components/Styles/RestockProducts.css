@@ -63,12 +63,12 @@
 .restock-products__filter-dropdown {
     position: absolute;
     top: 50px;
-    right: 0;
+    right: -2rem;
     z-index: 100;
     background: white;
     padding: 1rem 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
 }
 
 .restock-products__filter-dropdown-body {
@@ -87,7 +87,7 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 250px;
+    width: 230px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -100,8 +100,6 @@
 }
 
 .restock-products__filter-dropdown-footer {
-    margin-top: 20px;
-    padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,6 +108,7 @@
 
 .restock-products__filter-reset {
     margin-bottom: 5px;
+    padding-top: 10px;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
@@ -137,34 +136,6 @@
     border: 1px solid var(--blue-color);
     color: black;
 }
-
-
-/* BODY AND TABLE STYLE*/
-.restock-products__body {
-    height: 80vh;
-    overflow: auto;
-}
-
-.pos__content-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 0.4fr;  
-    gap: 15px;
-    overflow: auto;
-}
-
-.restock-products__content-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 0.4fr;  
-    gap: 15px;
-    height: 100%;
-    overflow: auto;
-}
-
-.pos__inventory-table-wrapper { 
-    max-height: 750px;
-    overflow: auto;
-}
-
 
 /* BODY AND TABLE STYLE */
 .restock-products__body {
@@ -245,56 +216,6 @@
     margin-top: 0.5rem;
 }
 
-.pos__icon-td {
-    font-size: 1.4rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.pos__icon-td:hover {
-    transform: scale(1.1);
-}
-
-.pos__orders-details {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    grid-column: 2/3;
-}
-
-.pos__billing-details-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.pos__bill-label {
-    font-size: 1rem;
-    font-weight: 700;
-}
-
-.pos__checkout {
-    margin-top: 20px;
-    font-size: 1rem;
-    padding: 0.5em 1em;
-    background: var(--blue-color);
-    border: 1px solid transparent;
-    cursor: pointer;
-    color: white;
-    outline: none;
-    border-radius: 5px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.pos__checkout:hover {
-    border: 1px solid var(--blue-color);
-    background: white;
-    color: black;
-}
-
-
 /* STYLE FOR ORDER LIST TABLE */
 .restock-products__restock-list-table-wrapper {
     min-height: 300px;
@@ -316,70 +237,32 @@
 /* MEDIA QUERIES */
 
 @media screen and (min-width: 769px) and (max-width: 999px) {
-    .pos__content-wrapper {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
+    
 }
 
 @media screen and (min-width: 600px) and (max-width: 768px) {
-    .pos__content-wrapper {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    .restock-products__content-wrapper {
+        grid-template-columns: 1fr;  
     }
 }
 
 
 @media screen and (max-width: 599px) {
     
-    .restock-products__input-field {
-        font-size: 0.9rem;
-        width: 220px;
-    }
-
-    .restock-products__filter-icon {
-        font-size: 0.9rem;
-    }
-
-    .restock-products__filter-label {
-        font-size: 0.9rem;
-    }
-
-    .restock-products__filter-reset {
-        font-size: 0.9rem;
-    }
-
-    .restock-products__filter-field {
-        font-size: 0.9rem;
-    }
-
     .restock-products__content-wrapper {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: 1fr;  
+    }
+
+    .restock-products__input-field {
+        width: 200px;
     }
 
     .restock-products__table-th {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .restock-products__table-td {
         font-size: 0.8rem;
-    }
-
-    .pos__icon-td {
-        font-size: 1rem;
-    }
-
-    .pos__orders-details {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 300px;
-        padding-bottom: 20px;
-    }
-
-    .pos__bill-label {
-        font-size: 0.9rem;
     }
 }
 

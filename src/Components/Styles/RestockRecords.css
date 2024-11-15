@@ -25,7 +25,7 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 350px;
+    width: 250px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -122,11 +122,10 @@
 
 
 /* BODY AND TABLE STYLE*/
-.restock-records__body {
-    height: 83vh;
+.restock-records__table-wrapper {
+    height: 80vh;
     overflow: auto;
 }
-
 
 .restock-records__table {
     width: 100%;
@@ -194,36 +193,8 @@
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 599px) {
-    
     .restock-records__input-field {
-        font-size: 0.9rem;
-        width: 220px;
-    }
-
-    .restock-records__filter-icon {
-        font-size: 0.9rem;
-    }
-
-    .restock-records__filter-label {
-        font-size: 0.9rem;
-    }
-
-    .restock-records__filter-field {
-        font-size: 0.9rem;
-    }
-
-    .restock-records__filter-reset {
-        font-size: 0.9rem;
-    }
-    
-    .restock-records__insert {
-        font-size: 0.9rem;
-        padding: 0.4em 0.5em;
-    }
-
-    .restock-records__body {
-        height: 80vh;
-        overflow: auto;
+        width: 180px;
     }
 
     .restock-records__table-th {
@@ -231,11 +202,7 @@
     }
 
     .restock-records__table-td {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
-    .restock-records__icon-td {
-        font-size: 1.4rem;
-        margin-bottom: 5px;
-    }
 }

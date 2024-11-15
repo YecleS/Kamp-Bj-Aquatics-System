@@ -1,3 +1,7 @@
+.product-list-modal__table-wrapper {
+    max-width: 800px;
+    overflow: auto;
+}
 
 .product-list-modal__table {
     width: 100%;
@@ -30,6 +34,53 @@
 
 .product-list-modal__table-td {
     padding: 0.5rem 1rem;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+}
+
+
+@media screen and (min-width: 1000px) and (max-width: 1199px) {
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+}
+
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .product-list-modal__table-wrapper {
+        max-width: 500px;
+        overflow: auto;
+    }
+
+    .product-list-modal__table-th {
+        font-size: 0.9rem;
+    }
+
+    .product-list-modal__table-td {
+        padding: 0.5rem 0.8rem;
+    }
+}
+
+
+
+
+@media screen and (max-width: 599px) {
+    .product-list-modal__table-wrapper {
+        max-width: 250px;
+        overflow: auto;
+    }
+
+    .product-list-modal__table-th {
+        font-size: 0.9rem;
+    }
+
+    .product-list-modal__table-td {
+        padding: 0.5rem 0.8rem;
+    }
 }

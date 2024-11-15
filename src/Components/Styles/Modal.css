@@ -17,12 +17,13 @@
     padding: 2rem 2rem;
     border-radius: 5px;
     position: relative;
+    
 }
 
 .modal__close-icon {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 5px;
     font-size: 1.3rem;
     cursor: pointer;
 }
@@ -31,8 +32,7 @@
 .modal__form {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    
+    gap: 1.125rem;
 }
 
 /* STYLE FOR THE FIELD WRAPPER */
@@ -50,43 +50,44 @@
 }
 
 .modal__image-preview {
-    width: 190px;
-    height: 150px;
+    width: 150px;
+    height: 130px;
     object-fit: cover;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
+    margin-bottom: 1rem;
+    border: 2px dashed #ccc;
 }
 
 /* STYLE FOR THE IMAGE UPLOADING */
-.modal__upload-img-label-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal__upload-img-label {
-    width: 100%;
-    text-align: center;
-    background: var(--blue-color);
-    padding: 0.4rem 1rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
+.modal__image-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.modal__upload-img-label:hover {
-    background: transparent;
-    color: black;
-    border: 1px solid var(--blue-color);
-}
+    background-color: #f9f9f9;
+    appearance: none;
+    width: 250px;
+  }
+  
+  .modal__image-input::-webkit-file-upload-button {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .modal__image-input::-webkit-file-upload-button:hover {
+    background-color: #0056b3;
+  }
 
 /* STYLE FOR THE INPUT FIELDS */
 .modal__input-field {
-    width: 350px;
+    width: 250px;
     font-size: 0.95rem;
     font-weight: 500;
     padding: 0.3rem 1rem;
@@ -110,18 +111,20 @@
 }
 
 .modal__input-field-error {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: rgb(207, 2, 2);
-    position: absolute;
+    margin-left: 5px;
+    margin-top: 5px;
+    /* position: absolute;
     left: 0;
-    bottom: -20px;
+    bottom: -20px; */
 }
 
 
 /* STYLE FOR THE MODAL BUTTON */
 .modal__insert {
-    width: 350px;
-    font-size: 1rem;
+    width: 100%;
+    font-size: 0.9rem;
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -192,12 +195,14 @@
 }
 
 
-/* STYLE FOR CONFIMATION MODAL */
-.confirmation-wrapper {
+/* STYLE FOR CONFIRMATION MODAL */
+.modal__wrapper.confirmation-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 1rem;
+    text-align: center;
 }
 
 .modal__confirmation-button-wrapper {
@@ -265,8 +270,14 @@
     font-weight: 700;
 }
 
+.modal__product-name-wrapper {
+    word-wrap: normal;
+    word-break: break-all;
+    max-width: 250px;
+    margin-bottom: 1rem;
+}
+
 .modal__product-name {
-    margin-bottom: 0.5rem;
     font-size: 1rem;
     font-weight: 600;
 }
@@ -278,8 +289,22 @@
     .modal__wrapper {
         padding: 1.5rem 1.5rem;
     }
+
+    .modal__body {
+        max-height: 80vh;
+        overflow: auto;
+
+        /* Hide scrollbars for WebKit browsers (Chrome, Safari, Edge) */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+
+        /* Hide WebKit scrollbars */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
     
-    .modal__input-field {
+    /* .modal__input-field {
         width: 250px;
         font-size: 0.9rem;
     }
@@ -295,6 +320,6 @@
 
     .checkbox-group__checkbox-label {
         font-size: 0.9rem;
-    }
+    } */
     
 }

@@ -40,19 +40,19 @@ const AddVoidProductModal = ({ onClick, refresh }) => {
   );
 
   return (
-    <div className='modal'>
+    <div className='add-void-product-modal'>
       <div className='add-void-product-modal__wrapper'>
         <div className='add-void-product-modal__header'>
           <div className='add-void-product-modal__search-wrapper'>
             <input
               type='text'
-              placeholder='Search by product name'
-              className='pos__input-field'
+              placeholder='Search product ...'
+              className='add-void-product-modal__input-field'
               value={searchTerm} // Bind input value to state
               onChange={handleSearchChange} // Handle input change
             />
           </div>
-          <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
+          <i className="add-void-product-modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
         </div>
         <div className='add-void-product-modal__body'>
           <div className='add-void-product-modal__cards-wrapper'>

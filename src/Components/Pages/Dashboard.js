@@ -6,7 +6,7 @@ import DashboardMonthly from '../Pages/DashboardMonthly';
 import DashboardYearly from '../Pages/DashboardYearly';
 
 const Dashboard = () => {
-  const [activeButton, setActiveButton] = useState('daily');
+  const [activeFilter, setFilter] = useState('daily');
   
   const dashboardStates = {
     'daily': <DashboardDaily />,
@@ -15,17 +15,26 @@ const Dashboard = () => {
     'yearly': <DashboardYearly />
   };
 
+  const handleOnChangeFilter = (e) => {
+    setFilter(
+      e.target.value
+    )
+  }
+
   return (
     <div className='dashboard'>
       <div className='dashboard__header'>
-          <button className={`dashboard__control-button ${activeButton === 'daily' ? 'dashboard__control-button-active': ''}`} onClick={()=> setActiveButton('daily')}>Daily</button>
-          <button className={`dashboard__control-button ${activeButton === 'weekly' ? 'dashboard__control-button-active': ''}`} onClick={()=> setActiveButton('weekly')}>Weekly</button>
-          <button className={`dashboard__control-button ${activeButton === 'monthly' ? 'dashboard__control-button-active': ''}`} onClick={()=> setActiveButton('monthly')}>Monthly</button>
-          <button className={`dashboard__control-button ${activeButton === 'yearly' ? 'dashboard__control-button-active': ''}`} onClick={()=> setActiveButton('yearly')}>Yearly</button>
+        <select className='dashboard__filter' onChange={handleOnChangeFilter}>
+          <option value='daily'>Daily</option>
+          <option value='weekly'>Weekly</option>
+          <option value='monthly'>Monthly</option>
+          <option value='yearly'>Yearly</option>
+        </select>
+          
       </div>
 
       <div className='dashboard__body'>
-        {dashboardStates[activeButton]}
+        {dashboardStates[activeFilter]}
       </div>
     </div>
   )

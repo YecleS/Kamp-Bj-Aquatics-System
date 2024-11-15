@@ -13,7 +13,7 @@ const ProductListModal = ({ isOpen, onClose, title, productList, selectedTransac
                     <div className='modal__body'>
                         <h3 className='modal__title'>Products In Expense ID: {selectedTransaction}</h3>
 
-                        <div>
+                        <div className='product-list-modal__table-wrapper'>
                             <table className='product-list-modal__table'>
                                 <thead>
                                     <tr>

@@ -1,15 +1,53 @@
+.add-void-product-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100svh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.493);
+    z-index: 900;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .add-void-product-modal__wrapper {
     background: white;
-    padding: 2rem 2rem;
+    padding: 1rem 1rem;
     border-radius: 5px;
     position: relative;
-    width: 80%;
+    width: 90%;
     height: 600px;
     overflow: auto;
 }
 
+.add-void-product-modal__close-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.add-void-product-modal__input-field {
+    width: 250px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.3rem 1rem;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    transition: all 0.3s ease;
+}
+
+.add-void-product-modal__input-field:focus {
+    box-shadow: var(--focus-color);
+}
+
 .add-void-product-modal__body {
     margin-top: 1rem;
+    
 }
 
 .add-void-product-modal__cards-wrapper {

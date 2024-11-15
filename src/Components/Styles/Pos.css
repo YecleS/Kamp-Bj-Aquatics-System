@@ -123,14 +123,13 @@
     display: grid;
     grid-template-columns: 1fr 0.4fr;  
     gap: 15px;
-    height: 100%;
     overflow: auto;
 }
 
 .pos__inventory-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
     max-height: 750px;
     overflow: auto;
     padding: 0.5rem;
@@ -184,6 +183,10 @@
 
 .pos__icon-td:hover {
     transform: scale(1.1);
+}
+
+.pos__orders-wrapper {
+    overflow: auto;
 }
 
 .pos__orders-details {

@@ -1,37 +1,106 @@
 .dashboard-monthly__body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     gap: 1rem;
 }
 
-
-.dashboard-monthly__chart-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-
-.dashboard-monthly__chart-container {
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-    padding: 1rem;
+.graph-container {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
+    padding: 0.5rem;
     border-radius: 5px;
 }
 
-.dashboard-monthly__chart-container.monthy-sales-expenses {
-    grid-row: 1/3;
+.graph-title {
+    font-size: 1rem;
+    text-align: center;
 }
 
-.dashboard-monthly__chart-container.monthly-goods-sold {
-    grid-row: 1/3;
-}
-
-.dashboard-monthly__chart-container.monthly-sales {
+/* POSITIONING OF GRAPHS */
+.monthly-total-sales {
     grid-column: 1/3;
 }
 
-.dashboard-monthly__chart-container.monthly-expenses {
-    grid-column: 2/5;
+.monthly-most-sold-products {
+    grid-column: 3/5;
+}
+
+.monthly-sales-vs-expenses {
+    grid-column: 1/3;
+}
+
+.monthly-expenses-breakdown {
+    grid-column: 3/5;
+}
+
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .dashboard-monthly__body{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .monthly-total-sales {
+        grid-column: 1/3;
+    }
+    
+    .monthly-most-sold-products {
+        grid-column: 1/3;
+    }
+    
+    .monthly-sales-vs-expenses {
+        grid-column: 1/3;
+    }
+    
+    .monthly-expenses-breakdown {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .dashboard-monthly__body{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .monthly-total-sales {
+        grid-column: 1/3;
+    }
+    
+    .monthly-most-sold-products {
+        grid-column: 1/3;
+    }
+    
+    .monthly-sales-vs-expenses {
+        grid-column: 1/3;
+    }
+    
+    .monthly-expenses-breakdown {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .dashboard-monthly__body{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .monthly-total-sales {
+        grid-column: 1/2;
+    }
+    
+    .monthly-most-sold-products {
+        grid-column: 1/2;
+    }
+    
+    .monthly-sales-vs-expenses {
+        grid-column: 1/2;
+    }
+    
+    .monthly-expenses-breakdown {
+        grid-column: 1/2;
+    }
 }

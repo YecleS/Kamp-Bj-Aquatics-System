@@ -4,7 +4,7 @@
 }
 
 .sidebar-link__nav-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-right: 5px;
     transition: all 0.1s ease;
 }
@@ -12,7 +12,7 @@
 .sidebar-link__nav-item {
     list-style: none;
     padding: 0.5rem 0.5rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     border-radius: 5px;
     color: black;

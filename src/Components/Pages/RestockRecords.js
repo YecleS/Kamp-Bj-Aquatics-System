@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/RestockRecords.css';
 import ProductListModal from '../UIComponents/ProductListModal';
+import ButtonComponent from '../UIComponents/ButtonComponent'
 
 const RestockRecords = () => {
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
@@ -117,7 +118,7 @@ const RestockRecords = () => {
                 <div className='restock-records__search-wrapper'>
                     <input 
                         type='text' 
-                        placeholder='Search ID or username' 
+                        placeholder='Search name...' 
                         className='restock-records__input-field'
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)} 
@@ -156,36 +157,33 @@ const RestockRecords = () => {
 
                 </div>
             </div>
-            <div className='restock-records__table-wrapper'>
-                <table className='restock-records__table'>
-                    <thead>
-                        <tr>
-                            <th className='restock-records__table-th'>Transaction ID</th>
-                            <th className='restock-records__table-th'>Date</th>
-                            <th className='restock-records__table-th'>Total</th>
-                            <th className='restock-records__table-th'>Procesed By</th>
-                            <th className='restock-records__table-th'></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredRestockData.map(restock => (
-                            <tr className='restock-records__table-tr' key={restock.restockId}>
-                                <td className='restock-records__table-td'>{restock.restockId}</td>
-                                <td className='restock-records__table-td'>{restock.date}</td>
-                                <td className='restock-records__table-td'>{restock.Total}</td>
-                                <td className='restock-records__table-td'>{restock.username}</td>
-                                <td className='restock-records__table-td'>
-                                    <button 
-                                        className='restock-records__show-products-btn'
-                                        onClick={() => handleShowProducts(restock.restockId)}
-                                    >
-                                        Show Products
-                                    </button>
-                                </td>
+            <div className='restock-records__body'>
+                <div className='restock-records__table-wrapper'>
+                    <table className='restock-records__table'>
+                        <thead>
+                            <tr>
+                                <th className='restock-records__table-th'>Transaction ID</th>
+                                <th className='restock-records__table-th'>Date</th>
+                                <th className='restock-records__table-th'>Total</th>
+                                <th className='restock-records__table-th'>Procesed By</th>
+                                <th className='restock-records__table-th'></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredRestockData.map(restock => (
+                                <tr className='restock-records__table-tr' key={restock.restockId}>
+                                    <td className='restock-records__table-td'>{restock.restockId}</td>
+                                    <td className='restock-records__table-td'>{restock.date}</td>
+                                    <td className='restock-records__table-td'>{restock.Total}</td>
+                                    <td className='restock-records__table-td'>{restock.username}</td>
+                                    <td className='restock-records__table-td'>
+                                        <ButtonComponent label='Show' onClick={() => handleShowProducts(restock.restockId)} />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <ProductListModal
                 isOpen={isProductListModalOpen}

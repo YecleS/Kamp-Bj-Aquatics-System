@@ -24,7 +24,7 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 0.3em 1em;
-    width: 350px;
+    width: 210px;
     border-radius: 5px;
     outline: none;
     border: 1px solid black;
@@ -141,4 +141,25 @@
 
 .access-cell {
     text-align: center;
+}
+
+
+/* MEDIA QUERY */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+}
+
+
+@media screen and (min-width: 1000px) and (max-width: 1199px) {
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 999px) {
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+}
+
+
+@media screen and (max-width: 599px) {
 }

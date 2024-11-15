@@ -13,6 +13,7 @@ export const DateSelection = ({onChange, displayDate}) => {
         placeholderText='Select A Date'
         className='dashboard-control__date-picker'
       />
+
       <p className='dashboard-control__display-date'>{displayDate}</p>
     </div>
   )
@@ -29,6 +30,7 @@ export const MonthSelection = ({onChange, displayDate}) => {
         placeholderText='Select A Month'
         className='dashboard-control__date-picker'
       />
+
       <p className='dashboard-control__display-date'>{displayDate}</p>
     </div>
   )
@@ -45,6 +47,7 @@ export const YearSelection = ({onChange, displayDate}) => {
         placeholderText='Select A Year'
         className='dashboard-control__date-picker'
       />
+      
       <p className='dashboard-control__display-date'>{displayDate}</p>
     </div>
   )

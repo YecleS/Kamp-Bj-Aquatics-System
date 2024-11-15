@@ -56,7 +56,10 @@ const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
       <div className='modal__wrapper'>
         <i className="modal__close-icon fa-solid fa-xmark" onClick={onClick}></i>
         <div className='modal__body'>
-          <p className='modal__product-name'>{product?.productName}</p>
+          <div className='modal__product-name-wrapper'>
+            <p className='modal__product-name'>{product?.productName}</p>
+          </div>
+          
           <Formik initialValues={initialValues} onSubmit={handleAddToRestockList} validationSchema={validationSchema}>
             {() => (
               <Form className='modal__form'>
