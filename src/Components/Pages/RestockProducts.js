@@ -5,7 +5,6 @@ import { RestockProductRightIcon, DeleteIcon } from '../UIComponents/ActionIcons
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
-
 const RestockProducts = () => {
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const [isAddToRestockModalOpen, isSetAddToRestockModalOpen] = useState(false); // State to open restock modal
@@ -19,22 +18,54 @@ const RestockProducts = () => {
   const filterDropdownRef = useRef(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
- 
+  // Fetch product data and total stocks
   useEffect(() => {
-    fetchProductData()
+    fetchProductData();
   }, []);
-
 
   const fetchProductData = () => {
     fetch(`${apiUrl}/KampBJ-api/server/getProducts.php`)
       .then((response) => response.json())
-      .then((data) => {
-        setProducts(data); // Store the fetched product data
+      .then((productData) => {
+        const updatedProductsPromises = productData.map((product) => {
+          return fetch(`${apiUrl}/KampBJ-api/server/getProductTotalStocks.php?productId=${product.productId}`)
+            .then((response) => response.json())
+            .then((stockData) => {
+    
+              // Sum the total stocks for the current product
+              const totalStocks = stockData 
+                .filter((stock) => String(stock.productId) === String(product.productId)) // Ensure both are strings for comparison
+                .reduce((sum, stock) => sum + parseInt(stock.totalStocks, 10), 0);
+  
+              return {
+                ...product,
+                TotalStocks: totalStocks, // Set aggregated totalStocks
+              };
+            })
+            .catch((error) => {
+              console.error(`Error fetching stock data for productId ${product.productId}:`, error);
+              return {
+                ...product,
+                TotalStocks: 0, // Default to 0 if an error occurs
+              };
+            });
+        });
+  
+        Promise.all(updatedProductsPromises)
+          .then((updatedProducts) => {
+            setProducts(updatedProducts);
+          })
+          .catch((error) => {
+            console.error('Error updating products:', error);
+          });
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
-  }
+  };
+  
+  
+  
 
 
   // Toggle Dropdowns
@@ -49,14 +80,13 @@ const RestockProducts = () => {
   };
 
   const addToRestockList = (quantity, unitPrice, supplier) => {
-    // Ensure unitPrice is a number
     unitPrice = parseFloat(unitPrice); // Convert to float if it's not already
-  
+
     setRestockList((prevRestockList) => {
       const existingRestockIndex = prevRestockList.findIndex(
         (restock) => restock.productId === selectedProduct.productId
       );
-  
+
       if (existingRestockIndex !== -1) {
         // Update existing restock item quantity and unitPrice
         const updatedRestockList = [...prevRestockList];
@@ -78,12 +108,10 @@ const RestockProducts = () => {
         return [...prevRestockList, restockItem];
       }
     });
-  
+
     setSelectedProduct(null);
     isSetAddToRestockModalOpen(false); // Close the modal
   };
-  
-
 
   // Remove an item from the restock list
   const removeRestockItem = (index) => {
@@ -92,7 +120,7 @@ const RestockProducts = () => {
 
   // Filter products based on the search query and other filters
   const filteredProducts = products
-    .filter((product) => 
+    .filter((product) =>
       product.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.model.toLowerCase().includes(searchQuery.toLowerCase())
@@ -104,9 +132,9 @@ const RestockProducts = () => {
         case 'brand':
           return a.brand.localeCompare(b.brand);
         case 'quantity-high-to-low':
-          return b.quantity - a.quantity; // Sort by quantity (highest to lowest)
+          return b.TotalStocks - a.TotalStocks; // Sort by TotalStocks (highest to lowest)
         case 'quantity-low-to-high':
-          return a.quantity - b.quantity; // Sort by quantity (lowest to highest)
+          return a.TotalStocks - b.TotalStocks; // Sort by TotalStocks (lowest to highest)
         default:
           return 0;
       }
@@ -136,16 +164,14 @@ const RestockProducts = () => {
         if (data.success) {
           ToastSuccess('Restock processed successfully');
           setRestockList([]); // Clear the restock list after successful submission
-          fetchProductData();
+          fetchProductData(); // Re-fetch the product data after processing restock
         } else {
           ToastError(`Error: ${data.message}`);
-          // toast.error(`Error: ${data.message}`);
         }
       })
       .catch((error) => {
         console.error('Error during restock submission:', error);
         ToastError(`An error occurred during restock submission.`);
-        // toast.error('An error occurred during restock submission.');
       });
   };
 
@@ -169,6 +195,7 @@ const RestockProducts = () => {
 
   return (
     <div className="restock-products">
+          <div className="restock-products">
       <div className="restock-products__header">
         <div className="restock-products__search-wrapper">
           <input
@@ -231,7 +258,7 @@ const RestockProducts = () => {
                       <td className="restock-products__table-td">{product.category}</td>
                       <td className="restock-products__table-td">{product.brand}</td>
                       <td className="restock-products__table-td">{product.model}</td>
-                      <td className="restock-products__table-td">{product.quantity}</td>
+                      <td className="restock-products__table-td">{product.TotalStocks}</td>
                       <td className="restock-products__table-td">
                         <RestockProductRightIcon onClick={() => toggleAddToRestockModal(product)} />
                       </td>
@@ -282,8 +309,8 @@ const RestockProducts = () => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
 export default RestockProducts;
-

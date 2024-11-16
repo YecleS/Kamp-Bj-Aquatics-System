@@ -34,17 +34,11 @@ const ViewProductsModal = ({ products, onClick }) => {
           <p className='view-products-modal__label'>Category</p>
           <p className='view-products-modal__model'>{products.category}</p>
           
-          <p className='view-products-modal__label'>Procured price</p>
-          <p className='view-products-modal__model'>₱ {products.procuredPrice}</p>
-
           <p className='view-products-modal__label'>Critical Stock Level</p>
           <p className='view-products-modal__model'>{products.lowStockIndicator}</p>
 
           <p className='view-products-modal__label'>Markup Percentage</p>
           <p className='view-products-modal__model'>{products.markup}%</p>
-
-          <p className='view-products-modal__label'>Selling Price</p>
-          <p className='view-products-modal__price'>₱ {(products.sellingPrice * 1).toFixed(2)}</p>
 
           <div className='view-products-modal__button-wrapper'>
             <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />

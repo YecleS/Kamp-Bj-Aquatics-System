@@ -5,59 +5,120 @@ import ProductCard from '../UIComponents/ProductCard';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const Pos = () => {
-    const [isAddToCartModalOpen, isSetAddToCartOpen] = useState(false);
+    const [isAddToCartModalOpen, setAddToCartOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(''); // New state for search term
+    const [searchTerm, setSearchTerm] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    const getBatchDetails = async (productId, batchNumber) => {
+        try {
+            const response = await fetch(`${apiUrl}/KampBJ-api/server/getBatchDetails.php?productId=${productId}&batchNumber=${batchNumber}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch product batch data');
+            }
+            const data = await response.json();
+            return data; // Return the fetched data
+        } catch (error) {
+            console.error('Error fetching product batch data:', error);
+            ToastError('Failed to fetch batch details.');
+            throw error;
+        }
+    };
+    
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
                 console.error("Error fetching products:", error);
+                ToastError('Failed to fetch products.');
             }
         };
         fetchProducts();
-    }, []);
+    }, [apiUrl]);
 
     const toggleAddToCartModal = (product = null) => {
         setSelectedProduct(product);
-        isSetAddToCartOpen(!isAddToCartModalOpen);
+        setAddToCartOpen(!isAddToCartModalOpen);
     };
 
-    const addToCart = (product, quantity) => {
-        setCart(prevCart => {
-            const existingProductIndex = prevCart.findIndex(item => item.productId === product.productId);
-            const existingProduct = prevCart[existingProductIndex];
-
-            if (existingProductIndex !== -1) {
-                const newQuantity = existingProduct.quantity + quantity;
-
-                if (newQuantity > product.quantity) {
-                    alert("The quantity entered exceeds the available stock.");
-                    return prevCart;
-                }
-
-                const updatedCart = [...prevCart];
-                updatedCart[existingProductIndex].quantity = newQuantity;
-                ToastSuccess(`${product.productName} added to cart!`);
-                return updatedCart;
-            } else {
-                if (quantity > product.quantity) {
-                    alert("The quantity entered exceeds the available stock.");
-                    return prevCart;
-                }
-                ToastSuccess(`${product.productName} added to cart!`);
-                return [...prevCart, { ...product, quantity }];
+    const addToCart = async (product, quantity, batchNumber) => {
+        try {
+            const batchData = await getBatchDetails(product.productId, batchNumber);
+            
+            if (!batchData || !batchData[0]) {
+                ToastError('Batch details do not include a valid selling price.');
+                return;
             }
-        });
+    
+            const availableStock = batchData[0]?.quantity;
+            const sellingPrice = batchData[0]?.sellingPrice;
+    
+            if (!sellingPrice) {
+                ToastError('No selling price available for this batch.');
+                return;
+            }
+    
+            setCart(prevCart => {
+                // Find an existing product with the same productId and batchNumber
+                const existingProductIndex = prevCart.findIndex(
+                    item => item.productId === product.productId && item.batchNumber === batchNumber
+                );
+                const existingProduct = prevCart[existingProductIndex];
+    
+                if (existingProductIndex !== -1) {
+                    // Get current total quantity already in cart for this product and batch
+                    const currentQuantity = existingProduct.quantity;
+                    const newQuantity = currentQuantity + quantity;
+    
+                    // Check if new total exceeds available stock
+                    if (newQuantity > availableStock) {
+                        ToastError(`The total quantity entered (${newQuantity}) exceeds the available stock of ${availableStock} for this batch.`);
+                        return prevCart; // Prevent update if it exceeds stock
+                    }
+    
+                    // Update the cart with new quantity
+                    const updatedCart = [...prevCart];
+                    updatedCart[existingProductIndex] = {
+                        ...existingProduct,
+                        quantity: newQuantity,
+                        sellingPrice, // Update selling price if needed
+                    };
+                    ToastSuccess(`${product.productName} updated in cart!`);
+                    return updatedCart;
+                } else {
+                    // Validate against available stock for a new entry
+                    if (quantity > availableStock) {
+                        alert(`The quantity entered (${quantity}) exceeds the available stock of ${availableStock} for this batch.`);
+                        return prevCart; // Prevent adding if it exceeds stock
+                    }
+    
+                    // Add new product entry
+                    const productWithPrice = {
+                        ...product,
+                        quantity,
+                        sellingPrice,
+                        batchNumber,
+                    };
+    
+                    ToastSuccess(`${product.productName} added to cart!`);
+                    return [...prevCart, productWithPrice];
+                }
+            });
+        } catch (error) {
+            console.error('Error in getBatchDetails:', error);
+            ToastError('Failed to add product to cart. Please try again.');
+        }
     };
-
+    
     const handleCheckout = async () => {
         const orderItems = cart.map(item => ({
             indicator: item.lowStockIndicator,
@@ -65,24 +126,27 @@ const Pos = () => {
             productId: item.productId,
             quantity: item.quantity,
             price: item.sellingPrice,
-            total: item.sellingPrice * item.quantity
+            total: item.sellingPrice * item.quantity,
+            batchNumber : item.batchNumber
         }));
         const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
         const userId = localStorage.getItem('userId');
+
+        console.log(orderItems);
+
         try {
             const response = await fetch(`${apiUrl}/KampBJ-api/server/processCheckout.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ orderItems, totalAmount, userId  }),
+                body: JSON.stringify({ orderItems, totalAmount, userId }),
             });
 
             const result = await response.json();
             if (result.success) {
                 ToastSuccess("Order processed successfully!");
-                setCart([]); // Clear the cart after successful checkout
-                // Optionally, re-fetch products to update stock availability
+                setCart([]);
                 const productsResponse = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
                 const productsData = await productsResponse.json();
                 setProducts(productsData);
@@ -95,7 +159,6 @@ const Pos = () => {
         }
     };
 
-    // Filter products based on the search term
     const filteredProducts = products.filter(product =>
         product.productName.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -108,8 +171,8 @@ const Pos = () => {
                         type='text'
                         placeholder='Search'
                         className='pos__input-field'
-                        value={searchTerm} // Bind input value to state
-                        onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
             </div>
@@ -139,6 +202,7 @@ const Pos = () => {
                                         <th className='pos__table-th'>Quantity</th>
                                         <th className='pos__table-th'>Price</th>
                                         <th className='pos__table-th'>Total</th>
+                                        <th className='pos__table-th'>Batch Number</th>
                                         <th className='pos__table-th'></th>
                                     </tr>
                                 </thead>
@@ -149,12 +213,13 @@ const Pos = () => {
                                             <td className='pos__table-td'>{item.brand}</td>
                                             <td className='pos__table-td'>{item.model}</td>
                                             <td className='pos__table-td'>{item.quantity}</td>
-                                            <td className='pos__table-td'>{(item.sellingPrice * 1).toFixed(2)}</td>
+                                            <td className='pos__table-td'>₱ {(item.sellingPrice * 1).toFixed(2)}</td>
                                             <td className='pos__table-td'>₱ {(item.sellingPrice * item.quantity).toFixed(2)}</td>
+                                            <td className='pos__table-td'>{item.batchNumber}</td>
                                             <td className='pos__table-td'>
                                                 <i className="pos__icon-td fa-solid fa-trash" onClick={() => {
-                                                        setCart(cart.filter((_, i) => i !== index));
-                                                    }}></i>
+                                                    setCart(cart.filter((_, i) => i !== index));
+                                                }}></i>
                                             </td>
                                         </tr>
                                     ))}
@@ -167,7 +232,7 @@ const Pos = () => {
                                 <p className='pos__bill-label'>₱ {cart.reduce((sum, item) => sum + item.sellingPrice * item.quantity, 0).toFixed(2)}</p>
                             </div>
                             <button className='pos__checkout' onClick={handleCheckout}>Checkout</button>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>

@@ -97,8 +97,10 @@ const ProductBatch = () => {
                                 <th className='product-batch__table-th'>Name</th>
                                 <th className='product-batch__table-th'>Quantity</th>
                                 <th className='product-batch__table-th'>Unit Price</th>
+                                <th className='product-batch__table-th'>Markup Percentage</th>
                                 <th className='product-batch__table-th'>Selling Price</th>
-                                <th className='product-batch__table-th'>Supplier ID</th>
+                                <th className='product-batch__table-th'>Supplier</th>
+                                <th className='product-batch__table-th'>Date Procured</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,8 +110,10 @@ const ProductBatch = () => {
                                     <td className='product-batch__table-td'>{product.productName}</td>
                                     <td className='product-batch__table-td'>{product.quantity}</td>
                                     <td className='product-batch__table-td'>₱ {product.unitPrice.toFixed(2)}</td>
+                                    <td className='product-batch__table-td'>{product.markup} %</td>
                                     <td className='product-batch__table-td'>₱ {product.sellingPrice.toFixed(2)}</td>
-                                    <td className='product-batch__table-td'>{product.supplierId}</td>
+                                    <td className='product-batch__table-td'>{product.supplierName}</td>
+                                    <td className='product-batch__table-td'>{product.dateProcured}</td>
                                 </tr>
                             ))}
                         </tbody>
