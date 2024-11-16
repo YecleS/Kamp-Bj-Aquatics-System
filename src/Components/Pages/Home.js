@@ -85,7 +85,7 @@ const Owner = () => {
             <Route path='user-management_Logs' element={<UserManagementLog />}/>
             <Route path='reports' element={<Reports />} />
             <Route path='ledger' element={<GeneralLedger />}/>
-            <Route path='view-batch' element={<ProductBatch />}/>
+            <Route path='view-batch/:productId' element={<ProductBatch />}/>
           </Routes> 
         </main>
       </div>

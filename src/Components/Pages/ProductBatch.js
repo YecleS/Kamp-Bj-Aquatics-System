@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/ProductBatch.css';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const ProductBatch = () => {
+    const { productId } = useParams();
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
     const filterDropdownRef = useRef(null);
     const navigate = useNavigate();
@@ -88,7 +90,9 @@ const ProductBatch = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
+
+                        {productId}
+                        {/* {
                             inventoryData.map(product => (
                                 <tr className='product-batch__table-tr' key={product.Batch_no}>
                                     <td className='product-batch__table-td'>{product.Batch_no}</td>
@@ -100,7 +104,7 @@ const ProductBatch = () => {
                                     <td className='product-batch__table-td'>₱ {product.Price}</td>
                                 </tr>
                             ))
-                        }
+                        } */}
                         
                     </tbody>
                 </table>
