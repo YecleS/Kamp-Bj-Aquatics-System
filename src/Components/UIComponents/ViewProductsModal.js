@@ -2,7 +2,7 @@ import React from 'react';
 import '../Styles/ViewProductsModal.css';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import ImagePreview from '../Assets/image-preview.png';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const ViewProductsModal = ({ products, onClick }) => {
   const navigate = useNavigate();
@@ -48,7 +48,10 @@ const ViewProductsModal = ({ products, onClick }) => {
 
           <div className='view-products-modal__button-wrapper'>
             <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Back' onClick={onClick} />
-            <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Batches' onClick={() => navigate('/home/view-batch')} />
+            <NavLink to={`/home/view-batch/${products.productId}`}>
+              <ButtonComponent buttonCustomClass='view-product-modal__back-button' label='Batches'/>
+            </NavLink>
+            
           </div>
         </div>
       </div>
