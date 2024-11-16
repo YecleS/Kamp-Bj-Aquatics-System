@@ -85,6 +85,7 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
 
       if (response.ok) {
         // Clear localStorage data
+        localStorage.removeItem('userId');
         localStorage.removeItem('username');
         localStorage.removeItem('roleId');
         // Redirect to login page
