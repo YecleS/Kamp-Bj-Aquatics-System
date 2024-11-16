@@ -50,7 +50,7 @@ const BrandModel = () => {
     
                 const result = await response.json();
                 if (result.status === 'success') {
-                    ToastSuccess('This brand already exists.');
+                    ToastSuccess('Brand Added Succesfully');
                     fetchBrands(); // Refresh the brands after adding
                     console.log('Brand added:', result.message);
                 } else {
