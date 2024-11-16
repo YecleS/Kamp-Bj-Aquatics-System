@@ -9,6 +9,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 const DashboardDaily = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
   const [topProductsData, setTopProductsData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleDatechange = (selectedDate) => {
     setSelectedDate(`${selectedDate.toLocaleDateString()}`);
@@ -16,13 +17,13 @@ const DashboardDaily = () => {
 
   useEffect(() => {
     // Fetch data from the PHP script
-    fetch('http://localhost/KampBJ-api/server/dataAnalysis/getTop5Products.php')
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTop5Products.php`)
       .then(response => response.json())
       .then(data => {
         // Transform the data to fit the chart format if necessary
         const formattedData = data.map(item => ({
           name: item.productName,
-          quantity: parseFloat(item.Total_Sales)
+          Total_Sales: parseFloat(item.Total_Sales)
         }));
         setTopProductsData(formattedData);
       })
@@ -35,14 +36,6 @@ const DashboardDaily = () => {
     { name: '12 AM - 12 PM', value: 1200 },
     { name: '12 PM - 6 PM', value: 3000 },
     { name: '6 PM - 12 AM', value: 2000 },
-  ];
-
-  const MostSoldProduct = [
-    {name: 'Product 1', quantity: 350},
-    {name: 'Product 2', quantity: 288},
-    {name: 'Product 3', quantity: 459},
-    {name: 'Product 4', quantity: 120},
-    {name: 'Product 5', quantity: 88},
   ];
 
   const expenses = [
@@ -99,7 +92,7 @@ const DashboardDaily = () => {
             <BarChart
               width={500}
               height={300}
-              data={MostSoldProduct}
+              data={topProductsData}
               margin={{
                 top: 20,
                 right: 30,
@@ -112,7 +105,7 @@ const DashboardDaily = () => {
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
-              <Bar dataKey="quantity" stackId="a" fill="#8884d8" />
+              <Bar dataKey="Total_Sales" stackId="a" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
         </div>
