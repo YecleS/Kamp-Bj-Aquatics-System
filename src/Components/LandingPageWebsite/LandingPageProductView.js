@@ -40,7 +40,7 @@ const LandingPageProductView = () => {
       <div className='landing-page-product-view__content-wrapper'>
         <div className='landing-page-product-view__img-wrapper'>
             <img
-                src={product.image ? `${apiUrl}/KampBJ-api/server/uploads/products/${product.image}` : Product1} // Adjust path as needed
+                src={product.image ? `${apiUrl}/KampBJ-api/server/uploads/products/${product.image}` : Product1}
                 alt={product.productName}
                 className='landing-page-product-view__img'
               />
@@ -51,8 +51,6 @@ const LandingPageProductView = () => {
             <p className='landing-page-product-view__Brand'>Brand: {product.brand}</p>
             <p className='landing-page-product-view__Model'>Model: {product.model}</p>
             <p className='landing-page-product-view__category'>Category: {product.category}</p>
-            <p className='landing-page-product-view__stocks'>Stocks available: {product.quantity}</p>
-            <p className='landing-page-product-view__price'>Price: ₱ {parseFloat(product.sellingPrice).toFixed(2)}</p>
             <LandingPageButton label='View More' onClick={() => navigate('/products')} varietyClass='landing-page-product-view__view-more'/>
       </div>
       </div>

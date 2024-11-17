@@ -24,9 +24,6 @@ const LandingPageCards = ({ product }) => {
             <h5 className='landing-page-cards__title'>{product.productName}</h5>
             <p className='landing-page-cards__description'><TextSlicer text={product.description} /></p>
           </div>
-          <div className='landing-page-cards__stocks-wrapper'>
-            <p className='landing-page-cards__price'>₱ {product.sellingPrice}</p>
-          </div>
         </div>
       </div>
     </Link>
