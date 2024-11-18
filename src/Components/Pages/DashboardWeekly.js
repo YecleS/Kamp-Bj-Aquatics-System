@@ -64,6 +64,23 @@ const DashboardWeekly = () => {
     { name: 'Cleaning Essentials', total: 3500 },
   ];
 
+  const data = [
+    { date: '11/18/2024', sale: 1432.05 },
+    { date: '11/19/2024', sale: 3355.05 },
+    { date: '11/20/2024', sale: 102.05 },
+    { date: '11/21/2024', sale: 5532.05 },
+    { date: '11/22/2024', sale: 4432.05 },
+    { date: '11/23/2024', sale: 552.05 },
+    { date: '11/24/2024', sale: 1232.05 },
+  ];
+
+  const convertedData = data.map((item) => {
+    const dayLabel = new Date(item.date).toLocaleDateString('en-US', { weekday: 'short' }); // 'Mon', 'Tue', etc.
+    return { ...item, label: dayLabel }; // Add the label to each object
+  });
+
+  console.log(convertedData);
+
   return (
     <div className='dashboard-weekly'>
       <div className='dashboard-weekly__header'>
@@ -84,7 +101,7 @@ const DashboardWeekly = () => {
             <AreaChart
               width={500}
               height={400}
-              data={sales}
+              data={convertedData}
               margin={{
                 top: 30,
                 right: 30,
@@ -93,10 +110,10 @@ const DashboardWeekly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+              <XAxis dataKey="label" dy={10} tick={{ fontSize: 14 }} />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
-              <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
+              <Area type="monotone" dataKey="sale" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

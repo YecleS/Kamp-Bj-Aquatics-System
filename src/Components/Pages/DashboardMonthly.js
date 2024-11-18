@@ -47,6 +47,72 @@ const DashboardMonthly = () => {
     { name: 'Pet Feeds', total: 8500 },
   ];
 
+  const fillMissingDates = (data, month, year) => {
+    const daysInMonth = new Date(year, month, 0).getDate(); // Get the total days in the month
+    const completeData = [];
+  
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateStr = `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
+      const existingEntry = data.find(entry => entry.date === dateStr);
+  
+      if (existingEntry) {
+        completeData.push(existingEntry);
+      } else {
+        completeData.push({ date: dateStr, sale: 0 });
+      }
+    }
+  
+    return completeData;
+  };
+
+  const data = [
+    { date: '11/01/2024', sale: 88.97 },
+    { date: '11/02/2024', sale: 62.72 },
+    { date: '11/03/2024', sale: 147.39 },
+    { date: '11/04/2024', sale: 84.21 },
+    { date: '11/05/2024', sale: 164.82 },
+    { date: '11/06/2024', sale: 158.75 },
+    { date: '11/07/2024', sale: 93.03 },
+    { date: '11/10/2024', sale: 78.96 },
+    { date: '11/11/2024', sale: 179.88 },
+    { date: '11/12/2024', sale: 180.84 },
+    { date: '11/13/2024', sale: 184.96 },
+    { date: '11/14/2024', sale: 159.82 },
+    { date: '11/15/2024', sale: 114.38 },
+    { date: '11/16/2024', sale: 129.17 },
+    { date: '11/18/2024', sale: 150.39 },
+    { date: '11/21/2024', sale: 82.21 },
+    { date: '11/22/2024', sale: 163.11 },
+    { date: '11/23/2024', sale: 99.34 },
+    { date: '11/24/2024', sale: 163.83 },
+    { date: '11/27/2024', sale: 172.02 },
+    { date: '11/28/2024', sale: 173.07 },
+    { date: '11/29/2024', sale: 103.75 },
+    { date: '11/30/2024', sale: 76.2 },
+  ];
+
+  const completeData = fillMissingDates(data, 11, 2024);
+
+  const weeks = {
+    'Week 1': 0,
+    'Week 2': 0,
+    'Week 3': 0,
+    'Week 4': 0,
+    'Week 5': 0,
+  };
+
+  completeData.forEach((item) => {
+    const day = new Date(item.date).getDate();
+    if (day <= 7) weeks['Week 1'] += item.sale;
+    else if (day <= 14) weeks['Week 2'] += item.sale;
+    else if (day <= 21) weeks['Week 3'] += item.sale;
+    else if (day <= 28) weeks['Week 4'] += item.sale;
+    else weeks['Week 5'] += item.sale;
+  });
+
+  console.log(weeks);
+  
+
   return (
     <div className='dashboard-monthly'>
       <div className='dashboard-monthly__header'>

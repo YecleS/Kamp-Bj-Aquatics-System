@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { DateSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardDaily.css';
 import DashboardCards from '../UIComponents/DashboardCards';
+import TextSlicer from '../Utils/TextSlicer';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
         ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
         PolarAngleAxis, Legend, Rectangle } from 'recharts';
 
-const DashboardDaily = () => {
+
+const DashboardDaily = () => {    
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
   const [topProductsData, setTopProductsData] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -26,10 +28,12 @@ const DashboardDaily = () => {
           Total_Sales: parseFloat(item.Total_Sales)
         }));
         setTopProductsData(formattedData);
+        console.log(topProductsData);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+
   }, []); // Empty dependency array to fetch data on component mount
 
   const sales = [
@@ -47,6 +51,13 @@ const DashboardDaily = () => {
     { name: 'water Bill', total: 500 },
     { name: 'Electricity Bill', total: 4500 },
   ]
+
+  const truncateLabel = (label, maxLength = 12  ) => {
+    if (label.length > maxLength) {
+      return `${label.slice(0, maxLength)}...`;
+    }
+    return label;
+  };
 
 
   return (
@@ -101,7 +112,21 @@ const DashboardDaily = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tick={{ fontSize: 14 }} dy={10} />
+              <XAxis 
+                dataKey="name"
+                dy={10}
+                angle={10}
+                
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                      {label}
+                    </text>
+                  );
+                }}
+
+              />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />

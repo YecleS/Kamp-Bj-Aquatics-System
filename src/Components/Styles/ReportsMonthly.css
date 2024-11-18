@@ -16,6 +16,13 @@
     text-align: center;
 }
 
+.graph-container__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
 /* POSITIONING OF GRAPHS */
 .average-per-product {
     grid-column: 1/3;
