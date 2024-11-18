@@ -208,6 +208,7 @@ const Pos = () => {
                             />
                         )}
                     </div>
+                    
                     {/* <div className='pos__orders-wrapper'>
                         
                         <i className="fa-solid fa-cart-shopping"></i>
@@ -254,6 +255,7 @@ const Pos = () => {
                             <button className='pos__checkout' onClick={handleCheckout}>Checkout</button>
                         </div>
                     </div> */}
+
                     <CartComponent 
                         cartComponentClass={isCartContainerVisible ? 'cart-component-active':''} 
                         cart={cart} 
