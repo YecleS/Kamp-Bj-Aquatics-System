@@ -3,32 +3,35 @@ import { DateSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardDaily.css';
 import DashboardCards from '../UIComponents/DashboardCards';
 import TextSlicer from '../Utils/TextSlicer';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
         ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
         PolarAngleAxis, Legend, Rectangle } from 'recharts';
+
 
 
 const DashboardDaily = () => {    
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
   const [topProductsData, setTopProductsData] = useState([]);
   const [salesData, setSalesData] = useState([]);
+  const [totalSales, setTotalSales] = useState(0);
+  const [salesCount, setSalesCount] = useState(null);
+  const [averageSales, setAverageSales] = useState(0);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleDatechange = (newDate) => {
     const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+    const month = String(newDate.getMonth() + 1).padStart(2, '0');
     const day = String(newDate.getDate()).padStart(2, '0');
   
     const formattedDate = `${year}-${month}-${day}`;
-    console.log(formattedDate); // Check the output format in the console
     setSelectedDate(formattedDate);
   };
 
-  // Automatically call handleDatechange() with current date when the page loads
   useEffect(() => {
     const currentDate = new Date();
-    handleDatechange(currentDate); // This will set the date to current date
-  }, []); // Empty dependency array ensures this runs once when the component mounts
+    handleDatechange(currentDate);
+  }, []);
   
   
   useEffect(() => {
@@ -38,7 +41,7 @@ const DashboardDaily = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedDate }),
+      body: JSON.stringify({ selectedDate, timePeriod: 'daily' }),
     })
       .then(response => response.json())
       .then(data => {
@@ -50,24 +53,87 @@ const DashboardDaily = () => {
           }));
           setTopProductsData(formattedData);
         } else {
-          console.log('No data available for the selected date.');
           setTopProductsData([]);
+        }
+      })
+      .catch(error => {
+        ToastError('Error fetching data:', error);
+      });
+  }, [selectedDate]);
+
+  useEffect(() => {
+    const timestamp = new Date().getTime();  // Add timestamp to prevent caching
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTotalSales.php?timestamp=${timestamp}`, { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate, timePeriod: 'daily' }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setTotalSales(data.totalSales);
+        } else {
+          setTotalSales(0);
+          ToastError('No sales data found for the selected date.');
+        }
+      })
+      .catch(error => {
+        ToastError('Error fetching total sales:', error);
+      });
+  }, [selectedDate]);
+  
+  useEffect(() => {
+    // Fetch the sales data from the PHP script
+    fetch('http://localhost/KampBJ-api/server/dataAnalysis/getTotalSalesCount.php',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate, timePeriod: 'daily' }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setSalesCount(data.totalSalesCount); // Set the sales data
+        } else {
+          console.error('Error fetching sales data:', data.message);
         }
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, [selectedDate]); // Re-run the effect when selectedDate changes
+  }, [selectedDate]);
 
-  // Automatically call handleDatechange() with current date when the page loads
   useEffect(() => {
-    const currentDate = new Date();
-    handleDatechange(currentDate); // This will set the date to current date
-  }, []); // Empty dependency array ensures this runs once when the component mounts
+    // Fetch the average sales amount for the selected date
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getAverageSalesAmount.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate, timePeriod: 'daily' }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setAverageSales(data.averageSales);
+        } else {
+          setAverageSales(0);
+          ToastError('No sales data found for the selected date.');
+        }
+      })
+      .catch(error => {
+        ToastError('Error fetching average sales amount:', error);
+      });
+  }, [selectedDate]);
 
+
+ 
   // Fetch sales data for the selected date
   useEffect(() => {
-    fetch(`${apiUrl}/KampBJ-api/server/getDailySales.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTotalSalesByTime.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,30 +150,14 @@ const DashboardDaily = () => {
           }));
           setSalesData(formattedSalesData);
         } else {
-          console.log('No sales data available for the selected date.');
+          ToastError('No sales data available for the selected date.');
           setSalesData([]);
         }
       })
       .catch(error => {
-        console.error('Error fetching data:', error);
+        ToastError('Error fetching data:', error);
       });
   }, [selectedDate]); 
-
-  const sales = [
-    { name: '12 AM - 12 PM', value: 1200 },
-    { name: '12 PM - 6 PM', value: 3000 },
-    { name: '6 PM - 12 AM', value: 2000 },
-  ];
-
-  const expenses = [
-    {name: 'today', sales:5320, expenses:300},
-  ]
-
-  const expensesBreakdown = [
-    { name: 'Company Outing', total: 3000 },
-    { name: 'water Bill', total: 500 },
-    { name: 'Electricity Bill', total: 4500 },
-  ]
 
   const truncateLabel = (label, maxLength = 12  ) => {
     if (label.length > maxLength) {
@@ -125,10 +175,15 @@ const DashboardDaily = () => {
           displayDate={selectedDate}
         />
       </div>
-      <div className='dashboard-daily__body'>
-        <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-        <DashboardCards icon='fa-cart-shopping' title="Number of  Units Sold" subTitle="Total Number of Units Sold" desription='120'/>
 
+    <div className='dashboard-daily__cards'>
+      <DashboardCards icon="fa-peso-sign" title="Total Sales" subTitle="Today's Sales" description={`₱ ${String(totalSales)}`} />
+      <DashboardCards icon='fa-cart-shopping' title="Sales Today" subTitle="Total Number of Sales Made" description={String(salesCount)} />
+      <DashboardCards icon='fa-receipt' title="Average Worth per Sales" subTitle="Average Sales Worth" description={`₱ ${String(averageSales)}`} />
+    </div>
+
+      <div className='dashboard-daily__body'>
+    
         <div className='graph-container daily-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
           <ResponsiveContainer width="100%" height="96%">
