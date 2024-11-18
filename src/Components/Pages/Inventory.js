@@ -42,41 +42,69 @@ const Inventory = () => {
         toast.error('Error connecting to the server');
       });
   }, []);
-   
-useEffect(() => {
-  let filtered = inventoryData.filter(item =>
-    item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.model.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
-  // Sort filtered inventory based on selected option
-  switch (filters.sortBy) {
-    case 'priceAsc':
-      filtered = filtered.sort((a, b) => a.sellingPricerice - b.sellingPrice);
-      break;
-    case 'priceDesc':
-      filtered = filtered.sort((a, b) => b.sellingPrice - a.sellingPrice);
-      break;
-    case 'stocksAsc':
-      filtered = filtered.sort((a, b) => a.quantity - b.quantity);
-      break;
-    case 'stocksDesc':
-      filtered = filtered.sort((a, b) => b.quantity - a.quantity);
-      break;
-    case 'category':
-      filtered = filtered.sort((a, b) => a.category.localeCompare(b.category));
-      break;
-    case 'brand':
-      filtered = filtered.sort((a, b) => a.brand.localeCompare(b.brand));
-      break;
-    default:
-      break;
-  }
+  // Fetch total stocks for each product using the getProductTotalStocks API
+  useEffect(() => {
+    const fetchTotalStocks = async () => {
+      const updatedInventory = [...inventoryData];
 
-  setFilteredInventory(filtered);
-}, [searchTerm, filters.sortBy, inventoryData]);
+      for (let item of updatedInventory) {
+        try {
+          const response = await fetch(`${apiUrl}/KampBJ-api/server/getProductTotalStocks.php?productId=${item.productId}`);
+          const data = await response.json();
+          if (data.length > 0) {
+            const totalStocks = data.reduce((sum, batch) => parseInt(sum) + parseInt(batch.totalStocks), 0);
+            item.totalStocks = totalStocks; // Add totalStocks to inventory item
+          } else {
+            item.totalStocks = 0; // If no data returned, set totalStocks to 0
+          }
+        } catch (error) {
+          console.error('Error fetching total stocks:', error);
+          toast.error('Failed to fetch total stocks.');
+        }
+      }
 
+      setFilteredInventory(updatedInventory);
+    };
+
+    if (inventoryData.length > 0) {
+      fetchTotalStocks();
+    }
+  }, [inventoryData, apiUrl]);
+
+  useEffect(() => {
+    let filtered = inventoryData.filter(item =>
+      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.model.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Sort filtered inventory based on selected option
+    switch (filters.sortBy) {
+      case 'priceAsc':
+        filtered = filtered.sort((a, b) => a.sellingPrice - b.sellingPrice);
+        break;
+      case 'priceDesc':
+        filtered = filtered.sort((a, b) => b.sellingPrice - a.sellingPrice);
+        break;
+      case 'stocksAsc':
+        filtered = filtered.sort((a, b) => a.totalStocks - b.totalStocks); // Sort by totalStocks
+        break;
+      case 'stocksDesc':
+        filtered = filtered.sort((a, b) => b.totalStocks - a.totalStocks); // Sort by totalStocks
+        break;
+      case 'category':
+        filtered = filtered.sort((a, b) => a.category.localeCompare(b.category));
+        break;
+      case 'brand':
+        filtered = filtered.sort((a, b) => a.brand.localeCompare(b.brand));
+        break;
+      default:
+        break;
+    }
+
+    setFilteredInventory(filtered);
+  }, [searchTerm, filters.sortBy, inventoryData]);
 
   // Toggle Filter Dropdown
   const toggleFilterDropdown = () => {
@@ -110,10 +138,10 @@ useEffect(() => {
       <div className='inventory__header'>
         <div className='inventory__controls-wrapper'>
           <div className='inventory__search-wrapper'>
-            <input 
-              type='text' 
-              placeholder='Search product ...' 
-              className='inventory__input-field' 
+            <input
+              type='text'
+              placeholder='Search product ...'
+              className='inventory__input-field'
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -126,19 +154,18 @@ useEffect(() => {
                   <div className="inventory__filter-dropdown-field-wrapper">
                     <p className="inventory__filter-label">Sort by</p>
                     <select
-                    value={filters.sortBy}
-                    onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
-                    className="inventory__filter-field"
+                      value={filters.sortBy}
+                      onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                      className="inventory__filter-field"
                     >
-                    <option value="">Select</option>
-                    <option value="category">Category</option>
-                    <option value="brand">Brand</option>
-                    <option value="priceAsc">Price (Lowest - Highest)</option>
-                    <option value="priceDesc">Price (Highest - Lowest)</option>
-                    <option value="stocksAsc">Stocks (Lowest - Highest)</option>
-                    <option value="stocksDesc">Stocks (Highest - Lowest)</option>
-                  </select>
-
+                      <option value="">Select</option>
+                      <option value="category">Category</option>
+                      <option value="brand">Brand</option>
+                      <option value="priceAsc">Price (Lowest - Highest)</option>
+                      <option value="priceDesc">Price (Highest - Lowest)</option>
+                      <option value="stocksAsc">Stocks (Lowest - Highest)</option>
+                      <option value="stocksDesc">Stocks (Highest - Lowest)</option>
+                    </select>
                   </div>
                 </div>
                 <div className="inventory__filter-dropdown-footer">
@@ -148,7 +175,7 @@ useEffect(() => {
             )}
           </div>
         </div>
-    
+
         <StatusLegend customClass='inventory__status-legend' />
       </div>
 
@@ -162,35 +189,34 @@ useEffect(() => {
                 <th className='inventory__table-th'>Brand</th>
                 <th className='inventory__table-th'>Model</th>
                 <th className='inventory__table-th'>Stocks</th>
-                <th className='inventory__table-th'>Price</th>
                 <th className='inventory__table-th'>Status</th>
                 <th className='inventory__table-th'>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredInventory.length > 0 ? (
-                filteredInventory.map((inventoryItem) => (
-                  <tr className='inventory__table-tr' key={inventoryItem.productId}>
-                    <td className='inventory__table-td'>{inventoryItem.productName}</td>
-                    <td className='inventory__table-td'>{inventoryItem.category}</td>
-                    <td className='inventory__table-td'>{inventoryItem.brand}</td>
-                    <td className='inventory__table-td'>{inventoryItem.model}</td>
-                    <td className='inventory__table-td'>{inventoryItem.quantity}</td>
-                    <td className='inventory__table-td'>₱ {(inventoryItem.sellingPrice * 1).toFixed(2)}</td>
-                    <td className='inventory__table-td'>
-                      <StatusNotifier stocks={inventoryItem.quantity} lowStockIndicator={inventoryItem.lowStockIndicator}/>
-                    </td>
-                    <td className='inventory__table-td'>
-                      <ViewProductIcon products={inventoryItem} />
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="inventory__table-td">No products available</td>
+            {filteredInventory.length > 0 ? (
+              filteredInventory.map((inventoryItem) => (
+                <tr className='inventory__table-tr' key={inventoryItem.productId}>
+                  <td className='inventory__table-td'>{inventoryItem.productName}</td>
+                  <td className='inventory__table-td'>{inventoryItem.category}</td>
+                  <td className='inventory__table-td'>{inventoryItem.brand}</td>
+                  <td className='inventory__table-td'>{inventoryItem.model}</td>
+                  <td className='inventory__table-td'>{inventoryItem.totalStocks || 0}</td> 
+                  <td className='inventory__table-td'>
+                    <StatusNotifier stocks={inventoryItem.totalStocks} lowStockIndicator={inventoryItem.lowStockIndicator} />
+                  </td>
+                  <td className='inventory__table-td'>
+                    <ViewProductIcon products={inventoryItem} />
+                  </td>
                 </tr>
-              )}
-            </tbody>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="inventory__table-td">No products available</td>
+              </tr>
+            )}
+          </tbody>
+
           </table>
         </div>
       </div>

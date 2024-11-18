@@ -131,34 +131,87 @@ export default Header;
 
 
 export const BackUpRecovery = () => {
-  // Create refs for the file input elements
   const backupFileInputRef = useRef(null);
   const recoverFileInputRef = useRef(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Function to trigger the backup file input
-  const handleBackupClick = () => {
-    backupFileInputRef.current.click();  // Triggers the file explorer for backup
+  const handleBackupClick = async () => {
+    try {
+      // Request the server to create a backup
+      const response = await fetch(`${apiUrl}/KampBJ-api/server/createBackup.php`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'backup.sql'); // Specify the file name
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      } else {
+        console.error('Failed to create backup');
+      }
+    } catch (error) {
+      console.error('Error creating backup:', error);
+    }
   };
 
   // Function to trigger the recover file input
   const handleRecoverClick = () => {
-    recoverFileInputRef.current.click();  // Triggers the file explorer for recovery
+    recoverFileInputRef.current.click();
   };
+
+  // Function to handle file upload for recovery
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('backupFile', file);
+
+      try {
+        const response = await fetch(`${apiUrl}/KampBJ-api/server/restoreBackup.php`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert('Recovery successful!');
+        } else {
+          console.error('Failed to recover backup');
+        }
+      } catch (error) {
+        console.error('Error during recovery:', error);
+      }
+    }
+  };
+
   return (
     <div className='backup-recovery'>
-      <li className='backup-recovery__li' onClick={handleBackupClick}><i className="backup-recovery__icon fa-solid fa-cloud-arrow-down"></i><span className='backup-recovery__label'>Back up</span></li>
+      <li className='backup-recovery__li' onClick={handleBackupClick}>
+        <i className="backup-recovery__icon fa-solid fa-cloud-arrow-down"></i>
+        <span className='backup-recovery__label'>Back up</span>
+      </li>
       <input
         type="file"
         ref={backupFileInputRef}
-        style={{ display: 'none' }}  // Hide the file input
+        style={{ display: 'none' }}
+        disabled
       />
 
-      <li className='backup-recovery__li' onClick={handleRecoverClick}><i className="backup-recovery__icon fa-solid fa-rotate"></i><span className='backup-recovery__label'>Recover</span></li>
+      <li className='backup-recovery__li' onClick={handleRecoverClick}>
+        <i className="backup-recovery__icon fa-solid fa-rotate"></i>
+        <span className='backup-recovery__label'>Recover</span>
+      </li>
       <input
         type="file"
         ref={recoverFileInputRef}
-        style={{ display: 'none' }}  // Hide the file input
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
       />
     </div>
-  )
-}
+  );
+};
