@@ -1,16 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../Styles/Pos.css';
 import AddToCartModal from '../UIComponents/AddToCartModal';
 import ProductCard from '../UIComponents/ProductCard';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const Pos = () => {
+    const cartContainer = useRef();
+    const cartIcon = useRef();
     const [isAddToCartModalOpen, setAddToCartOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isCartContainerVisible, setCartContainerVisible] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    useEffect(() => {
+        const handleClick = (e) => {
+            if(cartContainer.current && !cartContainer.current.contains(e.target)){
+                if(cartIcon.current && !cartIcon.current.contains(e.target) ){
+                    setCartContainerVisible(false);
+                }
+            }
+        }
+
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick)
+    }, [])
 
     const getBatchDetails = async (productId, batchNumber) => {
         try {
@@ -179,6 +195,10 @@ const Pos = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
+                <div className='pos__cart-container-icon-wrapper'>
+                    {cart.length > 0 && <i className="pos__cart-warning-icon fa-solid fa-circle-exclamation"></i>}
+                    <i className="pos__cart-container-icon fa-solid fa-cart-shopping" ref={cartIcon} onClick={() => setCartContainerVisible(true)}></i>
+                </div>
             </div>
 
             <div className='pos__body'>
@@ -190,11 +210,13 @@ const Pos = () => {
                                 product={product}
                                 icon='fa-arrow-right'
                                 onClick={() => toggleAddToCartModal(product)}
+                                iconTooltip='Add to cart'
                             />
                         )}
                     </div>
-
-                    <div className='pos__orders-wrapper'>
+                    {/* <div className='pos__orders-wrapper'>
+                        
+                        <i className="fa-solid fa-cart-shopping"></i>
                         <h5 className='pos__table-title'>Orders list</h5>
                         <div className='pos__orders-table-wrapper'>
                             <table className='pos__table'>
@@ -237,8 +259,16 @@ const Pos = () => {
                             </div>
                             <button className='pos__checkout' onClick={handleCheckout}>Checkout</button>
                         </div>
-                    </div>
+                    </div> */}
+                    <CartComponent 
+                        cartComponentClass={isCartContainerVisible ? 'cart-component-active':''} 
+                        cart={cart} 
+                        setCart={setCart}  
+                        onClick={handleCheckout}
+                        cardContainerRef={cartContainer} 
+                    />
                 </div>
+
             </div>
             {isAddToCartModalOpen && (
                 <AddToCartModal product={selectedProduct} onAddToCart={addToCart} onClick={toggleAddToCartModal} />
@@ -248,3 +278,54 @@ const Pos = () => {
 };
 
 export default Pos;
+
+
+
+export const CartComponent = ({cartComponentClass, cardContainerRef, cart, setCart, onClick}) => {
+    return (
+        <div className={`cart-component ${cartComponentClass}`} ref={cardContainerRef}>
+            <div className='pos__orders-table-wrapper'>
+                <table className='pos__table'>
+                    <thead>
+                        <tr>
+                            <th className='pos__table-th'>Batch No.</th>
+                            <th className='pos__table-th'>Name</th>
+                            <th className='pos__table-th'>Brand</th>
+                            <th className='pos__table-th'>Model</th>
+                            <th className='pos__table-th'>Quantity</th>
+                            <th className='pos__table-th'>Price</th>
+                            <th className='pos__table-th'>Total</th>
+                            <th className='pos__table-th'></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cart.map((item, index) => (
+                            <tr className='pos__table-tr' key={index}>
+                                <td className='pos__table-td'>{item.batchNumber}</td>
+                                <td className='pos__table-td'>{item.productName}</td>
+                                <td className='pos__table-td'>{item.brand}</td>
+                                <td className='pos__table-td'>{item.model}</td>
+                                <td className='pos__table-td'>{item.quantity}</td>
+                                <td className='pos__table-td'>₱ {(item.sellingPrice * 1).toFixed(2)}</td>
+                                <td className='pos__table-td'>₱ {(item.sellingPrice * item.quantity).toFixed(2)}</td>
+                                <td className='pos__table-td'>
+                                    <i className="pos__icon-td fa-solid fa-trash" onClick={(e) => {
+                                        e.stopPropagation(); // Prevent the click from closing the cart container
+                                        setCart(cart.filter((_, i) => i !== index));
+                                    }}></i>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className='pos__orders-details'>
+                <div className='pos__billing-details-wrapper'>
+                    <p className='pos__bill-label'>Sub Total</p>
+                    <p className='pos__bill-label'>₱ {cart.reduce((sum, item) => sum + item.sellingPrice * item.quantity, 0).toFixed(2)}</p>
+                </div>
+                <button className='pos__checkout' onClick={onClick}>Checkout</button>
+            </div>
+        </div>
+    )
+}

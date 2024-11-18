@@ -76,11 +76,7 @@ const ReportsWeekly = () => {
       </div>
 
       <div className='report-weekly__body'>
-        <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-        <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
-        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
-        <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
-
+        
         <div className='graph-container average-per-product'>
           <h3 className='graph-title'>Avg Selling Time For Top Products</h3>
           <ResponsiveContainer width="100%" height="95%">

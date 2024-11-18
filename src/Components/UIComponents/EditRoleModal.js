@@ -13,7 +13,7 @@ const EditRoleModal = ({ currentRole, onClose, onSubmit }) => {
     'Dashboard': '1',
     'Inventory': '2',
     'Products': '3',
-    'Salesw': '4',
+    'Sales': '4',
     'Expenses': '5',
     'Supplier': '6',
     'User Management': '7',

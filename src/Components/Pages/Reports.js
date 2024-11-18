@@ -6,11 +6,9 @@ import ReportsYearly from '../Pages/ReportsYearly';
 import '../Styles/Reports.css'
 
 const Reports = () => {
-    const [activeFilter, setFilter] = useState('daily');
+    const [activeFilter, setFilter] = useState('monthly');
 
     const dashboardStates = {
-        'daily': <ReportsDaily />,
-        'weekly': <ReportsWeekly />,
         'monthly': <ReportsMonthly />,
         'yearly': <ReportsYearly />
       };
@@ -25,8 +23,6 @@ const Reports = () => {
     <div className='reports'>
       <div className='reports__header'>
         <select className='reports__filter' onChange={handleOnChangeFilter}>
-          <option value='daily'>Daily</option>
-          <option value='weekly'>Weekly</option>
           <option value='monthly'>Monthly</option>
           <option value='yearly'>Yearly</option>
         </select>

@@ -96,10 +96,7 @@ const AddToCartModal = ({ onClick, product, onAddToCart }) => {
                     <Formik initialValues={initialValues} onSubmit={addToCart} validationSchema={validationSchema}>
                         {({ setFieldValue, values }) => (
                             <Form className="modal__form">
-                                <div className="modal__input-field-wrapper">
-                                    <Field type="number" name="quantity" placeholder="Enter Quantity" className="modal__input-field" />
-                                    <ErrorMessage name="quantity" component="span" className="modal__input-field-error" />
-                                </div>
+
                                 <div className="modal__input-field-wrapper">
                                     <Field
                                         as="select"
@@ -123,12 +120,21 @@ const AddToCartModal = ({ onClick, product, onAddToCart }) => {
                                         )}
                                     </Field>
                                     <ErrorMessage name="batchNumber" component="span" className="modal__input-field-error" />
-                                    {/* Display available stocks and selling price */}
-                                    <h3>Available Stocks: {selectedBatchDetails.quantity}</h3>
-                                    <h3>Selling Price: {selectedBatchDetails.sellingPrice}</h3>
                                 </div>
+
+                                <div className="modal__input-field-wrapper">
+                                    <Field type="number" name="quantity" placeholder="Enter Quantity" className="modal__input-field" />
+                                    <ErrorMessage name="quantity" component="span" className="modal__input-field-error" />
+                                </div>
+                                
+                                <div className='modal__details-wrapper'>
+                                    <p className='modal__details'><span className='emphasized'>Available Stocks:</span> {selectedBatchDetails.quantity}</p>
+                                    <p className='modal__details'><span className='emphasized'>Selling Price:</span> {selectedBatchDetails.sellingPrice}</p>
+                                </div>
+                                
                                 <button type="submit" className="modal__insert">Add To Cart</button>
                             </Form>
+                            
                         )}
                     </Formik>
                 </div>
