@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../Styles/ProductCard.css';
 import { ViewProductIcon } from '../UIComponents/ActionIcons';
 
-const ProductCard = ({ product, icon, onClick }) => {
+const ProductCard = ({ product, icon, onClick, iconTooltip }) => {
   const [quantity, setQuantity] = useState(0); // To store the product's quantity
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -57,7 +57,7 @@ const ProductCard = ({ product, icon, onClick }) => {
         <div className='product-card__icon-wrapper'>
           <ViewProductIcon products={product} />
           <div onClick={(e) => { e.stopPropagation(); onClick(product); }}>
-            <i className={`product-card__icon fa-solid ${icon}`}></i>
+            <i className={`product-card__icon fa-solid ${icon}`} title={iconTooltip}></i>
           </div>
         </div>
       </div>

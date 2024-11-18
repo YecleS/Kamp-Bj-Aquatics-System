@@ -14,7 +14,7 @@ export const ViewProductIcon = ({ products }) => {
 
   return (
     <>
-      <i className="action-icons fa-solid fa-eye" onClick={toggleViewProductsModal}></i>
+      <i className="action-icons fa-solid fa-eye" title='View Product' onClick={toggleViewProductsModal}></i>
       {isViewProductsModalOpen && <ViewProductsModal products={products} onClick={toggleViewProductsModal} />}
     </>
   );
