@@ -24,22 +24,35 @@ const Login = () => {
     password: Yup.string().required('Password is required')
   });
 
-  const errorMessage = () => {
-    toast.error('Invalid Username and Password', {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
+  const errorMessage = (title) => {
+    if(title === 'invalid'){
+      toast.error('Invalid Username and Password', {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+    }else{
+      toast.error('This user is set to inactive!', {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
     });
-  };
+  }
+}
 
   const login = (values, { resetForm }) => {
 
-    if(values.username && values.password == "System_Admin"){
+    if(values.username && values.password === "System_Admin"){
       navigate('/SA');
       resetForm();
     }else{
@@ -57,21 +70,25 @@ const Login = () => {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            localStorage.setItem('username', data.username);
-            localStorage.setItem('roleId', data.roleId);
-            localStorage.setItem('userId', data.userId);
-    
+
+            if (data.status === 'inactive'){
+              errorMessage('inactive');
+            }else{
+              localStorage.setItem('username', data.username);
+              localStorage.setItem('roleId', data.roleId);
+              localStorage.setItem('userId', data.userId);
             // Navigate to the admin page
             navigate('/home');
+            }       
             resetForm();
-          } else {
+          }else{
             // Show error message on failed login
             errorMessage();
           }
         })
         .catch(error => {
           console.error('Error:', error);
-          errorMessage();
+          errorMessage('invalid');
         });
     } 
   };
