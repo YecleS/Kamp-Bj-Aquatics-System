@@ -180,7 +180,7 @@ const filteredSalesData = salesData
                                 <tr className='sales__table-tr' key={sales.id} >
                                     <td className='sales__table-td'>{sales.id}</td>
                                     <td className='sales__table-td'>{sales.date}</td>
-                                    <td className='sales__table-td'>₱ {sales.total}</td>
+                                    <td className='sales__table-td'>₱ {(sales.total * 1).toFixed(2)}</td>
                                     <td className='sales__table-td'>{sales.username}</td>
                                     <td className='sales__table-td'>
                                         <ButtonComponent label='Show Products' onClick={() => handleShowProducts(sales.id)} />

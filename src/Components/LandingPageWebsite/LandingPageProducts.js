@@ -8,6 +8,7 @@ const LandingPageProducts = () => {
   ScrollToTop();
 
   const [inventoryData, setInventoryData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // New state for the search term
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const filterWrapper = useRef(null);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -42,32 +43,28 @@ const LandingPageProducts = () => {
     return () => document.removeEventListener('click', handleClick);
   }, []);
 
+  // Filter inventory data based on the search term
+  const filteredData = inventoryData.filter((product) =>
+    product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className='landing-page-products'>
       <div className='landing-page-products__content-wrapper'>
         <div className='landing-page-products__header'>
-        <div className='landing-page-products__search-field-wrapper'>
-            <input type='text' placeholder='Search a product..' className='landing-page-products__input-search' />
-          </div>
-          <div className='landing-page-products__filter-wrapper' ref={filterWrapper}>
-            <div className='landing-page-products__filter-icon-wrapper' onClick={toggleFilterDropdown} ref={filterWrapper}>
-              <i className="landing-page-products__filter-icon fa-solid fa-filter"></i>
-            </div>
-            {isFilterDropdownOpen && 
-                <div className='landing-page-products__filter-dropdown-wrapper'>
-                  <p className='landing-page-products__filter-dropdown-title'>Sort By:</p>
-                  <select className='landing-page-products__filter-field' defaultValue=''>
-                    <option value='' disabled hidden>Price</option>
-                    <option value='low-to-high'>Price: Low to High</option>
-                    <option value='high-to-low'>Price: High to Low</option>
-                  </select>
-                </div>
-              }
+          <div className='landing-page-products__search-field-wrapper'>
+            <input
+              type='text'
+              placeholder='Search a product...'
+              className='landing-page-products__input-search'
+              value={searchTerm} // Bind input value to searchTerm
+              onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm on input change
+            />
           </div>
         </div>
         <div className='landing-page-products__body'>
-          {inventoryData.length > 0 ? (
-            inventoryData.map((product) => (
+          {filteredData.length > 0 ? (
+            filteredData.map((product) => (
               <LandingPageCards
                 key={product.productId}
                 product={product}

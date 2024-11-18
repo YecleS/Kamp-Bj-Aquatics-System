@@ -136,41 +136,47 @@ const Pos = () => {
     };
     
     const handleCheckout = async () => {
-        const orderItems = cart.map(item => ({
-            indicator: item.lowStockIndicator,
-            productName: item.productName,
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.sellingPrice,
-            total: item.sellingPrice * item.quantity,
-            batchNumber : item.batchNumber
-        }));
-        const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
-        const userId = localStorage.getItem('userId');
 
-        try {
-            const response = await fetch(`${apiUrl}/KampBJ-api/server/processCheckout.php`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ orderItems, totalAmount, userId }),
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                ToastSuccess("Order processed successfully!");
-                setCart([]);
-                const productsResponse = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
-                const productsData = await productsResponse.json();
-                setProducts(productsData);
-            } else {
-                ToastError(result.message || "Failed to process order.");
+        if(cart.length!=0){
+            const orderItems = cart.map(item => ({
+                indicator: item.lowStockIndicator,
+                productName: item.productName,
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.sellingPrice,
+                total: item.sellingPrice * item.quantity,
+                batchNumber : item.batchNumber
+            }));
+            const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
+            const userId = localStorage.getItem('userId');
+    
+            try {
+                const response = await fetch(`${apiUrl}/KampBJ-api/server/processCheckout.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ orderItems, totalAmount, userId }),
+                });
+    
+                const result = await response.json();
+                if (result.success) {
+                    ToastSuccess("Order processed successfully!");
+                    setCart([]);
+                    const productsResponse = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
+                    const productsData = await productsResponse.json();
+                    setProducts(productsData);
+                } else {
+                    ToastError(result.message || "Failed to process order.");
+                }
+            } catch (error) {
+                console.error("Error processing checkout:", error);
+                ToastError("Error processing checkout.");
             }
-        } catch (error) {
-            console.error("Error processing checkout:", error);
-            ToastError("Error processing checkout.");
+        }else{
+            ToastError("Order List is empty!");
         }
+       
     };
 
     const filteredProducts = products.filter(product =>

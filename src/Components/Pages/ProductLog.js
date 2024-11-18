@@ -47,7 +47,7 @@ const ProductLog = () => {
     if (searchTerm) {
       // Check if the restock matches the search term (ID or username)
       const matchesSearch =
-        log.target.toString().includes(searchTerm) ||
+        log.target.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.username.toLowerCase().includes(searchTerm.toLowerCase());
       if (!matchesSearch) return false;
     }
