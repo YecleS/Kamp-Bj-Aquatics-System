@@ -163,7 +163,6 @@ const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
                     )}
                   </Field>
                   <ErrorMessage name='batchNumber' component='span' className='modal__input-field-error' />
-                  <h3>Available Stocks: {selectedBatchDetails.quantity}</h3>
                 </div>
 
                 <div className='modal__input-field-wrapper'>
@@ -174,6 +173,10 @@ const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
                 <div className='modal__input-field-wrapper'>
                   <Field type='date' name='date' className='modal__input-field' />
                   <ErrorMessage name='date' component='span' className='modal__input-field-error' />
+                </div>
+
+                <div className='modal__details-wrapper'>
+                  <h3 className='modal__details'><span className='emphasized'>Available Stocks:</span> {selectedBatchDetails.quantity}</h3>
                 </div>
 
                 <button type='submit' className='modal__insert'>Save Record</button>

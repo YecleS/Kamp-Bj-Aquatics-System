@@ -282,6 +282,16 @@
     font-weight: 600;
 }
 
+/* Modal Text Style */
+.modal__details-wrapper {
+    margin-top: 1rem;
+    border-top: 1px solid gainsboro;
+    padding-top: 1rem;
+}
+
+.modal__details.emphasized {
+    font-weight: 800;
+}
 
 
 /* MEDIA QUERIES */

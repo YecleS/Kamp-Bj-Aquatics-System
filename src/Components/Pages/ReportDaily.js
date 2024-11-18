@@ -114,7 +114,7 @@ export const AverageSellingTImeGraph = ({selectedDate}) => {
   ];
 
   return (
-    <div className='graph-container graph-1'>
+    <div className='graph-container'>
       <h3 className='graph-title'>Avg Selling Time For Top Products</h3>
       <ResponsiveContainer width="100%" height="95%">
         <AreaChart
@@ -151,7 +151,7 @@ export const MostSoldProducts = ({selectedDate}) => {
   ];
 
   return(
-    <div className='graph-container graph-2'>
+    <div className='graph-container'>
       <h3 className='graph-title'>Most Sold Products</h3>
       <ResponsiveContainer width="100%" height="95%">
         <BarChart
@@ -187,7 +187,7 @@ export const InventoryTurnOverGraph = ({selectedDate}) => {
   ];
 
   return(
-      <div className='graph-container graph-3'>
+      <div className='graph-container'>
         <h3 className='graph-title'>Inventory Turn Over Ratio</h3>
         <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -223,7 +223,7 @@ export const GmroiGraph = ({selectedDate}) => {
   ];
 
   return(
-    <div className='graph-container graph-4'>
+    <div className='graph-container'>
       <h3 className='graph-title'>Gross Margin Return on Investment</h3>
       <ResponsiveContainer width="100%" height="95%">
         <BarChart width={150} height={40} data={gmroiData}>

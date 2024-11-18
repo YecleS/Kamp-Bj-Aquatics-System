@@ -125,8 +125,7 @@ const DashboardMonthly = () => {
 
         <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
         <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
-        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
-        <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
+        <DashboardCards icon='fa-cart-shopping' title="Number of  Units Sold" subTitle="Total Number of Units Sold" desription='120'/>
 
         <div className='graph-container monthly-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
@@ -175,8 +174,8 @@ const DashboardMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container monthly-sales-vs-expenses'>
-          <h3 className='graph-title'>Sales vs Expenses</h3>
+        <div className='graph-container monthly-sales-vs-restocks'>
+          <h3 className='graph-title'>Sales vs Restocks</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
               width={500}

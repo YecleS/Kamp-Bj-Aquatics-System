@@ -70,13 +70,11 @@ const DashboardDaily = () => {
       </div>
       <div className='dashboard-daily__body'>
         <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-        <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
-        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
-        <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
-        
+        <DashboardCards icon='fa-cart-shopping' title="Number of  Units Sold" subTitle="Total Number of Units Sold" desription='120'/>
+
         <div className='graph-container daily-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="96%">
             <AreaChart
               width={500}
               height={400}
@@ -99,7 +97,7 @@ const DashboardDaily = () => {
 
         <div className='graph-container daily-most-sold-products'>
           <h3 className='graph-title'>Most Sold Products</h3>
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="96%">
             <BarChart
               width={500}
               height={300}
@@ -135,7 +133,7 @@ const DashboardDaily = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container daily-sales-vs-expenses'>
+        {/* <div className='graph-container daily-sales-vs-expenses'>
           <h3 className='graph-title'>Sales vs Expenses</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -158,9 +156,9 @@ const DashboardDaily = () => {
               <Bar dataKey="expenses" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </div> */}
 
-        <div className='graph-container daily-expenses-breakdown'>
+        {/* <div className='graph-container daily-expenses-breakdown'>
           <h3 className='graph-title'>Expenses Breakdown</h3>
           <ResponsiveContainer width="100%" height="95%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expensesBreakdown}>
@@ -170,7 +168,7 @@ const DashboardDaily = () => {
               <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
             </RadarChart>
           </ResponsiveContainer>
-        </div>
+        </div> */}
         
       </div>
     </div>

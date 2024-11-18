@@ -91,9 +91,7 @@ const DashboardWeekly = () => {
       </div>
       <div className='dashboard-weekly__body'>
         <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-        <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
-        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
-        <DashboardCards icon='fa-users' title="Number of Staffs" subTitle="Total Number of Staffs" desription='5'/>
+        <DashboardCards icon='fa-cart-shopping' title="Number of  Units Sold" subTitle="Total Number of Units Sold" desription='120'/>
 
         <div className='graph-container weekly-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
@@ -101,7 +99,7 @@ const DashboardWeekly = () => {
             <AreaChart
               width={500}
               height={400}
-              data={convertedData}
+              data={data}
               margin={{
                 top: 30,
                 right: 30,
@@ -110,7 +108,7 @@ const DashboardWeekly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" dy={10} tick={{ fontSize: 14 }} />
+              <XAxis dataKey="date" dy={10} tick={{ fontSize: 14 }} />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Area type="monotone" dataKey="sale" stroke="#8884d8" fill="#8884d8" />
@@ -142,8 +140,8 @@ const DashboardWeekly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graph-container weekly-sales-vs-expenses'>
-          <h3 className='graph-title'>Sales vs Expenses</h3>
+        <div className='graph-container weekly-sales-vs-restocks'>
+          <h3 className='graph-title'>Sales vs Restocks</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
               width={500}
@@ -164,18 +162,6 @@ const DashboardWeekly = () => {
               <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
               <Bar dataKey="expenses" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
             </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className='graph-container weekly-expenses-breakdown'>
-          <h3 className='graph-title'>Expenses Breakdown</h3>
-          <ResponsiveContainer width="100%" height="95%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
-              <Tooltip />
-              <PolarGrid />
-              <PolarAngleAxis dataKey="name" />
-              <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-            </RadarChart>
           </ResponsiveContainer>
         </div>
 
