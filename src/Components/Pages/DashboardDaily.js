@@ -9,28 +9,87 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 const DashboardDaily = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString());
   const [topProductsData, setTopProductsData] = useState([]);
+  const [salesData, setSalesData] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const handleDatechange = (selectedDate) => {
-    setSelectedDate(`${selectedDate.toLocaleDateString()}`);
-  }
+  const handleDatechange = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+    const day = String(newDate.getDate()).padStart(2, '0');
+  
+    const formattedDate = `${year}-${month}-${day}`;
+    console.log(formattedDate); // Check the output format in the console
+    setSelectedDate(formattedDate);
+  };
 
+  // Automatically call handleDatechange() with current date when the page loads
   useEffect(() => {
-    // Fetch data from the PHP script
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTop5Products.php`)
+    const currentDate = new Date();
+    handleDatechange(currentDate); // This will set the date to current date
+  }, []); // Empty dependency array ensures this runs once when the component mounts
+  
+  
+  useEffect(() => {
+    // Fetch data from the PHP script with the selectedDate
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTop5Products.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate }),
+    })
       .then(response => response.json())
       .then(data => {
-        // Transform the data to fit the chart format if necessary
-        const formattedData = data.map(item => ({
-          name: item.productName,
-          Total_Sales: parseFloat(item.Total_Sales)
-        }));
-        setTopProductsData(formattedData);
+        if (data.length > 0) {
+          // Transform the data to fit the chart format if necessary
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            Total_Sales: parseFloat(item.Total_Sales),
+          }));
+          setTopProductsData(formattedData);
+        } else {
+          console.log('No data available for the selected date.');
+          setTopProductsData([]);
+        }
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, []); // Empty dependency array to fetch data on component mount
+  }, [selectedDate]); // Re-run the effect when selectedDate changes
+
+  // Automatically call handleDatechange() with current date when the page loads
+  useEffect(() => {
+    const currentDate = new Date();
+    handleDatechange(currentDate); // This will set the date to current date
+  }, []); // Empty dependency array ensures this runs once when the component mounts
+
+  // Fetch sales data for the selected date
+  useEffect(() => {
+    fetch(`${apiUrl}/KampBJ-api/server/getDailySales.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          // Format the data to fit the AreaChart
+          const formattedSalesData = data.map(item => ({
+            name: item.timePeriod,  // The time period for sales (e.g., '12 AM - 12 PM')
+            value: parseFloat(item.totalSales),  // Total sales value for that period
+          }));
+          setSalesData(formattedSalesData);
+        } else {
+          console.log('No sales data available for the selected date.');
+          setSalesData([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [selectedDate]); 
 
   const sales = [
     { name: '12 AM - 12 PM', value: 1200 },
@@ -69,7 +128,7 @@ const DashboardDaily = () => {
             <AreaChart
               width={500}
               height={400}
-              data={sales}
+              data={salesData}
               margin={{
                 top: 30,
                 right: 30,
