@@ -55,7 +55,7 @@ export const ViewExpensesIcon = ({ expenses }) => {
 //For right icon
 export const RestockProductRightIcon = ({ onClick }) => {
   return (
-    <i className="action-icons fa-solid fa-arrow-right" onClick={onClick}></i>
+    <i className="action-icons fa-solid fa-arrow-right" title='Add to restock list' onClick={onClick}></i>
   );
 };
 

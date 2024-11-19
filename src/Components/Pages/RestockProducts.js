@@ -6,8 +6,11 @@ import ButtonComponent from '../UIComponents/ButtonComponent';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const RestockProducts = () => {
+  const restockListIconRef = useRef();
+  const restockListContainerRef = useRef();
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const [isAddToRestockModalOpen, isSetAddToRestockModalOpen] = useState(false); // State to open restock modal
+  const [isRestockListContainerVisible, setRestockListContainerVisible] = useState(false);
   const [products, setProducts] = useState([]); // State to store fetched products
   const [selectedProduct, setSelectedProduct] = useState(null); // State to track the selected product
   const [restockList, setRestockList] = useState([]); // State to track the list of items to restock
@@ -21,6 +24,18 @@ const RestockProducts = () => {
   // Fetch product data and total stocks
   useEffect(() => {
     fetchProductData();
+
+    const handleClick = (e) => {
+      if(restockListContainerRef.current && !restockListContainerRef.current.contains(e.target)){
+        if(restockListIconRef.current && !restockListIconRef.current.contains(e.target)){
+          setRestockListContainerVisible(false);
+        }
+      }
+    }
+
+    document.addEventListener('click', handleClick);
+    return ()=> document.removeEventListener('click', handleClick);
+    
   }, []);
 
   const fetchProductData = () => {
@@ -65,9 +80,6 @@ const RestockProducts = () => {
   };
   
   
-  
-
-
   // Toggle Dropdowns
   const toggleFilterDropdown = () => {
     isSetFilterDropdownOpen(!isFilterDropdownOpen);
@@ -114,9 +126,9 @@ const RestockProducts = () => {
   };
 
   // Remove an item from the restock list
-  const removeRestockItem = (index) => {
-    setRestockList((prevRestockList) => prevRestockList.filter((_, i) => i !== index));
-  };
+  // const removeRestockItem = (index) => {
+  //   setRestockList((prevRestockList) => prevRestockList.filter((_, i) => i !== index));
+  // };
 
   // Filter products based on the search query and other filters
   const filteredProducts = products
@@ -195,7 +207,7 @@ const RestockProducts = () => {
 
   return (
     <div className="restock-products">
-          <div className="restock-products">
+      
       <div className="restock-products__header">
         <div className="restock-products__search-wrapper">
           <input
@@ -205,39 +217,43 @@ const RestockProducts = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} // Update the search query as the user types
           />
-        </div>
-        <div className="restock-products__filter-wrapper" ref={filterDropdownRef}>
-          <i className="restock-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
+          <div className="restock-products__filter-wrapper" ref={filterDropdownRef}>
+            <i className="restock-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
 
-          {isFilterDropdownOpen &&
-            <div className="restock-products__filter-dropdown">
-              <div className="restock-products__filter-dropdown-body">
-                <div className="restock-products__filter-dropdown-field-wrapper">
-                  <p className="restock-products__filter-label">Filter by</p>
-                  <select
-                    value={filters.filterBy}
-                    onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
-                    className="restock-products__filter-field"
-                  >
-                    <option value="">Select</option>
-                    <option value="name">Name (A - Z)</option>
-                    <option value="brand">Brand (A - Z)</option>
-                    <option value="quantity-high-to-low">Stocks (Highest - Lowest)</option>
-                    <option value="quantity-low-to-high">Stocks (Lowest - Highest)</option>
-                  </select>
-                </div>
-                <div className="restock-products__filter-dropdown-footer">
-                  <p className="restock-products__filter-reset" onClick={resetFilters}>Reset Filters</p>
+            {isFilterDropdownOpen &&
+              <div className="restock-products__filter-dropdown">
+                <div className="restock-products__filter-dropdown-body">
+                  <div className="restock-products__filter-dropdown-field-wrapper">
+                    <p className="restock-products__filter-label">Filter by</p>
+                    <select
+                      value={filters.filterBy}
+                      onChange={(e) => setFilters({ ...filters, filterBy: e.target.value })}
+                      className="restock-products__filter-field"
+                    >
+                      <option value="">Select</option>
+                      <option value="name">Name (A - Z)</option>
+                      <option value="brand">Brand (A - Z)</option>
+                      <option value="quantity-high-to-low">Stocks (Highest - Lowest)</option>
+                      <option value="quantity-low-to-high">Stocks (Lowest - Highest)</option>
+                    </select>
+                  </div>
+                  <div className="restock-products__filter-dropdown-footer">
+                    <p className="restock-products__filter-reset" onClick={resetFilters}>Reset Filters</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          }
-          
+            }
+          </div>
+        </div>
+        <div className='restock-products__restock-list-icon-wrapper' onClick={() => setRestockListContainerVisible(true)} ref={restockListIconRef}>
+          {restockList.length > 0 && <i className="restock-products__warning-icon fa-solid fa-circle-exclamation"></i>}
+          <i className="restock-products__restock-list-icon fa-solid fa-truck-ramp-box" title='Restock list'></i>
         </div>
       </div>
 
       <div className="restock-products__body">
         <div className="restock-products__content-wrapper">
+
           <div className="restock-products__inventory-wrapper">
             <div className="restock-products__inventory-table-wrapper">
               <table className="restock-products__table">
@@ -275,8 +291,14 @@ const RestockProducts = () => {
               />
             )}
           </div>
-
-          <div className="restock-products__restock-list-wrapper">
+            <RestockContainer
+                restockContainerClass={isRestockListContainerVisible ? 'restock-container-active':''}
+                restockListContainerRef={restockListContainerRef} 
+                restockList={restockList}
+                submit={handleRestockSubmit}
+                setRestockList={setRestockList}
+            />
+          {/* <div className="restock-products__restock-list-wrapper">
             <h5 className="restock-products__table-title">Restock list</h5>
             <div className="restock-products__restock-list-table-wrapper">
               <table className="restock-products__table">
@@ -305,12 +327,55 @@ const RestockProducts = () => {
               </table>
             </div>
             <ButtonComponent buttonCustomClass='restock-products__submit-restock' label='Process Restock' onClick={handleRestockSubmit} /> 
-          </div>
+          </div> */}
+
         </div>
       </div>
-    </div>
     </div>
   );
 };
 
 export default RestockProducts;
+
+
+
+export const RestockContainer = ({restockContainerClass, restockListContainerRef, setRestockList, restockList,  submit }) => {
+  const removeRestockItem = (index) => {
+      setRestockList((prevRestockList) => prevRestockList.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className={`restock-container ${restockContainerClass}`} ref={restockListContainerRef}>
+            <div className="restock-container__table-wrapper">
+              <table className="restock-products__table">
+                <thead>
+                  <tr>
+                    <th className="restock-products__table-th">Name</th>
+                    <th className="restock-products__table-th">Quantity</th>
+                    <th className="restock-products__table-th">Supplier</th>
+                    <th className="restock-products__table-th">Product Price</th>
+                    <th className="restock-products__table-th"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {restockList.map((item, index) => (
+                    <tr className="restock-products__table-tr" key={index}>
+                      <td className="restock-products__table-td">{item.productName}</td>
+                      <td className="restock-products__table-td">{item.quantity}</td>
+                      <td className="restock-products__table-td">{item.supplierName}</td>
+                      <td className="restock-products__table-td">{item.unitPrice}</td>
+                      <td className="restock-products__table-td">
+                        <DeleteIcon onClick={(e) => {
+                          e.stopPropagation();
+                          removeRestockItem(index);
+                        }} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <ButtonComponent buttonCustomClass='restock-products__submit-restock' label='Process Restock' onClick={submit} /> 
+          </div>
+  )
+}

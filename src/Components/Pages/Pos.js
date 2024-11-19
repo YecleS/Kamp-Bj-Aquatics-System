@@ -197,7 +197,7 @@ const Pos = () => {
                 </div>
                 <div className='pos__cart-container-icon-wrapper'>
                     {cart.length > 0 && <i className="pos__cart-warning-icon fa-solid fa-circle-exclamation"></i>}
-                    <i className="pos__cart-container-icon fa-solid fa-cart-shopping" ref={cartIcon} onClick={() => setCartContainerVisible(true)}></i>
+                    <i className="pos__cart-container-icon fa-solid fa-cart-shopping" title='Cart' ref={cartIcon} onClick={() => setCartContainerVisible(true)}></i>
                 </div>
             </div>
 

@@ -16,7 +16,7 @@ const DashboardDaily = () => {
   const [salesData, setSalesData] = useState([]);
   const [totalSales, setTotalSales] = useState(0);
   const [salesCount, setSalesCount] = useState(null);
-  const [averageSales, setAverageSales] = useState(0);
+  const [averageSales, setAverageSales] = useState(0);  
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleDatechange = (newDate) => {
@@ -84,6 +84,7 @@ const DashboardDaily = () => {
       });
   }, [selectedDate]);
   
+
   useEffect(() => {
     // Fetch the sales data from the PHP script
     fetch('http://localhost/KampBJ-api/server/dataAnalysis/getTotalSalesCount.php',{
@@ -105,6 +106,7 @@ const DashboardDaily = () => {
         console.error('Error fetching data:', error);
       });
   }, [selectedDate]);
+
 
   useEffect(() => {
     // Fetch the average sales amount for the selected date
@@ -148,6 +150,7 @@ const DashboardDaily = () => {
             name: item.timePeriod,  // The time period for sales (e.g., '12 AM - 12 PM')
             value: parseFloat(item.totalSales),  // Total sales value for that period
           }));
+          
           setSalesData(formattedSalesData);
         } else {
           ToastError('No sales data available for the selected date.');
@@ -166,7 +169,7 @@ const DashboardDaily = () => {
     return label;
   };
 
-
+  
   return (
     <div className='dashboard-daily'>
       <div className='dashboard-daily__header'>
@@ -183,7 +186,6 @@ const DashboardDaily = () => {
     </div>
 
       <div className='dashboard-daily__body'>
-    
         <div className='graph-container daily-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>
           <ResponsiveContainer width="100%" height="96%">
@@ -199,8 +201,8 @@ const DashboardDaily = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
+              <XAxis dataKey="name" tick={{ fontSize: 13 }}/>
+              <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
               <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
@@ -244,43 +246,6 @@ const DashboardDaily = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-
-        {/* <div className='graph-container daily-sales-vs-expenses'>
-          <h3 className='graph-title'>Sales vs Expenses</h3>
-          <ResponsiveContainer width="100%" height="95%">
-            <BarChart
-              width={500}
-              height={300}
-              data={expenses}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-              <Bar dataKey="expenses" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div> */}
-
-        {/* <div className='graph-container daily-expenses-breakdown'>
-          <h3 className='graph-title'>Expenses Breakdown</h3>
-          <ResponsiveContainer width="100%" height="95%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expensesBreakdown}>
-              <Tooltip />
-              <PolarGrid />
-              <PolarAngleAxis dataKey="name" />
-              <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div> */}
         
       </div>
     </div>

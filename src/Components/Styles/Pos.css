@@ -245,6 +245,10 @@
     transform: scale(1.1);
 }
 
+.pos__cart-container-icon:hover.pos__cart-warning-icon {
+    transform: scale(1.1);
+}
+
 .pos__cart-warning-icon {
     color: rgb(255, 169, 8);
     position: absolute;
