@@ -25,6 +25,9 @@ const DashboardWeekly = () => {
 
     endDate.setDate(startingDate.getDate() - 6);
 
+    console.log(startingDate);
+    console.log(endDate);
+
     setWeekRange(`${startingDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`);
   }
 
