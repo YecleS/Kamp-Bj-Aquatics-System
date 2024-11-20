@@ -115,7 +115,7 @@ const DashboardWeekly = () => {
   };
 
   const getTotalSalesCount = (start, end) => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/KampBJ-api/server/dataAnalysis/getTotalSalesCount.php`,{
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTotalSalesCount.php`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
