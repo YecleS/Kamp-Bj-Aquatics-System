@@ -28,10 +28,39 @@ const DashboardDaily = () => {
     setSelectedDate(formattedDate);
   };
 
+
   useEffect(() => {
     const currentDate = new Date();
     handleDatechange(currentDate);
   }, []);
+
+  // useEffect(() => {
+  //   // Fetch data from the PHP script with the selectedDate
+  //   fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/dailySoldProducts.php`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ selectedDate}),
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       if (data.length > 0) {
+  //         // Transform the data to fit the chart format if necessary
+  //         const formattedData = data.map(item => ({
+  //           name: item.productName,
+  //           Total_Sales: parseFloat(item.Total_Sales),
+  //           quantity: item.quantity,
+  //         }));
+  //         setTopProductsData(formattedData);
+  //       } else {
+  //         setTopProductsData([]);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       ToastError('Error fetching data:', error);
+  //     });
+  // }, [selectedDate]);
   
   
   useEffect(() => {
@@ -50,6 +79,7 @@ const DashboardDaily = () => {
           const formattedData = data.map(item => ({
             name: item.productName,
             Total_Sales: parseFloat(item.Total_Sales),
+            quantity: item.quantity,
           }));
           setTopProductsData(formattedData);
         } else {
@@ -87,7 +117,7 @@ const DashboardDaily = () => {
 
   useEffect(() => {
     // Fetch the sales data from the PHP script
-    fetch('http://localhost/KampBJ-api/server/dataAnalysis/getTotalSalesCount.php',{
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTotalSalesCount.php`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

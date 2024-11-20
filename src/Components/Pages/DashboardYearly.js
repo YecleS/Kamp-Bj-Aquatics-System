@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { YearSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardYearly.css'
 import DashboardCards from '../UIComponents/DashboardCards';
+import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
   ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
   PolarAngleAxis, Legend, Rectangle } from 'recharts';
@@ -9,63 +10,152 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 
 const DashboardYearly = () => {
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
+  const [totalSales, setTotalSales] = useState(0);
+  const [topProductsData, setTopProductsData] = useState([]);
+  const [dataSalesExpenses, setDataSalesExpenses] = useState([]);
+  const [dataYearlySales, setDataYearlySales] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
+
+  useEffect(() => {
+    const currentDate = new Date(); // Get the current date
+    const year = currentDate.getFullYear();
+  
+    setSelectedYear(year); // Set the default selected month
+    getTop5Products(year); // Fetch top 5 products
+    getSalesRestock(year); // Fetch sales vs restock data
+    getExpensesData(year); // Fetch expenses breakdown
+    getYearlySales(year);
+    getTotalSalesAmount(year);
+  
+  }, []);
   const handleYearChange = (selectedYear) => {
-    setSelectedYear( new Intl.DateTimeFormat('default', {year:'numeric'}).format(selectedYear));
+
+    const formattedYear = new Intl.DateTimeFormat('default', {year:'numeric'}).format(selectedYear)
+    setSelectedYear(formattedYear);
+
+    getTotalSalesAmount(formattedYear);
+    getTop5Products(formattedYear);
+    getSalesRestock(formattedYear);
+    getYearlySales(formattedYear);
+    getExpensesData(formattedYear);
   }
 
-  const dataYearlySales = [
-    { month: 'Jan', sales: 13500 },
-    { month: 'Feb', sales: 11200 },
-    { month: 'Mar', sales: 6255 },
-    { month: 'Apr', sales: 11853 },
-    { month: 'May', sales: 3454 },
-    { month: 'Jun', sales: 15500 },
-    { month: 'Jul', sales: 17200 },
-    { month: 'Aug', sales: 18255 },
-    { month: 'Sep', sales: 3853 },
-    { month: 'Oct', sales: 1454 },
-    { month: 'Nov', sales: 15500 },
-    { month: 'Dec', sales: 12200 },
-  ];
+  const getTop5Products = (year) => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTop5Products.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate: year, timePeriod: 'yearly' }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            Total_Sales: parseFloat(item.Total_Sales),
+          }));
+          setTopProductsData(formattedData);
+        } else {
+          setTopProductsData([]);
+        }
+      })
+      .catch(error => {
+        console.error("Fetch Error:", error);
+        ToastError('Error fetching data: ' + error.message);
+      });
+  }
 
-  const mostProductSold = [
-    { name: 'product1', quantity: 3500 },
-    { name: 'product2', quantity: 1200 },
-    { name: 'product3', quantity: 6255 },
-    { name: 'product4', quantity: 1853 },
-    { name: 'product5', quantity: 3454 },
-  ];
 
-  const dataSalesExpenses = [
-    { month: 'Jan', sales: 1000, expenses: 1400 },
-    { month: 'Feb', sales: 1200, expenses: 1200 },
-    { month: 'Mar', sales: 2500, expenses: 2000 },
-    { month: 'Apr', sales: 9050, expenses: 5000 },
-    { month: 'May', sales: 4030, expenses: 6000 },
-    { month: 'Jun', sales: 5030, expenses: 5000 },
-    { month: 'Jul', sales: 4050, expenses: 8000 },
-    { month: 'Aug', sales: 2002, expenses: 3000 },
-    { month: 'Sep', sales: 3020, expenses: 1000 },
-    { month: 'Oct', sales: 4500, expenses: 2000 },
-    { month: 'Nov', sales: 4040, expenses: 6000 },
-    { month: 'Dec', sales: 1240, expenses: 8000 },
-  ];
+  const getTotalSalesAmount = (year) => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTotalSales.php`, { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate: year, timePeriod: 'yearly' }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === 'success' && data.totalSales) {
+          setTotalSales(data.totalSales); // Set the `totalSales` string directly
+        } else {
+          setTotalSales('0.00'); // Default value if data is invalid
+          ToastError('No sales data found for the selected date.');
+        }
+      })
+      .catch(error => {
+        console.error("Fetch Error:", error);
+        ToastError('Error fetching total sales: ' + error.message);
+      });
+  }
 
-  const expenses = [
-    { name: 'Water Bill', total: 800 },
-    { name: 'Electricity Bill', total: 1200 },
-    { name: 'Equipment Repair', total: 4000 },
-    { name: 'Company Outing', total: 1200 },
-    { name: 'Staff Equipment', total: 5833 },
-    { name: 'Cleaning Essentials', total: 3500 },
-    { name: 'Internet Subscription', total: 1500 },
-    { name: 'Office Furniture', total: 2900 },
-    { name: 'Staff Training', total: 3300 },
-    { name: 'Travel Expenses', total: 2800 },
-    { name: 'Tax and Licenses', total: 5000 },
-    { name: 'Maintenance Services', total: 2500 },
-];
+  const getSalesRestock = (year) => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/fetchSalesRestockData.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedDate: year, filterType: 'yearly' }),
+  })
+  .then(response => response.json())
+  .then(data => setDataSalesExpenses(data))
+  .catch(error => console.error('Error:', error));
+
+}
+
+const getYearlySales = async (year) => {
+  try {
+    const response = await fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/fetchYearlySales.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ year }),
+    });
+    const result = await response.json();
+    if (result.success) {
+      setDataYearlySales(result.data);
+    } else {
+      ToastError(result.message);
+    }
+  } catch (error) {
+    ToastError('Failed to fetch sales data');
+  }
+};
+
+const getExpensesData = (year) => {
+  fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/fetchExpensesBreakdown.php`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ selectedDate: year }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success' && data.data) {
+        const formattedExpensesData = data.data.map(item => ({
+          name: item.name,  // Expense title
+          total: item.total,  // Total amount
+        }));
+        setExpenses(formattedExpensesData); // Set the formatted data for the graph
+      } else {
+        setExpenses([]);
+        ToastError('No expense data found for the selected year.');
+      }
+    })
+    .catch(error => console.error('Error fetching expenses breakdown:', error));
+};
+
 
 
   return (
@@ -77,12 +167,9 @@ const DashboardYearly = () => {
         />
       </div>
       <div className='dashboard-yearly__body'>
-        <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-        <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/>
-        <DashboardCards icon='fa-cart-shopping' title="Number of Products" subTitle="Total Number of Products" desription='120'/>
 
         <div className='graph-container yearly-total-sales'>
-          <h3 className='graph-title'>Total Sales</h3>
+          <h3 className='graph-title'>Total Sales ₱ {totalSales}</h3>
           <ResponsiveContainer width="100%" height="95%">
             <AreaChart
               width={500}
@@ -110,7 +197,7 @@ const DashboardYearly = () => {
             <BarChart
               width={500}
               height={300}
-              data={mostProductSold}
+              data={topProductsData}
               margin={{
                 top: 20,
                 right: 30,
@@ -123,7 +210,7 @@ const DashboardYearly = () => {
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
-              <Bar dataKey="quantity" stackId="a" fill="#8884d8" />
+              <Bar dataKey="Total_Sales" stackId="a" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -143,12 +230,12 @@ const DashboardYearly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" height={50} tick={{ fontSize: 14, angle: -30, dy: 10, }}/>
+              <XAxis dataKey="monthName" height={50} tick={{ fontSize: 14, angle: -30, dy: 10, }}/>
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
               <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-              <Bar dataKey="expenses" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+              <Bar dataKey="restock" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -156,14 +243,20 @@ const DashboardYearly = () => {
         <div className='graph-container yearly-expenses-breakdown'>
           <h3 className='graph-title'>Expenses Breakdown</h3>
           <ResponsiveContainer width="100%" height="95%">
+          {expenses.length > 0 ? (
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
               <Tooltip />
               <PolarGrid />
               <PolarAngleAxis dataKey="name" tick={{ fontSize: 14 }} />
               <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
             </RadarChart>
+          ) : (
+            <p>No expense data available for the selected year.</p>
+          )}
+
           </ResponsiveContainer>
         </div>
+
       </div>
     </div>
   )
