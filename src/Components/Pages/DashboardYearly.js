@@ -156,6 +156,12 @@ const getExpensesData = (year) => {
     .catch(error => console.error('Error fetching expenses breakdown:', error));
 };
 
+  const truncateLabel = (label, maxLength ) => {
+    if (label.length > maxLength) {
+      return `${label.slice(0, maxLength)}...`;
+    }
+    return label;
+  };
 
 
   return (
@@ -192,7 +198,7 @@ const getExpensesData = (year) => {
         </div>
 
         <div className='graph-container yearly-most-sold-products'>
-          <h3 className='graph-title'>Most Sold Products</h3>
+          <h3 className='graph-title'>Top 5 Most Sold Products</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
               width={500}
@@ -206,7 +212,18 @@ const getExpensesData = (year) => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tick={{ fontSize: 14 }} dy={5} />
+              <XAxis dataKey="name"
+                dy={10}
+                angle={-20}
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value, 12);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" dy={15}  fontSize={12}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
@@ -247,7 +264,16 @@ const getExpensesData = (year) => {
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
               <Tooltip />
               <PolarGrid />
-              <PolarAngleAxis dataKey="name" tick={{ fontSize: 14 }} />
+              <PolarAngleAxis dataKey="name" 
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value, 12);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" dy={2} fontSize={12}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
             </RadarChart>
           ) : (
