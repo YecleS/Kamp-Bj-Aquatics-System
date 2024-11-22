@@ -200,8 +200,6 @@ const Users = () => {
                       className='users__filter-field'
                     >
                       <option value="">Select</option>
-                      <option value='salary_high'>Salary (highest)</option>
-                      <option value='salary_low'>Salary (lowest)</option>
                       <option value='active'>Status (active)</option>
                       <option value='inactive'>Status (inactive)</option>
                     </select>
@@ -222,7 +220,6 @@ const Users = () => {
               <tr>
                 <th className='users__table-th'>Username</th>
                 <th className='users__table-th'>Role</th>
-                <th className='users__table-th'>Salary</th>
                 <th className='users__table-th'>Email</th>
                 <th className='users__table-th'>Contact Number</th>
                 <th className='users__table-th'>Address</th>
@@ -235,7 +232,6 @@ const Users = () => {
                 <tr className='users__table-tr' key={user.userId}>
                   <td className='users__table-td'>{user.username}</td>
                   <td className='users__table-td'>{user.roleTitle}</td>
-                  <td className='users__table-td'>{user.salary}</td>
                   <td className='users__table-td'>{user.email}</td>
                   <td className='users__table-td'>{user.contactNum}</td>
                   <td className='users__table-td'>{user.address}</td>

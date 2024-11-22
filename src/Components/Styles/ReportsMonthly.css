@@ -10,11 +10,13 @@
     height: 85%;
 }
 
-.graph-container {
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
+.graphs-monthly-container {
     padding: 0.5rem;
     border-radius: 5px;
-    height: 100%;
+}
+
+.graph-shadow {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
 }
 
 .graph-title {
@@ -51,4 +53,24 @@
     border: 1px solid var(--blue-color);
     background: white;
     color: black;
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .reports-monthly__body {
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .reports-monthly__body {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .reports-monthly__body {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
 }

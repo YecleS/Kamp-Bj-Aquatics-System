@@ -4,6 +4,7 @@ import '../Styles/ReportsMonthly.css';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
     ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import Select from 'react-select';
+import html2pdf from "html2pdf.js";
 
 
 const ReportsMonthly = () => {
@@ -29,21 +30,80 @@ const ReportsMonthly = () => {
     { value:'gmroi', label:'GMROI Graph'},
   ]
   
-  const printContent = (contentRef) => {
-    if (!contentRef.current) return;
+  const exportToPDF = async () => {
+    const element = document.querySelector('#reports-body');
+    const graphContainers = document.querySelectorAll('.graphs-monthly-container');
   
-    const content = contentRef.current;
-    const printWindow = window.open('', '', 'width=800,height=600');
-    
-    printWindow.document.write('<html><head><title>Print</title>');
-    printWindow.document.write('<link rel="stylesheet" href="path-to-your-styles.css">'); // Ensure styles are included
-    printWindow.document.write('</head><body>');
-    printWindow.document.write(content.innerHTML);
-    printWindow.document.write('</body></html>');
-    
-    printWindow.document.close();
-    printWindow.print();
+    // Clone the reports-body to preserve the original layout
+    const clonedElement = element.cloneNode(true);
+  
+    // Remove 'graph-shadow' class before exporting in the cloned element
+    const clonedGraphContainers = clonedElement.querySelectorAll('.graphs-monthly-container');
+    clonedGraphContainers.forEach(container => {
+      container.classList.remove('graph-shadow');
+    });
+  
+    // Group graphs into pairs for each page in the cloned element
+    const newElement = document.createElement('div');
+    newElement.id = 'pdf-graph-wrapper';
+  
+    for (let i = 0; i < clonedGraphContainers.length; i += 2) {
+      // Create a container for the pair of graphs (stacked vertically)
+      const pageContainer = document.createElement('div');
+      pageContainer.style.display = 'flex';
+      pageContainer.style.flexDirection = 'column'; // Stack the graphs vertically
+      pageContainer.style.marginBottom = '20px'; // Space between pairs of graphs
+  
+      // Add the first graph to the container
+      pageContainer.appendChild(clonedGraphContainers[i]);
+  
+      // Add the second graph (if it exists) to the container
+      if (clonedGraphContainers[i + 1]) {
+        pageContainer.appendChild(clonedGraphContainers[i + 1]);
+      }
+  
+      // Append the page container to the new element
+      newElement.appendChild(pageContainer);
+  
+      // Add a page break after every pair (except the last one)
+      if (i + 2 < clonedGraphContainers.length) {
+        const pageBreak = document.createElement('div');
+        pageBreak.style.pageBreakAfter = 'always'; // Force a page break
+        newElement.appendChild(pageBreak);
+      }
+    }
+  
+    // Append the new element to the body for PDF generation (without affecting the original content)
+    document.body.appendChild(newElement);
+  
+    // Initialize html2pdf options
+    const options = {
+      margin: 10,
+      filename: 'report.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait', // Portrait orientation
+        putOnlyUsedFonts: true, // Optional: improves performance
+      },
+    };
+  
+    // Generate the PDF
+    html2pdf().from(newElement).set(options).save();
+  
+    // Cleanup: Remove the dynamically created wrapper after saving the PDF
+    newElement.remove();
+  
+    // Add the 'graph-shadow' class back after a delay in the original element
+    setTimeout(() => {
+      graphContainers.forEach(container => {
+        container.classList.add('graph-shadow');
+      });
+    }, 100); // Adjust the delay as needed (e.g., 100ms)
   };
+  
+  
 
   return (
     <div className='reports-monthly'>
@@ -62,14 +122,13 @@ const ReportsMonthly = () => {
           placeholder="Select a Graph to Show"
           className='graph-filter-input'
         />
-        <div className='report-icon-wrapper' onClick={() => printContent(contentRef)}>
+        <div className='report-icon-wrapper' onClick={exportToPDF}>
           <i className="report-icon fa-solid fa-print"></i>
         </div>
       </div>
 
-      <div ref={contentRef} className='reports-monthly__body'>
+      <div ref={contentRef} className='reports-monthly__body' id='reports-body'>
 
-        {/* If theres nothing selected in the graph filter */}
         {selectedGraph.length === 0 && (
             <>
               <AverageSellingTImeGraph selectedDate={selectedMonth} />
@@ -79,7 +138,6 @@ const ReportsMonthly = () => {
             </>
           )}
 
-          {/* Conditional Render */}
           {selectedGraphValues.includes('average-per-product') && (
             <AverageSellingTImeGraph selectedDate={selectedMonth} />
           )}
@@ -112,7 +170,7 @@ export const AverageSellingTImeGraph = ({selectedDate}) => {
   ];
 
   return (
-    <div className='graph-container graph-1'>
+    <div className='graphs-monthly-container graph-shadow'>
       <h3 className='graph-title'>Avg Selling Time For Top Products</h3>
       <ResponsiveContainer width="100%" height="95%">
         <AreaChart
@@ -149,7 +207,7 @@ export const MostSoldProducts = ({selectedDate}) => {
   ];
 
   return(
-    <div className='graph-container graph-2'>
+    <div className='graphs-monthly-container graph-shadow'>
       <h3 className='graph-title'>Most Sold Products</h3>
       <ResponsiveContainer width="100%" height="95%">
         <BarChart
@@ -185,7 +243,7 @@ export const InventoryTurnOverGraph = ({selectedDate}) => {
   ];
 
   return(
-      <div className='graph-container graph-3'>
+      <div className='graphs-monthly-container graph-shadow'>
         <h3 className='graph-title'>Inventory Turn Over Ratio</h3>
         <ResponsiveContainer width="100%" height="95%">
             <BarChart
@@ -221,7 +279,7 @@ export const GmroiGraph = ({selectedDate}) => {
   ];
 
   return(
-    <div className='graph-container graph-4'>
+    <div className='graphs-monthly-container graph-shadow'>
       <h3 className='graph-title'>Gross Margin Return on Investment</h3>
       <ResponsiveContainer width="100%" height="95%">
         <BarChart width={150} height={40} data={gmroiData}>

@@ -14,7 +14,6 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
     padding: 0.5rem;
     border-radius: 5px;
-    height: 100%;
 }
 
 .graph-title {
@@ -72,19 +71,3 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }
-
-/* Media query for print */
-@media print {
-    body * {
-        visibility: hidden; /* Hide everything */
-      }
-
-      .report-daily {
-        visibility: visible; /* Show only the desired content */
-        position: absolute; /* Position it at the top of the page */
-        top: 0;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-      }
-  }

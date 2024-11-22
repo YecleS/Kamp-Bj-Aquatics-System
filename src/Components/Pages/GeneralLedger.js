@@ -1,6 +1,7 @@
 import React,{ useState } from 'react';
 import '../Styles/GeneralLedger.css';
 import { YearSelection } from '../UIComponents/DateControls'
+import html2pdf from 'html2pdf.js';
 
 const GeneralLedger = () => {
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
@@ -17,18 +18,53 @@ const GeneralLedger = () => {
     { id:5 ,date: "01/10/2024", transactionId: "TXN005", referenceNo: "REF005", item: "Inventory", description: "Purchased new inventory", debit: 40000, credit: null, balance: 115000 }
   ];
 
+  const handleDownloadPDF = async () => {
+    const table = document.getElementById('general-ledger-table'); // Get the table element
+    const tableWidth = table.offsetWidth;  // Get the table's current width
+    const pageWidth = 210;  // A4 page width in mm (for landscape, it’s 297mm)
+  
+    // Calculate the scale factor to fit the table width to the PDF page width
+    const scale = pageWidth / tableWidth;
+  
+    const options = {
+      filename: 'General_Ledger.pdf',  // Optional: specify the filename for the PDF
+      margin: 10,  // Set margins for the PDF (top, left, bottom, right)
+      html2canvas: {
+        scale: 2,  // Automatically scale to fit the width
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'landscape',  // Set the PDF orientation to landscape for wide tables
+      },
+    };
+  
+    // Generate and save the PDF
+    html2pdf().from(table).set(options).save();
+  };
+
+
   return (
     <div className='general-ledger'>
-      <div className=''>
+      <div className='general-ledger__header'>
+
+        <div className='general-ledger__controls'>
+          <div className='general-ledger__input-field-wrapper'>
+            <input type='text' placeholder='Enter Capital' className='general-ledger__input-field' />
+            <i className="general-ledger__input-icon fa-solid fa-right-to-bracket" title='Insert Capital'></i>
+          </div>
+          <i className="general-ledger__download-pdf-icon fa-solid fa-file-arrow-down" title='Download General Ledger' onClick={handleDownloadPDF}></i>
+        </div>
         <YearSelection 
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
+
       </div>
 
       <div className='general-ledger__body'>
         <div className='general-ledger__table-wrapper'>
-          <table className='general-ledger__table'>
+          <table className='general-ledger__table' id='general-ledger-table'>
             <thead>
               <tr>
                 <th className='general-ledger__table-th'>Date</th>

@@ -3,6 +3,7 @@ import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
+import Select from 'react-select';
 
 const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
   // Initial Values
@@ -61,16 +62,18 @@ const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
           </div>
           
           <Formik initialValues={initialValues} onSubmit={handleAddToRestockList} validationSchema={validationSchema}>
-            {() => (
+            {({setFieldValue}) => (
               <Form className='modal__form'>
                 <div className='modal__input-field-wrapper'>
                   <Field type='number' name='quantity' placeholder='Enter Quantity' className='modal__input-field' />
                   <ErrorMessage name='quantity' component='span' className='modal__input-field-error' />
                 </div>
+
                 <div className='modal__input-field-wrapper'>
                   <Field type='number' name='unitPrice' placeholder='Enter Unit Price' className='modal__input-field' />
                   <ErrorMessage name='unitPrice' component='span' className='modal__input-field-error' />
                 </div>
+
                 <div className='modal__input-field-wrapper'>
                   <div className='modal__supplier-products-wrapper'>
                     <Field as='input' list='supplier-list' name='supplier' placeholder='Select Supplier' className='modal__input-field' />
@@ -82,6 +85,7 @@ const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
                   </div>
                   <ErrorMessage name='supplier' component='span' className='modal__input-field-error' /> {/* Corrected the name to 'supplier' */}
                 </div>
+
                 <button type='submit' className='modal__insert'>Add To Restock List</button>
               </Form>
             )}

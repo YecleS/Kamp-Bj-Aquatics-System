@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import DefaultImagePreview from '../Assets/image-preview.png';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import Select from 'react-select';
 
 const AddProductModal = ({ onClick, refresh }) => {
   const [imagePreview, setImagePreview] = useState();
@@ -132,7 +133,8 @@ const AddProductModal = ({ onClick, refresh }) => {
                       {brands.map((brand) => (
                         <option key={brand.brandId} value={brand.name}></option>
                       ))}
-                    </datalist>
+                    </datalist>   
+
                   <ErrorMessage name='brand' component='span' className='modal__input-field-error' />
                 </div>
 
@@ -143,6 +145,7 @@ const AddProductModal = ({ onClick, refresh }) => {
                         <option key={category.categoryId} value={category.name}></option>
                       ))}
                     </datalist>
+
                   <ErrorMessage name='category' component='span' className='modal__input-field-error' />
                 </div>
 
