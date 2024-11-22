@@ -161,6 +161,13 @@ const DashboardWeekly = () => {
         ToastError('Error fetching weekly sales data: ' + error.message);
       });
   };
+
+  const truncateLabel = (label, maxLength = 12  ) => {
+    if (label.length > maxLength) {
+      return `${label.slice(0, maxLength)}...`;
+    }
+    return label;
+  };
   
 
   return (
@@ -176,8 +183,8 @@ const DashboardWeekly = () => {
         <DashboardCards icon='fa-cart-shopping' title="Sales in a Week" subTitle="Total Number of Sales Made" description={String(salesCount)} />
 
         <div className='graph-container weekly-total-sales'>
-          <h3 className='graph-title'>Total Sales Made within the week</h3>
-          <ResponsiveContainer width="100%" height="95%">
+          <h3 className='graph-title'>Total Sales</h3>
+          <ResponsiveContainer width="100%" height="96%">
             <AreaChart
               width={500}
               height={400}
@@ -199,8 +206,8 @@ const DashboardWeekly = () => {
         </div>
 
         <div className='graph-container weekly-most-sold-product'>
-          <h3 className='graph-title'>Top 5 Most Sold Products in the Week</h3>
-          <ResponsiveContainer width="100%" height="95%">
+          <h3 className='graph-title'>Top 5 Most Sold Products</h3>
+          <ResponsiveContainer width="100%" height="96%">
             <BarChart
               width={500}
               height={400}
@@ -213,7 +220,18 @@ const DashboardWeekly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+              <XAxis dataKey="name"
+                  fontSize={12} 
+                  angle={-10}
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" dy={15} fontSize={14}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
               <Bar dataKey="Total_Sales" fill="#8884d8" />

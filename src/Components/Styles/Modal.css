@@ -88,7 +88,7 @@
 /* STYLE FOR THE INPUT FIELDS */
 .modal__input-field {
     width: 250px;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 500;
     padding: 0.3rem 1rem;
     border-radius: 5px;
@@ -291,6 +291,16 @@
 
 .modal__details.emphasized {
     font-weight: 800;
+}
+
+/* React Select Field */
+.modal__input-field-react-select {
+    border: 1px solid black;
+    width: 250px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 5px;
+    outline: none;
 }
 
 

@@ -240,7 +240,7 @@ const DashboardDaily = () => {
         </div>
 
         <div className='graph-container daily-most-sold-products'>
-          <h3 className='graph-title'>Most Sold Products</h3>
+          <h3 className='graph-title'>Top 5 Most Sold Products</h3>
           <ResponsiveContainer width="100%" height="96%">
             <BarChart
               width={500}

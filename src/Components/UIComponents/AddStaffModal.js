@@ -28,13 +28,12 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
   // Initial Values 
   const initialValues = {
     role: '',
-    salary: '',
+    salary: '0',
   };
 
   // Validation schema
   const validationSchema = Yup.object({
     role: Yup.string().required('Role is required'),
-    salary: Yup.number().typeError('Salary must be a number').required('Salary is required').min(0, 'Salary must be positive'),
   });
 
   const insert = (values, { resetForm }) => {
@@ -45,7 +44,7 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
     formData.append('requestId', selectedUser.requestId);
     formData.append('roleId', selectedRole.roleId);
     formData.append('username', selectedUser.username );
-    formData.append('salary', values.salary);
+    formData.append('salary', initialValues.salary);
     formData.append('fullname', selectedUser.fullname );
     formData.append('age', selectedUser.age);
     formData.append('email', selectedUser.email);
@@ -92,14 +91,6 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
 
                   <ErrorMessage name='role' component='div' className='modal__input-field-error' />
                 </div>
-
-                {/* Salary input field */}
-                <div className='modal__input-field-wrapper'>
-                  <Field type='number' id='salary' name='salary' className='modal__input-field' placeholder='Enter salary' />
-
-                  <ErrorMessage name='salary' component='div' className='modal__input-field-error' />
-                </div>
-
                 <button type='submit' className='modal__insert'>Approve</button>
               </Form>
             )}

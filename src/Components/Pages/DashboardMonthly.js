@@ -176,6 +176,13 @@ const getExpensesData = (month) => {
         .catch(error => console.error('Error fetching expenses breakdown:', error));
 }
 
+const truncateLabel = (label, maxLength ) => {
+  if (label.length > maxLength) {
+    return `${label.slice(0, maxLength)}...`;
+  }
+  return label;
+};
+
   return (
     <div className='dashboard-monthly'>
       <div className='dashboard-monthly__header'>
@@ -213,7 +220,7 @@ const getExpensesData = (month) => {
         </div>
 
         <div className='graph-container monthly-most-sold-products'>
-          <h3 className='graph-title'>Most Sold Products</h3>
+          <h3 className='graph-title'>Top 5 Most Sold Products</h3>
           <ResponsiveContainer width="100%" height="95%">
             <BarChart
               width={500}
@@ -227,7 +234,18 @@ const getExpensesData = (month) => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tick={{ fontSize: 14 }} dy={5} />
+              <XAxis dataKey="name" 
+                dy={10}
+                angle={-20}
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value, 4);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" dy={15} fontSize={14}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
@@ -251,7 +269,7 @@ const getExpensesData = (month) => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="period" tick={{ fontSize: 14 }}/>
+              <XAxis dataKey="period" tick={{ fontSize: 12 }}/>
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip />
               <Legend />
@@ -267,7 +285,17 @@ const getExpensesData = (month) => {
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
               <Tooltip />
               <PolarGrid />
-              <PolarAngleAxis dataKey="name" />
+              <PolarAngleAxis dataKey="name"
+                
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value, 10);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" fontSize={14}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <Radar dataKey="total" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
             </RadarChart>
           </ResponsiveContainer>
