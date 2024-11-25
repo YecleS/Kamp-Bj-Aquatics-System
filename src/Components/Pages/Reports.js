@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import ReportsDaily from '../Pages/ReportDaily';
-import ReportsWeekly from '../Pages/ReportsWeekly';
 import ReportsMonthly from '../Pages/ReportsMonthly';
 import ReportsYearly from '../Pages/ReportsYearly';
 import '../Styles/Reports.css'

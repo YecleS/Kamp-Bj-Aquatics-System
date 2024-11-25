@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './LandingPageStyles/LandingPageContacts.css';
 import LandingPageSectionComponent from './LandingPageComponents/LandingPageSectionComponent';
 import LandingPageContactDetails from './LandingPageComponents/LandingPageContactDetails';
@@ -7,8 +7,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 import ScrollToTop from '../Utils/ScrollToTop';
+import emailjs from '@emailjs/browser';
 
 const LandingPageContacts = () => {
+    const formRef = useRef();
     //Scroll to top upon navigating to this component
     ScrollToTop();
 
@@ -22,15 +24,20 @@ const LandingPageContacts = () => {
     const validationSchema = Yup.object ({
         name: Yup.string().required('Name is required').matches(/^[a-zA-Z0-9 ]*$/, 'Only letters and numbers are allowed'),
         email: Yup.string().required('Email is required').email('Enter valid email'),
-        phoneNumber: Yup.string().required('Phone number is required').matches(/^[0-9]*$/, 'Only numbers are allowed'),
+        phoneNumber: Yup.string().required('Phone number is required').matches(/^[0-9]{11}$/, 'Invalid phone number'),
         message: Yup.string().required('Message is required'),
     })
 
-    const onSubmit = (values, {resetForm}) => {
-        console.log(values);
-        ToastSuccess('Message Sent');
-        resetForm();
-    }
+    const onSubmit = async (values, { resetForm }) => {
+        try {
+            await emailjs.send('service_zsxj52g', 'template_ecjipeg', values, 'ruqAlfQuRn8-F3ZMA');
+            ToastSuccess('Message Sent');
+            resetForm(); // Reset the form after successful submission
+        } catch (error) {
+            console.error('Error:', error.text);
+            ToastError('Failed to send message');
+        }
+    };
 
   return (
     <LandingPageSectionComponent
@@ -81,7 +88,7 @@ const LandingPageContacts = () => {
                     </div>
                 </div>
                 <div className='landing-page-contacts__message-box-wrapper'>
-                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
                         {() => (
                             <Form className='landing-page-contacts__form'>
                                 <h3 className='landing-page-contacts__form-title'>Send a message</h3>

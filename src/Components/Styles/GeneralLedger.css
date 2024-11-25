@@ -83,7 +83,7 @@
 
 /* BODY AND TABLE STYLE*/
 .general-ledger__table-wrapper{
-    height: 80vh;
+    height: 70vh;
     overflow: auto;
 }
 

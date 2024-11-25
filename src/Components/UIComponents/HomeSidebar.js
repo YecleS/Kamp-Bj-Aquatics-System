@@ -62,6 +62,7 @@ const OwnerSidebar = () => {
         isSetSalesDropdownOpen(false);
         isSetReportDropdownOpen(false);
         isSetUsermanagementDropdownOpen(false);
+        isSetInventoryManagementDropdownOpen(false);
     }
 
     const toggleSalesDropdown = () => {
@@ -70,6 +71,7 @@ const OwnerSidebar = () => {
         isSetProductsDropdownOpen(false);
         isSetReportDropdownOpen(false);
         isSetUsermanagementDropdownOpen(false);
+        isSetInventoryManagementDropdownOpen(false);
     }
 
     const toggleUserManagementDropdown = () => {
@@ -77,6 +79,8 @@ const OwnerSidebar = () => {
         // Close Other Dropdown Menu
         isSetProductsDropdownOpen(false);
         isSetReportDropdownOpen(false);
+        isSetInventoryManagementDropdownOpen(false);
+        isSetSalesDropdownOpen(false);
     }
 
     const toggleReportDropdown = () => {
@@ -85,6 +89,7 @@ const OwnerSidebar = () => {
         isSetProductsDropdownOpen(false);
         isSetSalesDropdownOpen(false);
         isSetUsermanagementDropdownOpen(false);
+        isSetInventoryManagementDropdownOpen(false);
     }
 
     const renderSidebarLinks = () => {
@@ -266,13 +271,44 @@ const OwnerSidebar = () => {
                     </div>
                 )}
                 {access.includes(8) && (
-                    <SidebarLink 
-                        to='reports'
-                        className={location.pathname === 'reports' ? 'sidebar-link-active' : ''}
-                        onClick={closeDropdowns}
+                    <SidebarDropdownLink 
+                        onClick={toggleReportDropdown}
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
-                        item='Report'
+                        item='Reports'
                     />
+
+                    // <SidebarLink 
+                    //     to='reports'
+                    //     className={location.pathname === 'reports' ? 'sidebar-link-active' : ''}
+                    //     onClick={closeDropdowns}
+                    //     icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
+                    //     item='Report'
+                    // />
+                )}
+                {isReportDropdownOpen && (
+                    <div className='owner-sidebar__dropdown-wrapper'>
+                        <SidebarLink 
+                            to='/home/reports-inventory'
+                            className={location.pathname === '/home/reports-inventory' ? 'sidebar-link-active' : ''}
+                            onClick={() => {}}
+                            icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
+                            item='Inventory Report'
+                        />
+                        <SidebarLink 
+                            to='/home/reports-sales'
+                            className={location.pathname === '/home/reports-sales' ? 'sidebar-link-active' : ''}
+                            onClick={() => {}}
+                            icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
+                            item='Sales Report'
+                        />
+                        <SidebarLink 
+                            to='/home/reports-expenses'
+                            className={location.pathname === '/home/reports-expenses' ? 'sidebar-link-active': ''}
+                            onClick={() => {}}
+                            icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
+                            item='Exepenses Report'
+                        />
+                    </div>
                 )}
                 {access.includes(9) && (
                     <SidebarLink 
