@@ -30,6 +30,7 @@ const DashboardYearly = () => {
     getTotalSalesAmount(year);
   
   }, []);
+  
   const handleYearChange = (selectedYear) => {
 
     const formattedYear = new Intl.DateTimeFormat('default', {year:'numeric'}).format(selectedYear)

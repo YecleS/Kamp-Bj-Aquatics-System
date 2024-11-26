@@ -1,0 +1,82 @@
+.reports-inventory {
+    height: 100%;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.reports-inventory__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.reports__filter {
+    padding: 0.3em 1em;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 150px;
+}
+
+/* REPORTS COMPONENT */
+.reports__download-report-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background: var(--blue-color);
+    color: white;
+    font-size: 1.2rem;
+    margin-left: auto;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.reports__download-report-icon:hover {
+    background: white;
+    border: 1px solid var(--blue-color);
+    color: black;
+}
+
+.reports-inventory-component__body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 0.5rem;
+    gap: 1rem;
+}
+
+.graphs-container {
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.graphs-shadow {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
+}
+
+.graphs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.graph-title {
+    font-size: 1rem;
+    text-align: center;
+}
+
+
+/* Style for PDF generation */
+  @media print {
+    .pdf-export {
+      width: 100%;
+      display: block;
+    }
+  }
