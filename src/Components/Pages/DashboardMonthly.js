@@ -193,9 +193,6 @@ const truncateLabel = (label, maxLength ) => {
       </div>
       <div className='dashboard-monthly__body'>
 
-          {/* <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Today's Sales" desription='₱ 3500.00'/>
-          <DashboardCards icon='fa-arrow-down-wide-short' title="Total Expenses" subTitle="Today's Expenses" desription='₱ 400.00'/> */}
-        
         <div className='graph-container monthly-total-sales'>
           <h3 className='graph-title'>Total Sales : ₱ {totalSales} </h3>
           <ResponsiveContainer width="100%" height="95%">

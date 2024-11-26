@@ -52,7 +52,7 @@
 }
 
 .graphs-container {
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 5px;
 }
 
@@ -67,11 +67,10 @@
     padding: 0 1rem;
 }
 
-.graph-title {
+.reports-inventory-graph-title {
     font-size: 1rem;
     text-align: center;
 }
-
 
 /* Style for PDF generation */
   @media print {
@@ -80,3 +79,24 @@
       display: block;
     }
   }
+
+
+
+  /* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .reports-inventory-component__body {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .reports-inventory-component__body {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .reports-inventory-component__body {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

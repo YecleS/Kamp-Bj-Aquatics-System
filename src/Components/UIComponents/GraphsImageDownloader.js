@@ -57,7 +57,7 @@ const GraphsImageDownloader = ({elementId}) => {
   
   return (
     <div className='graphs-image-downloader' onMouseEnter={() => isSetVisible(true)} onMouseLeave={() => isSetVisible(false)}>
-      <i className="graphs-image-downloader__icon fa-solid fa-file-arrow-down"></i>
+      <p className='graphs-image-downloader__icon'> : </p>
         { isVisible && (
           <div className='graphs-image-download__dropdown'>
             <li className='graphs-image-download__li' onClick={downloadImageAsPng}>Download as PNG</li>
