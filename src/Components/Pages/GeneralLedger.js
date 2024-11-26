@@ -7,11 +7,8 @@ import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 const GeneralLedger = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [ledgerData, setLedgerData] = useState([]);
-  const [balance, setBalance] = useState(0);  // Starting balance
   const [capitalInput, setCapitalInput] = useState(0);  // Default capital is 0
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(new Date()));
-  
-  let currentBalance = balance;
 
   const handleYearChange = (selectedYear) => {
     setSelectedYear(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
@@ -29,10 +26,6 @@ const GeneralLedger = () => {
       .then(response => response.json())
       .then(data => {
         setLedgerData(data);
-        // Assuming the capital is already part of the response, otherwise, you could update the balance here
-        if (capitalInput > 0) {
-          setBalance(capitalInput); // Initialize balance with the capital input
-        }
       })
       .catch(error => {
         ToastError('Error fetching data:', error);
@@ -48,7 +41,6 @@ const GeneralLedger = () => {
     if (isNaN(capitalInput) || capitalInput <= 0) {
       ToastError('Please Enter A Valid Capital Amount');
     } else {
-      setBalance(capitalInput); // Set the initial balance to the capital input value
       ToastSuccess('Capital Added');
       getSalesAndExpenses();
     }
