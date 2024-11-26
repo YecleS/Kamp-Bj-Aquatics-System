@@ -64,3 +64,22 @@
     font-size: 1rem;
     text-align: center;
 }
+
+  /* MEDIA QUERIES */
+  @media screen and (min-width: 769px) and (max-width: 999px) {
+    .reports-sales-component__body {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .reports-sales-component__body {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .reports-sales-component__body {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
