@@ -197,7 +197,7 @@ const DashboardWeekly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+              <XAxis dataKey="date" dy={10} tick={{ fontSize: 14 }} />
               <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
               <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
