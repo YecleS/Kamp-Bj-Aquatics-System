@@ -289,13 +289,77 @@ export const ReportsSalesMonthly = () => {
 
 
 export const ReportsSalesYearly = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [topProductsData, setTopProductsData] = useState([]);
+  const [leastProductData, setLeastProductData] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
 
   const handleYearChange = (selectedYear) => {
     const formattedYear = new Intl.DateTimeFormat('default', {year:'numeric'}).format(selectedYear)
     setSelectedYear(formattedYear);
   }
+
+  useEffect(() => {
+    getTop5Products();
+    getLeastProducts();
+  }, [selectedYear])
   
+  const getTop5Products = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTop5Products.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedDate: parseInt(selectedYear), timePeriod: 'yearly' }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            sales: parseFloat(item.Total_Sales),
+          }));
+          setTopProductsData(formattedData);
+        } else {
+          setTopProductsData([]);
+        }
+      })
+      .catch(error => {
+        console.error("Fetch Error:", error);
+        ToastError('Error fetching data: ' + error.message);
+      });
+  }
+
+  const getLeastProducts = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getLeastSellingProductsYearly.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedYear: parseInt(selectedYear) }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            sales: parseFloat(item.totalSales),
+          }));
+          setLeastProductData(formattedData);
+        } else {
+          setLeastProductData([]);
+        }
+      })
+      .catch(error => {
+        ToastError('Error fetching data:', error);
+      });
+  }
+
   const average = [
     { name: 'Waterlights', time: 1.30 },
     { name: 'Submarine Pump', time: 2.15 },
@@ -303,6 +367,13 @@ export const ReportsSalesYearly = () => {
     { name: 'Fish Tank Heater', time: 4.45 },
     { name: 'Aquarium Decor', time: 3.35 }
   ];
+
+  const truncateLabel = (label, maxLength ) => {
+    if (label.length > maxLength) {
+      return `${label.slice(0, maxLength)}...`;
+    }
+    return label;
+  };
 
   return (
     <div className='reports-inventory-component'>
@@ -374,7 +445,7 @@ export const ReportsSalesYearly = () => {
             <ComposedChart
               width={500}
               height={400}
-              data={average}
+              data={topProductsData}
               margin={{
                 top: 20,
                 right: 20,
@@ -383,11 +454,20 @@ export const ReportsSalesYearly = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" />
+              <XAxis dataKey="name" scale="band" angle={-20}
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="time" barSize={30} fill="#413ea0" />
+              <Bar dataKey="sales" barSize={30} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -400,7 +480,7 @@ export const ReportsSalesYearly = () => {
             <ComposedChart
               width={500}
               height={400}
-              data={average}
+              data={leastProductData}
               margin={{
                 top: 20,
                 right: 20,
@@ -409,11 +489,20 @@ export const ReportsSalesYearly = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" />
+              <XAxis dataKey="name" scale="band" angle={-20}
+                tick={({ x, y, payload }) => {
+                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  return (
+                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                      {label}
+                    </text>
+                  );
+                }}
+              />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="time" barSize={30} fill="#413ea0" />
+              <Bar dataKey="sales" barSize={30} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

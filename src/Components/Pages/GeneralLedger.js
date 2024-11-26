@@ -191,6 +191,17 @@ export const HandleNullForDebit = (debit) => {
   return `₱ ${formattedDebit}`;
 };
 
+export const formatCurrency = (currency) => {
+  // Ensure debit is a valid number before applying formatting
+  const numericCurrency = parseFloat(currency);
+
+  // Format the number first, then apply toFixed for decimal places
+  const formattedCurrency = numericCurrency.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return `₱ ${formattedCurrency}`;
+};
 
 
 export const HandleNullForCredit = (credit) => {
