@@ -80,7 +80,15 @@ export const ReportsInventoryMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setMostRestockedProductsData(data);
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            frequency: item.restockFrequency,
+          }));
+          setMostRestockedProductsData(formattedData);
+        } else {
+          setMostRestockedProductsData([]);
+        }
       })
       .catch(error => {
         ToastError('Error fetching data:', error);
@@ -98,7 +106,15 @@ export const ReportsInventoryMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setLeastRestockedProductsData(data);
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            frequency: item.restockFrequency,
+          }));
+          setLeastRestockedProductsData(formattedData);
+        } else {
+          setLeastRestockedProductsData([]);
+        }
       })
       .catch(error => {
         ToastError('Error fetching data:', error);
@@ -205,7 +221,7 @@ export const ReportsInventoryMonthly = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="productName" scale="band" angle={-20} 
+              <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
                   const label = truncateLabel(payload.value, 5);  // Truncate label
                   return (
@@ -217,13 +233,8 @@ export const ReportsInventoryMonthly = () => {
               />
               <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
-              <Legend 
-                 formatter={(value) => {
-                  if (value === "restockFrequency") return "Product Restock Frequency";
-                  return value;
-                }}
-              />
-              <Bar dataKey="restockFrequency" barSize={60} fill="#413ea0" />
+              <Legend />
+              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -246,7 +257,7 @@ export const ReportsInventoryMonthly = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="productName" scale="band" angle={-20} 
+              <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
                   const label = truncateLabel(payload.value, 5);  // Truncate label
                   return (
@@ -258,13 +269,8 @@ export const ReportsInventoryMonthly = () => {
               />
               <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
-              <Legend 
-                 formatter={(value) => {
-                  if (value === "restockFrequency") return "Product Restock Frequency";
-                  return value;
-                }}
-              />
-              <Bar dataKey="restockFrequency" barSize={60} fill="#413ea0" />
+              <Legend />
+              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -303,11 +309,19 @@ export const ReportsInventoryYearly = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedYear: selectedYear }),
+      body: JSON.stringify({ selectedYear: parseInt(selectedYear) }),
     })
       .then(response => response.json())
       .then(data => {
-        setMostRestockedProductsData(data);
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            frequency: item.restockFrequency,
+          }));
+          setMostRestockedProductsData(formattedData);
+        } else {
+          setMostRestockedProductsData([]);
+        }
       })
       .catch(error => {
         ToastError('Error fetching data:', error);
@@ -326,7 +340,15 @@ export const ReportsInventoryYearly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setLeastRestockedProductsData(data);
+        if (data.length > 0) {
+          const formattedData = data.map(item => ({
+            name: item.productName,
+            frequency: item.restockFrequency,
+          }));
+          setLeastRestockedProductsData(formattedData);
+        } else {
+          setLeastRestockedProductsData([]);
+        }
       })
       .catch(error => {
         ToastError('Error fetching data:', error);
@@ -434,7 +456,7 @@ export const ReportsInventoryYearly = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="productName" scale="band" angle={-20} 
+              <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
                   const label = truncateLabel(payload.value, 5);  // Truncate label
                   return (
@@ -446,13 +468,8 @@ export const ReportsInventoryYearly = () => {
               />
               <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
-              <Legend 
-                 formatter={(value) => {
-                  if (value === "restockFrequency") return "Product Restock Frequency";
-                  return value;
-                }}
-              />
-              <Bar dataKey="restockFrequency" barSize={60} fill="#413ea0" />
+              <Legend />
+              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -475,7 +492,7 @@ export const ReportsInventoryYearly = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="productName" scale="band" angle={-20} 
+              <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
                   const label = truncateLabel(payload.value, 5);  // Truncate label
                   return (
@@ -487,13 +504,8 @@ export const ReportsInventoryYearly = () => {
               />
               <YAxis tick={{ fontSize: 14 }} />
               <Tooltip />
-              <Legend 
-                 formatter={(value) => {
-                  if (value === "restockFrequency") return "Product Restock Frequency";
-                  return value;
-                }}
-              />
-              <Bar dataKey="restockFrequency" barSize={60} fill="#413ea0" />
+              <Legend />
+              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
