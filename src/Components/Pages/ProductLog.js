@@ -92,7 +92,7 @@ const ProductLog = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="product-log__filter-wrapper" ref={filterDropdownRef}>
+        <div className="product-log__filter-wrapper" title='Filter' ref={filterDropdownRef}>
           <i
             className="product-log__filter-icon fa-solid fa-filter"
             onClick={toggleFilterDropdown}

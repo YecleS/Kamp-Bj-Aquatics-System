@@ -112,19 +112,23 @@ const RestockRecords = () => {
     setFilterDropdownOpen(!isFilterDropdownOpen);
   };
 
+  const convertToCurrency = () => {
+
+  }
+
     return (
         <div className='restock-records'>
             <div className='restock-records__header'>
                 <div className='restock-records__search-wrapper'>
                     <input 
                         type='text' 
-                        placeholder='Search name...' 
+                        placeholder='Search Transactions ID' 
                         className='restock-records__input-field'
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)} 
                     />
                 </div>
-                <div className='restock-records__filter-wrapper' ref={filterDropdownRef}>
+                <div className='restock-records__filter-wrapper' title='Filter' ref={filterDropdownRef}>
                     <i className="restock-records__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
                     { isFilterDropdownOpen && 
                         <div className="restock-records__filter-dropdown">
@@ -174,7 +178,12 @@ const RestockRecords = () => {
                                 <tr className='restock-records__table-tr' key={restock.restockId}>
                                     <td className='restock-records__table-td'>{restock.restockId}</td>
                                     <td className='restock-records__table-td'>{restock.date}</td>
-                                    <td className='restock-records__table-td'>{restock.Total}</td>
+                                    <td className='restock-records__table-td'>
+                                    ₱ {Number(restock.Total).toLocaleString(undefined, { 
+                                            minimumFractionDigits: 2, 
+                                            maximumFractionDigits: 2 
+                                        })}
+                                    </td>
                                     <td className='restock-records__table-td'>{restock.username}</td>
                                     <td className='restock-records__table-td'>
                                         <ButtonComponent label='Show' onClick={() => handleShowProducts(restock.restockId)} />

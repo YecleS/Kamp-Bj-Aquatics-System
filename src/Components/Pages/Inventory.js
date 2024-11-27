@@ -146,7 +146,7 @@ const Inventory = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className='inventory__filter-wrapper' ref={filterDropdownRef}>
+          <div className='inventory__filter-wrapper' title='Filter' ref={filterDropdownRef}>
             <i className="inventory__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
             {isFilterDropdownOpen && (
               <div className="inventory__filter-dropdown">

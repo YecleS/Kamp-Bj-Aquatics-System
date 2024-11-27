@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/BrandModel.css';
 import AddBrandModal from '../UIComponents/AddBrandModal';
 import EditBrandModal from '../UIComponents/EditBrandModal';
-import { EditIcon, DeleteIcon } from '../UIComponents/ActionIcons';
+import { EditIcon } from '../UIComponents/ActionIcons';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const BrandModel = () => {
@@ -164,7 +164,7 @@ const BrandModel = () => {
                     </div>
                 </div>
                 <div className='brand-model__right-controls-wrapper'>
-                    <button className='brand-model__insert' onClick={() => isSetAddBrandModalOpen(true)}>
+                    <button className='brand-model__insert' title='Add Brand' onClick={() => isSetAddBrandModalOpen(true)}>
                         <i className="brand-model__insert-icon fa-solid fa-plus"></i>
                     </button>
                 </div>

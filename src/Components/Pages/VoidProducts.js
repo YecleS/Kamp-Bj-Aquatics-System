@@ -105,7 +105,7 @@ const filteredProducts = voidedProducts
               onChange={handleSearchChange} // Handle input change
             />
           </div>
-          <div className='void-products__filter-wrapper' ref={filterDropdownRef}>
+          <div className='void-products__filter-wrapper' title='Filter' ref={filterDropdownRef}>
             <i className="void-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
             {isFilterDropdownOpen &&
               <div className='void-products__filter-dropdown'>
@@ -132,7 +132,7 @@ const filteredProducts = voidedProducts
             }
           </div>
         </div>
-        <button className='void-products__insert' onClick={toggleVoidProductsModal}>
+        <button className='void-products__insert' title='Insert Void Products' onClick={toggleVoidProductsModal}>
           +
         </button>
       </div>

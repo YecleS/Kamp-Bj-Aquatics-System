@@ -153,7 +153,7 @@ const handleEditClick = (expense) => {
               onChange={(e) => setSearchTerm(e.target.value)} 
           />
           </div>
-          <div className='business-expenses__filter-wrapper' ref={filterDropdownRef}>
+          <div className='business-expenses__filter-wrapper' title='Filter' ref={filterDropdownRef}>
             <i className="business-expenses__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
             {isFilterDropdownOpen && (
               <div className='business-expenses__filter-dropdown'>
@@ -201,7 +201,9 @@ const handleEditClick = (expense) => {
           </div>
         </div>
         <div className='business-expenses__right-controls-wrapper'>
-          <button className='business-expenses__insert'><i className="business-expenses__insert-icon fa-solid fa-plus" onClick={toggleAddModal}></i></button>
+          <button className='business-expenses__insert'>
+            <i className="business-expenses__insert-icon fa-solid fa-plus" title='Add Expenses' onClick={toggleAddModal}></i>
+          </button>
         </div>
       </div>
 
@@ -226,10 +228,15 @@ const handleEditClick = (expense) => {
                   <td className='business-expenses__table-td'>{expense.reference}</td>
                   <td className='business-expenses__table-td'><TextSlicer text={expense.description} /></td>
                   <td className='business-expenses__table-td'>{new Date(expense.date).toLocaleDateString()}</td>
-                  <td className='business-expenses__table-td'>₱ {typeof expense.total === 'number' ? expense.total.toFixed(2) : '0.00'}</td>
+                  <td className='business-expenses__table-td'>
+                  ₱ {Number(expense.total).toLocaleString(undefined, { 
+                        minimumFractionDigits: 2, 
+                        maximumFractionDigits: 2 
+                    })}
+                  </td>
                   <td className='business-expenses__table-td'>{expense.username}</td>
                   <td className='business-expenses__table-td'>
-                  <UpdateIcon onClick={() => handleEditClick(expense)} />
+                    <UpdateIcon onClick={() => handleEditClick(expense)} />
                     <ViewExpensesIcon expenses={expense} />
                   </td>
                 </tr>
