@@ -16,7 +16,6 @@ const GeneralLedger = () => {
     setSelectedYear(year);
     setLedgerData([]);
 
-
   };
 
   const getSalesAndExpenses = (year) => {
@@ -55,7 +54,6 @@ const GeneralLedger = () => {
     } else {
       ToastSuccess('Capital Added');
       getSalesAndExpenses();
-      setCapitalInput(0);
       document.getElementsByClassName('general-ledger__input-field')[0].value = 0;
 
     }
