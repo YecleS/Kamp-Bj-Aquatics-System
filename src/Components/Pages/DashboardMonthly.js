@@ -211,6 +211,7 @@ const truncateLabel = (label, maxLength ) => {
               <XAxis dataKey="day" dy={10} tick={{ fontSize: 14 }} />
               <YAxis tick={{ fontSize: 14 }}/>
               <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'sales', 'Total Sales')}/>
               <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
           </ResponsiveContainer>
@@ -281,6 +282,7 @@ const truncateLabel = (label, maxLength ) => {
           <ResponsiveContainer width="100%" height="95%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
               <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
               <PolarGrid />
               <PolarAngleAxis dataKey="name"
                 
