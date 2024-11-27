@@ -88,7 +88,7 @@ export const Preview = ({graphs, closePreview, date, setShowPreview, reportTitle
 
         <div className="preview__body" id='preview-body'>
           <div className='preview__title-wrapper'>
-            <h3>{reportTitle} Reports Preview </h3>
+            <h3>{reportTitle} Preview </h3>
             <p>{date}</p>
             <i className="preview__close-icon fa-solid fa-xmark" title='Close Preview' onClick={closePreview}></i>
           </div>

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { DateSelection } from '../UIComponents/DateControls';
 import DashboardCards from '../UIComponents/DashboardCards';
 import '../Styles/DashboardWeekly.css';
-import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import { ToastError } from '../UIComponents/ToastComponent';
+import { CustomTooltip } from '../UIComponents/CustomToolTip';
+import { LegendFormatter } from '../UIComponents/LegendFormatter';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
-  ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
-  PolarAngleAxis, Legend, Rectangle } from 'recharts';
+  ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 
 const DashboardWeekly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -102,6 +103,7 @@ const DashboardWeekly = () => {
       })
       .then(data => {
         if (data.status === 'success' && data.totalSales) {
+          console.log(data);
           setTotalSales(data.totalSales); // Set the `totalSales` string directly
         } else {
           setTotalSales('0.00'); // Default value if data is invalid
@@ -197,9 +199,9 @@ const DashboardWeekly = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" dy={10} tick={{ fontSize: 14 }} />
+              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
               <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
               <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
           </ResponsiveContainer>
@@ -233,7 +235,8 @@ const DashboardWeekly = () => {
                 }}
               />
               <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'Total_Sales', 'Total Product Sales')}/>
               <Bar dataKey="Total_Sales" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>

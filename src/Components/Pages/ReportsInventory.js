@@ -145,7 +145,7 @@ export const ReportsInventoryMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Inventory'/>
+        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Inventory Report'/>
       </div>
 
       <div className='reports-inventory-component__body' id='component-body'>
@@ -309,7 +309,7 @@ export const ReportsInventoryYearly = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedYear: parseInt(selectedYear) }),
+      body: JSON.stringify({ selectedYear: selectedYear }),
     })
       .then(response => response.json())
       .then(data => {
@@ -336,7 +336,7 @@ export const ReportsInventoryYearly = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedYear: parseInt(selectedYear) }),
+      body: JSON.stringify({ selectedYear: selectedYear }),
     })
       .then(response => response.json())
       .then(data => {
@@ -380,7 +380,7 @@ export const ReportsInventoryYearly = () => {
           displayDate={selectedYear}
         />
 
-        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Inventory'/>
+        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Inventory Report'/>
       </div>
 
       <div className='reports-inventory-component__body'>

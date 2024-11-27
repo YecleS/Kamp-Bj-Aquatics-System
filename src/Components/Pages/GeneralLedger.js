@@ -3,6 +3,7 @@ import '../Styles/GeneralLedger.css';
 import { YearSelection } from '../UIComponents/DateControls';
 import html2pdf from 'html2pdf.js';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import GeneratePdf from '../UIComponents/GeneratePdf';
 
 const GeneralLedger = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -100,6 +101,7 @@ const GeneralLedger = () => {
   return (
     <div className='general-ledger'>
       <div className='general-ledger__header'>
+
         <div className='general-ledger__controls'>
           <div className='general-ledger__input-field-wrapper'>
             <input
@@ -111,8 +113,9 @@ const GeneralLedger = () => {
             />
             <i className="general-ledger__input-icon fa-solid fa-right-to-bracket" title='Insert Capital' onClick={handleCapitalSubmit}></i>
           </div>
-          <i className="general-ledger__download-pdf-icon fa-solid fa-file-arrow-down" title='Download General Ledger' onClick={handleDownloadPDF}></i>
+          <GeneratePdf elementId='general-ledger__table' date={selectedYear} reportTitle='General Ledger Report'/>
         </div>
+
         <YearSelection onChange={handleYearChange} displayDate={selectedYear} />
       </div>
 

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { DateSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardDaily.css';
 import DashboardCards from '../UIComponents/DashboardCards';
-import TextSlicer from '../Utils/TextSlicer';
-import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import { ToastError } from '../UIComponents/ToastComponent';
+import { CustomTooltip } from '../UIComponents/CustomToolTip';
+import { LegendFormatter } from '../UIComponents/LegendFormatter';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
-        ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
-        PolarAngleAxis, Legend, Rectangle } from 'recharts';
+        ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 
 
 
@@ -233,7 +233,8 @@ const DashboardDaily = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" tick={{ fontSize: 13 }}/>
               <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'value', 'Total Sales')}/>
               <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
           </ResponsiveContainer>
@@ -270,8 +271,8 @@ const DashboardDaily = () => {
 
               />
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'Total_Sales', 'Total Product Sales')}/>
               <Bar dataKey="Total_Sales" stackId="a" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
