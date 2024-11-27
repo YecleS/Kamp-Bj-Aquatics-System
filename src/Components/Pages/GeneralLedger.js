@@ -13,13 +13,9 @@ const GeneralLedger = () => {
 
   const handleYearChange = (selectedYear) => {
     const year = (new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
+    setSelectedYear(year);
+    setLedgerData([]);
 
-    if(capitalInput == 0){
-      ToastError("Please Enter a Capital First")
-    }else{
-      setSelectedYear(year);
-      getSalesAndExpenses(year);
-    }
   };
 
   const getSalesAndExpenses = (year) => {
@@ -58,6 +54,8 @@ const GeneralLedger = () => {
     } else {
       ToastSuccess('Capital Added');
       getSalesAndExpenses();
+      document.getElementsByClassName('general-ledger__input-field')[0].value = 0;
+
     }
   };
 
