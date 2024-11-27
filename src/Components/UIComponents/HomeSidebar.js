@@ -276,14 +276,6 @@ const OwnerSidebar = () => {
                         icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
                         item='Reports'
                     />
-
-                    // <SidebarLink 
-                    //     to='reports'
-                    //     className={location.pathname === 'reports' ? 'sidebar-link-active' : ''}
-                    //     onClick={closeDropdowns}
-                    //     icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
-                    //     item='Report'
-                    // />
                 )}
                 {isReportDropdownOpen && (
                     <div className='owner-sidebar__dropdown-wrapper'>
@@ -306,7 +298,7 @@ const OwnerSidebar = () => {
                             className={location.pathname === '/home/reports-expenses' ? 'sidebar-link-active': ''}
                             onClick={() => {}}
                             icon={<i className="sidebar-link__nav-icon fa-solid fa-file-circle-check"></i>}
-                            item='Exepenses Report'
+                            item='Expenses Report'
                         />
                     </div>
                 )}
