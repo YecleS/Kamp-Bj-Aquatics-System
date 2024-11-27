@@ -3,8 +3,10 @@ import '../Styles/ReportsExpenses.css';
 import { MonthSelection, YearSelection } from '../UIComponents/DateControls';
 import GraphsImageDownloader from '../UIComponents/GraphsImageDownloader';
 import GeneratePdf from '../UIComponents/GeneratePdf';
-import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
-import { ComposedChart, Bar, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { ToastError } from '../UIComponents/ToastComponent';
+import { ComposedChart, Line, Bar, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { CustomTooltip } from '../UIComponents/CustomToolTip';
+import { LegendFormatter } from '../UIComponents/LegendFormatter';
 
 const ReportsExpenses = () => {
   const [activeFilter, setFilter] = useState('monthly');
@@ -92,7 +94,7 @@ export const ReportsExpensesMonthly = () => {
   }
 
   const getRatio = (selectedMonth) => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getRatioOfSalesToRevenue.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getRatioExpensesToSalesMonthly.php`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ selectedDate: selectedMonth }),
@@ -104,7 +106,7 @@ export const ReportsExpensesMonthly = () => {
                 // If data is available, format it
                 const formattedExpensesData = data.map(item => ({
                     date: item.date,  // Adjusted field from 'name' to 'date'
-                    ratio: item.ratio.toFixed(2),  // Adjusted field from 'total' to 'ratio'
+                    ratio: parseFloat(item.ratio).toFixed(2),  // Adjusted field from 'total' to 'ratio'
                 }));
                 setExpensesRatio(formattedExpensesData); // Set state with formatted data
             } else if (data.message && data.message === "No data found.") {
@@ -118,14 +120,6 @@ export const ReportsExpensesMonthly = () => {
           })
           .catch(error => console.error('Error fetching expenses breakdown:', error));
   }
-
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
 
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
@@ -141,16 +135,17 @@ export const ReportsExpensesMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Expenses Report'/>
       </div>
 
       <div className='reports-expenses-component__body'>
-        <div className='graphs-container graph-shadow'>
+
+        <div className='graphs-container graph-shadow'id='graph-ratio'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses To Sales Ratio</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-ratio'/>
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <AreaChart
               width={500}
               height={400}
@@ -172,12 +167,12 @@ export const ReportsExpensesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-expenses-breakdown'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses Breakdown</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-expenses-breakdown' />
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <ComposedChart
               width={500}
               height={400}
@@ -201,8 +196,8 @@ export const ReportsExpensesMonthly = () => {
                 }} 
               />
               <YAxis />
-              <Tooltip />
-              <Legend />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
               <Bar dataKey="total" barSize={30} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
@@ -218,22 +213,56 @@ export const ReportsExpensesMonthly = () => {
 export const ReportsExpensesYearly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [expensesBreakdown, setExpensesBreakdown] = useState([]);
+  const [expensesRatio, setExpensesRatio] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
 
   const handleYearChange = (selectedYear) => {
     const formattedYear = new Intl.DateTimeFormat('default', {year:'numeric'}).format(selectedYear)
     setSelectedYear(formattedYear);
+
+    getRatio();
   }
+
+  const monthNames = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
 
   useEffect(() => {
     getExpensesData(selectedYear);
+    getRatio();
   }, [selectedYear]);
+
+  const getRatio = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getRatioExpensesToSalesYearly.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ selectedYear: selectedYear }),
+      })
+          .then(response => response.json())
+          .then(data => {
+            if (data.length > 0) {
+              const formattedData = data.map(item => ({
+                date: monthNames[item.month - 1],
+                expenses: parseFloat(item.total_expenses).toFixed(2),
+                sales: parseFloat(item.total_revenue).toFixed(2),
+                ratio: parseFloat(item.ratio).toFixed(2),
+              }));
+              setExpensesRatio(formattedData);
+            } else {
+              setExpensesRatio([]);
+            }
+          })  
+          .catch(error => console.error('Error fetching expenses breakdown:', error));
+  }
+
+
 
   const getExpensesData = (selectedYear) => {
     fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/fetchExpensesBreakdown.php`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ selectedDate: selectedYear }),
+          body: JSON.stringify({ selectedDate: parseInt(selectedYear) }),
       })
           .then(response => response.json())
           .then(data => {
@@ -242,7 +271,6 @@ export const ReportsExpensesYearly = () => {
                 name: item.name,
                 total: item.total,
               }));
-              console.log(formattedExpensesData);
               setExpensesBreakdown(formattedExpensesData);
             } else {
               setExpensesBreakdown([]);
@@ -251,14 +279,6 @@ export const ReportsExpensesYearly = () => {
           })
           .catch(error => console.error('Error fetching expenses breakdown:', error));
   }
-  
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
 
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
@@ -274,42 +294,44 @@ export const ReportsExpensesYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Expenses Report'/>
       </div>
 
       <div className='reports-expenses-component__body'>
-        <div className='graphs-container graph-shadow'>
+
+        <div className='graphs-container graph-shadow' id='graph-ratio'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Ratio Of Expenses To Revenue</h3>
-            <GraphsImageDownloader />
-          </div>   
-          <ResponsiveContainer width="100%" height="95%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 10,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+            <GraphsImageDownloader elementId='graph-ratio'/>
+          </div>  
+            <ResponsiveContainer width="100%" height="94%">
+              <ComposedChart
+                width={500}
+                height={400}
+                data={expensesRatio}
+                margin={{
+                  top: 20,
+                  right: 20,
+                  bottom: 20,
+                  left: 20,
+                }}
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="date" scale="band" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line dataKey="ratio" stroke="#ff7600" />
+              </ComposedChart>
+            </ResponsiveContainer> 
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-expenses-breakdown'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses Breakdown</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-expenses-breakdown'/>
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <ComposedChart
               width={500}
               height={400}
@@ -333,8 +355,8 @@ export const ReportsExpensesYearly = () => {
                 }} 
               />
               <YAxis/>
-              <Tooltip />
-              <Legend />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
               <Bar dataKey="total" barSize={30} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>

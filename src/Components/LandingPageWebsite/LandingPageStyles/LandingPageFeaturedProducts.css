@@ -44,6 +44,14 @@
 /* MEDIA QUERIES */
 
 @media screen and (min-width: 769px) and (max-width: 999px) {
+    .landing-page-featured-products__content-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .landing-page-featured-products__button-wrapper {
+        grid-column: 1/3;
+    }
+
     .landing-page-featured-products__title {
         font-size: 1.7rem;
     }
@@ -60,6 +68,10 @@
 
     .landing-page-featured-products__content-wrapper {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .landing-page-featured-products__button-wrapper {
+        grid-column: 1/3;
     }
 
 }
@@ -80,6 +92,14 @@
 
     .landing-page-featured-products__see-more {
         font-size: 0.9rem;
+    }
+
+    .landing-page-featured-products__content-wrapper {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .landing-page-featured-products__button-wrapper {
+        grid-column: 1/2;
     }
 
 }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { YearSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardYearly.css'
-import DashboardCards from '../UIComponents/DashboardCards';
-import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import { ToastError } from '../UIComponents/ToastComponent';
+import { CustomTooltip, CustomToolTipForRestockVsSales } from '../UIComponents/CustomToolTip';
+import { LegendFormatter } from '../UIComponents/LegendFormatter';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
   ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
   PolarAngleAxis, Legend, Rectangle } from 'recharts';
@@ -146,7 +147,7 @@ const getExpensesData = (year) => {
       if (data.status === 'success' && data.data) {
         const formattedExpensesData = data.data.map(item => ({
           name: item.name,  // Expense title
-          total: item.total,  // Total amount
+          total: parseFloat(item.total),  // Total amount
         }));
         setExpenses(formattedExpensesData); // Set the formatted data for the graph
       } else {
@@ -190,9 +191,9 @@ const getExpensesData = (year) => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" tick={{ fontSize: 14, angle: -30, dy: 10, }} />
+              <XAxis dataKey="month" tick={{ fontSize: 14, angle: -15, dy: 10, }} />
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
               <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
           </ResponsiveContainer>
@@ -226,8 +227,8 @@ const getExpensesData = (year) => {
                 }}
               />
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'Total_Sales', 'Total Product Sales')}/>
               <Bar dataKey="Total_Sales" stackId="a" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
@@ -248,9 +249,9 @@ const getExpensesData = (year) => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="monthName" height={50} tick={{ fontSize: 14, angle: -30, dy: 10, }}/>
+              <XAxis dataKey="monthName" height={50} tick={{ fontSize: 14, angle: -15, dy: 10, }}/>
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
+              <Tooltip  content={<CustomToolTipForRestockVsSales />}/>
               <Legend />
               <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
               <Bar dataKey="restock" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
@@ -263,8 +264,9 @@ const getExpensesData = (year) => {
           <ResponsiveContainer width="100%" height="95%">
           {expenses.length > 0 ? (
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
               <PolarGrid />
+              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
               <PolarAngleAxis dataKey="name" 
                 tick={({ x, y, payload }) => {
                   const label = truncateLabel(payload.value, 12);  // Truncate label

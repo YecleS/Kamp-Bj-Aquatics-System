@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../Styles/ReportsSales.css';
 import { MonthSelection, YearSelection } from '../UIComponents/DateControls';
 import { ToastError } from '../UIComponents/ToastComponent';
+import GraphsImageDownloader from '../UIComponents/GraphsImageDownloader';
+import GeneratePdf from '../UIComponents/GeneratePdf';
 import { ComposedChart, Bar, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { CustomTooltip } from '../UIComponents/CustomToolTip';
 
 const ReportsSales = () => {
   const [activeFilter, setFilter] = useState('monthly');
@@ -149,16 +152,17 @@ export const ReportsSalesMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Sales Report'/>
       </div>
 
       <div className='reports-sales-component__body'>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-gmroi'>
           <div className='graphs-header'>
             <h3 className='graph-title'>GMROI</h3>
+            <GraphsImageDownloader elementId='graph-gmroi' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -180,11 +184,12 @@ export const ReportsSalesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-gross-profit'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Gross Profit</h3>
+            <GraphsImageDownloader elementId='graph-gross-profit' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -206,11 +211,12 @@ export const ReportsSalesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-top-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Top Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-top-selling-product' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -225,7 +231,7 @@ export const ReportsSalesMonthly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 8);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -234,7 +240,7 @@ export const ReportsSalesMonthly = () => {
                 }}
               />
               <YAxis />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />}/>
               <Legend 
                 formatter={(value) => {
                   if (value === "Total_Sales") return "Sales";
@@ -246,11 +252,12 @@ export const ReportsSalesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-least-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Least Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-least-selling-products' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -265,7 +272,7 @@ export const ReportsSalesMonthly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20}
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 8);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -274,7 +281,7 @@ export const ReportsSalesMonthly = () => {
                 }}
               />
               <YAxis />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />}/>
               <Legend />
               <Bar dataKey="sales" barSize={40} fill="#413ea0" />
             </ComposedChart>
@@ -310,7 +317,7 @@ export const ReportsSalesYearly = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedDate: parseInt(selectedYear), timePeriod: 'yearly' }),
+      body: JSON.stringify({ selectedDate: selectedYear, timePeriod: 'yearly' }),
     })
       .then(response => {
         if (!response.ok) {
@@ -341,7 +348,7 @@ export const ReportsSalesYearly = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedYear: parseInt(selectedYear) }),
+      body: JSON.stringify({ selectedYear: selectedYear }),
     })
       .then(response => response.json())
       .then(data => {
@@ -382,16 +389,17 @@ export const ReportsSalesYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Sales Report'/>
       </div>
 
       <div className='reports-inventory-component__body'>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow'id='graph-gmroi'>
           <div className='graphs-header'>
             <h3 className='graph-title'>GMROI</h3>
+            <GraphsImageDownloader elementId='graph-gmroi' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -412,11 +420,12 @@ export const ReportsSalesYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-gross-profit'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Gross Profit</h3>
+            <GraphsImageDownloader elementId='graph-gross-profit' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -437,11 +446,12 @@ export const ReportsSalesYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-most-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Most Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-most-selling-products' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -456,7 +466,7 @@ export const ReportsSalesYearly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20}
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  const label = truncateLabel(payload.value, 10);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -465,18 +475,19 @@ export const ReportsSalesYearly = () => {
                 }}
               />
               <YAxis />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />}/>
               <Legend />
               <Bar dataKey="sales" barSize={30} fill="#413ea0" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-least-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Least Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-least-selling-products' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -491,7 +502,7 @@ export const ReportsSalesYearly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20}
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  const label = truncateLabel(payload.value, 10);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -500,7 +511,7 @@ export const ReportsSalesYearly = () => {
                 }}
               />
               <YAxis />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />}/>
               <Legend />
               <Bar dataKey="sales" barSize={30} fill="#413ea0" />
             </ComposedChart>

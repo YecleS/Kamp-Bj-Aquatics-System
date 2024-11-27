@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { MonthSelection } from '../UIComponents/DateControls';
 import '../Styles/DashboardMonthly.css';
-import DashboardCards from '../UIComponents/DashboardCards';
-import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
-
+import {  ToastError } from '../UIComponents/ToastComponent';
+import { CustomTooltip, CustomToolTipForRestockVsSales } from '../UIComponents/CustomToolTip';
+import { LegendFormatter } from '../UIComponents/LegendFormatter';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
   ResponsiveContainer, BarChart, Bar, Radar, RadarChart, PolarGrid, 
   PolarAngleAxis, Legend, Rectangle } from 'recharts';
@@ -210,7 +210,8 @@ const truncateLabel = (label, maxLength ) => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="day" dy={10} tick={{ fontSize: 14 }} />
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'sales', 'Total Sales')}/>
               <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
             </AreaChart>
           </ResponsiveContainer>
@@ -244,8 +245,8 @@ const truncateLabel = (label, maxLength ) => {
                 }}
               />
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'Total_Sales', 'Total Product Sales')}/>
               <Bar dataKey="Total_Sales" stackId="a" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
@@ -268,7 +269,7 @@ const truncateLabel = (label, maxLength ) => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="period" tick={{ fontSize: 12 }}/>
               <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
+              <Tooltip  content={<CustomToolTipForRestockVsSales />}/> 
               <Legend />
               <Bar dataKey="sales" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
               <Bar dataKey="restock" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
@@ -280,7 +281,8 @@ const truncateLabel = (label, maxLength ) => {
           <h3 className='graph-title'>Expenses Breakdown</h3>
           <ResponsiveContainer width="100%" height="95%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={expenses}>
-              <Tooltip />
+              <Tooltip  content={<CustomTooltip />}/>
+              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
               <PolarGrid />
               <PolarAngleAxis dataKey="name"
                 

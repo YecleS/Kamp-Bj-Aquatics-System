@@ -3,6 +3,7 @@ import '../Styles/GeneralLedger.css';
 import { YearSelection } from '../UIComponents/DateControls';
 import html2pdf from 'html2pdf.js';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import GeneratePdf from '../UIComponents/GeneratePdf';
 
 const GeneralLedger = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -100,6 +101,7 @@ const GeneralLedger = () => {
   return (
     <div className='general-ledger'>
       <div className='general-ledger__header'>
+
         <div className='general-ledger__controls'>
           <div className='general-ledger__input-field-wrapper'>
             <input
@@ -111,8 +113,9 @@ const GeneralLedger = () => {
             />
             <i className="general-ledger__input-icon fa-solid fa-right-to-bracket" title='Insert Capital' onClick={handleCapitalSubmit}></i>
           </div>
-          <i className="general-ledger__download-pdf-icon fa-solid fa-file-arrow-down" title='Download General Ledger' onClick={handleDownloadPDF}></i>
+          <GeneratePdf elementId='general-ledger__table' date={selectedYear} reportTitle='General Ledger Report'/>
         </div>
+
         <YearSelection onChange={handleYearChange} displayDate={selectedYear} />
       </div>
 
@@ -131,19 +134,26 @@ const GeneralLedger = () => {
             </thead>
             <tbody>
               {
-                ledgerData.length > 0 ? ledgerData.map((ledgerItem, index) => (
-                  <tr className='inventory__table-tr' key={index}>
-                    <td className='inventory__table-td'>{ledgerItem.Month}</td>
-                    <td className='inventory__table-td'>{ledgerItem.Account}</td>
-                    <td className='inventory__table-td'>{ledgerItem.Description}</td>
-                    <td className='inventory__table-td'>{formatCurrency((ledgerItem.Debit * 1).toFixed(2))}</td>
-                    <td className='inventory__table-td'>{formatCurrency((ledgerItem.Credit * 1).toFixed(2))}</td>
-                    <td className='inventory__table-td'>{formatCurrency((ledgerItem.Balance * 1).toFixed(2))}</td>
-                  </tr>
-                )) : (
+                capitalInput <= 0 ? (
                   <tr>
-                    <td colSpan="6">Please select year and enter a Capital Amount</td>
+                    <td>Please Enter Capital First</td>
                   </tr>
+                ) :
+                (
+                  ledgerData.length > 0 ? ledgerData.map((ledgerItem, index) => (
+                    <tr className='inventory__table-tr' key={index}>
+                      <td className='inventory__table-td'>{ledgerItem.Month}</td>
+                      <td className='inventory__table-td'>{ledgerItem.Account}</td>
+                      <td className='inventory__table-td'>{ledgerItem.Description}</td>
+                      <td className='inventory__table-td'>{formatCurrency((ledgerItem.Debit * 1).toFixed(2))}</td>
+                      <td className='inventory__table-td'>{formatCurrency((ledgerItem.Credit * 1).toFixed(2))}</td>
+                      <td className='inventory__table-td'>{formatCurrency((ledgerItem.Balance * 1).toFixed(2))}</td>
+                    </tr>
+                  )) : (
+                    <tr>
+                      <td colSpan="6">Please select year and enter a Capital Amount</td>
+                    </tr>
+                  )
                 )
               }
             </tbody>
