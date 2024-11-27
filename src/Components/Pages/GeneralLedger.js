@@ -11,19 +11,31 @@ const GeneralLedger = () => {
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(new Date()));
 
   const handleYearChange = (selectedYear) => {
-    setSelectedYear(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
+    const year = (new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
 
-    getSalesAndExpenses(selectedYear);
+    if(capitalInput == 0){
+      ToastError("Please Enter a Capital First")
+    }else{
+      setSelectedYear(year);
+      getSalesAndExpenses(year);
+    }
   };
 
   const getSalesAndExpenses = (year) => {
+
+    const yearToUse = year || selectedYear;
+
+  const requestBody = JSON.stringify({
+      selectedYear: yearToUse,
+      capital: capitalInput
+  });
     // Fetch data from the PHP script with the selectedYear and capitalInput
     fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getSalesAndExpenses.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedYear: year, capital: capitalInput }), // Send capital in request body
+      body: requestBody
     })
       .then(response => response.json())
       .then(data => {
