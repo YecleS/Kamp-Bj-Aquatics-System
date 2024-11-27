@@ -12,16 +12,18 @@ const GeneralLedger = () => {
 
   const handleYearChange = (selectedYear) => {
     setSelectedYear(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
+
+    getSalesAndExpenses(selectedYear);
   };
 
-  const getSalesAndExpenses = () => {
+  const getSalesAndExpenses = (year) => {
     // Fetch data from the PHP script with the selectedYear and capitalInput
     fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getSalesAndExpenses.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedYear: selectedYear, capital: capitalInput }), // Send capital in request body
+      body: JSON.stringify({ selectedYear: year, capital: capitalInput }), // Send capital in request body
     })
       .then(response => response.json())
       .then(data => {
@@ -117,19 +119,26 @@ const GeneralLedger = () => {
             </thead>
             <tbody>
               {
-                ledgerData.length > 0 ? ledgerData.map((ledgerItem, index) => (
-                  <tr className='inventory__table-tr' key={index}>
-                    <td className='inventory__table-td'>{ledgerItem.Month}</td>
-                    <td className='inventory__table-td'>{ledgerItem.Account}</td>
-                    <td className='inventory__table-td'>{ledgerItem.Description}</td>
-                    <td className='inventory__table-td'>{formatCurrency((ledgerItem.Debit * 1).toFixed(2))}</td>
-                    <td className='inventory__table-td'>{formatCurrency((ledgerItem.Credit * 1).toFixed(2))}</td>
-                    <td className='inventory__table-td'>{formatCurrency((ledgerItem.Balance * 1).toFixed(2))}</td>
-                  </tr>
-                )) : (
+                capitalInput <= 0 ? (
                   <tr>
-                    <td colSpan="6">Please select year and enter a Capital Amount</td>
+                    <td>Please Enter Capital First</td>
                   </tr>
+                ) :
+                (
+                  ledgerData.length > 0 ? ledgerData.map((ledgerItem, index) => (
+                    <tr className='inventory__table-tr' key={index}>
+                      <td className='inventory__table-td'>{ledgerItem.Month}</td>
+                      <td className='inventory__table-td'>{ledgerItem.Account}</td>
+                      <td className='inventory__table-td'>{ledgerItem.Description}</td>
+                      <td className='inventory__table-td'>{formatCurrency((ledgerItem.Debit * 1).toFixed(2))}</td>
+                      <td className='inventory__table-td'>{formatCurrency((ledgerItem.Credit * 1).toFixed(2))}</td>
+                      <td className='inventory__table-td'>{formatCurrency((ledgerItem.Balance * 1).toFixed(2))}</td>
+                    </tr>
+                  )) : (
+                    <tr>
+                      <td colSpan="6">Please select year and enter a Capital Amount</td>
+                    </tr>
+                  )
                 )
               }
             </tbody>

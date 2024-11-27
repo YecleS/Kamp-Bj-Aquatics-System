@@ -141,16 +141,17 @@ export const ReportsExpensesMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Expenses'/>
       </div>
 
       <div className='reports-expenses-component__body'>
-        <div className='graphs-container graph-shadow'>
+
+        <div className='graphs-container graph-shadow'id='graph-ratio'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses To Sales Ratio</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-ratio'/>
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <AreaChart
               width={500}
               height={400}
@@ -172,12 +173,12 @@ export const ReportsExpensesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-expenses-breakdown'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses Breakdown</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-expenses-breakdown' />
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <ComposedChart
               width={500}
               height={400}
@@ -274,16 +275,17 @@ export const ReportsExpensesYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Expenses'/>
       </div>
 
       <div className='reports-expenses-component__body'>
-        <div className='graphs-container graph-shadow'>
+
+        <div className='graphs-container graph-shadow' id='graph-ratio'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Ratio Of Expenses To Revenue</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-ratio'/>
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <AreaChart
               width={500}
               height={400}
@@ -304,12 +306,12 @@ export const ReportsExpensesYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-expenses-breakdown'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses Breakdown</h3>
-            <GraphsImageDownloader />
+            <GraphsImageDownloader elementId='graph-expenses-breakdown'/>
           </div>   
-          <ResponsiveContainer width="100%" height="95%">
+          <ResponsiveContainer width="100%" height="94%">
             <ComposedChart
               width={500}
               height={400}

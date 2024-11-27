@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '../Styles/ReportsSales.css';
 import { MonthSelection, YearSelection } from '../UIComponents/DateControls';
 import { ToastError } from '../UIComponents/ToastComponent';
+import GraphsImageDownloader from '../UIComponents/GraphsImageDownloader';
+import GeneratePdf from '../UIComponents/GeneratePdf';
 import { ComposedChart, Bar, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const ReportsSales = () => {
@@ -149,16 +151,17 @@ export const ReportsSalesMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Sales'/>
       </div>
 
       <div className='reports-sales-component__body'>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-gmroi'>
           <div className='graphs-header'>
             <h3 className='graph-title'>GMROI</h3>
+            <GraphsImageDownloader elementId='graph-gmroi' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -180,11 +183,12 @@ export const ReportsSalesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-gross-profit'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Gross Profit</h3>
+            <GraphsImageDownloader elementId='graph-gross-profit' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -206,11 +210,12 @@ export const ReportsSalesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-top-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Top Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-top-selling-product' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -225,7 +230,7 @@ export const ReportsSalesMonthly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 8);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -246,11 +251,12 @@ export const ReportsSalesMonthly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-least-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Least Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-least-selling-products' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -265,7 +271,7 @@ export const ReportsSalesMonthly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20}
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 8);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -382,16 +388,17 @@ export const ReportsSalesYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Sales'/>
       </div>
 
       <div className='reports-inventory-component__body'>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow'id='graph-gmroi'>
           <div className='graphs-header'>
             <h3 className='graph-title'>GMROI</h3>
+            <GraphsImageDownloader elementId='graph-gmroi' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -412,11 +419,12 @@ export const ReportsSalesYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-gross-profit'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Gross Profit</h3>
+            <GraphsImageDownloader elementId='graph-gross-profit' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <AreaChart
               width={500}
               height={400}
@@ -437,11 +445,12 @@ export const ReportsSalesYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-most-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Most Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-most-selling-products' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}
@@ -472,11 +481,12 @@ export const ReportsSalesYearly = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className='graphs-container graph-shadow'>
+        <div className='graphs-container graph-shadow' id='graph-least-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Least Selling Products (Top 5)</h3>
+            <GraphsImageDownloader elementId='graph-least-selling-products' />
           </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          <ResponsiveContainer width="100%" height="91%">
             <ComposedChart
               width={500}
               height={400}

@@ -47,7 +47,7 @@ export const ReportsInventoryMonthly = () => {
   const [mostRestockedProductsData, setMostRestockedProductsData] = useState([]);
   const [leastRestockedProductsData, setLeastRestockedProductsData] = useState([]);
   const [displayedMonth, setDisplayedMonth] = useState(new Date().toLocaleDateString('default', { month:'long', year:'numeric' }));
-
+  
   const handleMonthChange = (selectedMonth) => {
     setDisplayedMonth(selectedMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' }));
 
@@ -136,6 +136,8 @@ export const ReportsInventoryMonthly = () => {
     return label;
   };
 
+  
+
   return(
     <div className='reports-inventory-component'>
       <div className='reports-inventory-component__header'>
@@ -143,8 +145,7 @@ export const ReportsInventoryMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        
-        <GeneratePdf elementId='component-body' />
+        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Inventory'/>
       </div>
 
       <div className='reports-inventory-component__body' id='component-body'>
@@ -179,7 +180,7 @@ export const ReportsInventoryMonthly = () => {
         <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
-            <GraphsImageDownloader elementId='graph-container-inventory-ratio' />
+            <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
           </div>   
           <ResponsiveContainer width="100%" height="91%">
             <AreaChart
@@ -223,7 +224,7 @@ export const ReportsInventoryMonthly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -259,7 +260,7 @@ export const ReportsInventoryMonthly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -294,7 +295,6 @@ export const ReportsInventoryYearly = () => {
     const formattedYear = new Intl.DateTimeFormat('default', {year:'numeric'}).format(selectedYear)
     setSelectedYear(formattedYear);
   }
-
 
   useEffect(() => {
     fetchMostRestockedProducts();
@@ -379,7 +379,8 @@ export const ReportsInventoryYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <i className="reports__download-report-icon fa-solid fa-file-arrow-down"></i>
+
+        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Inventory'/>
       </div>
 
       <div className='reports-inventory-component__body'>
@@ -414,7 +415,7 @@ export const ReportsInventoryYearly = () => {
         <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
-            <GraphsImageDownloader elementId='graph-container-inventory-ratio' />
+            <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
           </div>   
           <ResponsiveContainer width="100%" height="91%">
             <AreaChart
@@ -458,7 +459,7 @@ export const ReportsInventoryYearly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
@@ -494,7 +495,7 @@ export const ReportsInventoryYearly = () => {
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis dataKey="name" scale="band" angle={-20} 
                 tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
+                  const label = truncateLabel(payload.value, 14);  // Truncate label
                   return (
                     <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
                       {label}
