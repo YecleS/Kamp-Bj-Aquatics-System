@@ -10,14 +10,6 @@ const GeneralLedger = () => {
   const [capitalInput, setCapitalInput] = useState(0);  // Default capital is 0
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(new Date()));
 
-
-//      // To set default date based on the most current date
-// useEffect(() => {
-//   const currentDate = new Date(); // Get the current date
-//   const year = currentDate.getFullYear();
-//   alert(year);
-// }, []);
-
   const handleYearChange = (selectedYear) => {
     const year = (new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
     setSelectedYear(year);
