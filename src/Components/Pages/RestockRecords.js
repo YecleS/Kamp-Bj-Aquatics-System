@@ -169,7 +169,7 @@ const RestockRecords = () => {
                                 <th className='restock-records__table-th'>Transaction ID</th>
                                 <th className='restock-records__table-th'>Date</th>
                                 <th className='restock-records__table-th'>Total</th>
-                                <th className='restock-records__table-th'>Procesed By</th>
+                                <th className='restock-records__table-th'>Processed By</th>
                                 <th className='restock-records__table-th'></th>
                             </tr>
                         </thead>

@@ -54,7 +54,7 @@ const ProductBatch = () => {
     return (
         <div className='product-batch'>
             <ButtonComponent label='Back' onClick={() => navigate('/home/inventory')} buttonCustomClass='product-batch__back-button' />
-            <div className='product-batch__header'>
+            {/* <div className='product-batch__header'>
                 <div className='product-batch__search-wrapper'>
                     <input 
                         type='text' 
@@ -86,7 +86,7 @@ const ProductBatch = () => {
                         </div>
                     )}
                 </div>
-            </div>
+            </div> */}
 
             <div className='product-batch__body'>
                 <div className='product-batch__table-wrapper'>

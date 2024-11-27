@@ -161,8 +161,8 @@ const Inventory = () => {
                       <option value="">Select</option>
                       <option value="category">Category</option>
                       <option value="brand">Brand</option>
-                      <option value="priceAsc">Price (Lowest - Highest)</option>
-                      <option value="priceDesc">Price (Highest - Lowest)</option>
+                      {/* <option value="priceAsc">Price (Lowest - Highest)</option>
+                      <option value="priceDesc">Price (Highest - Lowest)</option> */}
                       <option value="stocksAsc">Stocks (Lowest - Highest)</option>
                       <option value="stocksDesc">Stocks (Highest - Lowest)</option>
                     </select>
