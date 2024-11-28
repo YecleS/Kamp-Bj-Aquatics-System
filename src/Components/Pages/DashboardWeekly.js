@@ -181,8 +181,8 @@ const DashboardWeekly = () => {
         />
       </div>
       <div className='dashboard-weekly__body'>
-        <DashboardCards icon='fa-peso-sign' title="Total Sales" subTitle="Sales Made in this Week" description={`₱ ${totalSales}`} />
-        <DashboardCards icon='fa-cart-shopping' title="Sales in a Week" subTitle="Total Number of Sales Made" description={String(salesCount)} />
+        <DashboardCards icon='fa-peso-sign' title="Total Sales (Last 7 Days)" subTitle="Total Sales in the Last 7 Days" description={`₱ ${totalSales}`} />
+        <DashboardCards icon='fa-cart-shopping' title="Sales Transactions (Last 7 Days)" subTitle="Total Number of Transactions in the Last 7 Days" description={String(salesCount)} />
 
         <div className='graph-container weekly-total-sales'>
           <h3 className='graph-title'>Total Sales</h3>

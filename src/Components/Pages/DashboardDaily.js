@@ -210,9 +210,9 @@ const DashboardDaily = () => {
       </div>
 
     <div className='dashboard-daily__cards'>
-      <DashboardCards icon="fa-peso-sign" title="Total Sales" subTitle="Today's Sales" description={`₱ ${String(totalSales)}`} />
-      <DashboardCards icon='fa-cart-shopping' title="Sales Today" subTitle="Total Number of Sales Made" description={String(salesCount)} />
-      <DashboardCards icon='fa-receipt' title="Average Worth per Sales" subTitle="Average Sales Worth" description={`₱ ${String(averageSales)}`} />
+      <DashboardCards icon="fa-peso-sign" title="Total Sales Today" subTitle="Total Sales Made Today" description={`₱ ${String(totalSales)}`} />
+      <DashboardCards icon='fa-cart-shopping' title="Sales Transactions" subTitle="Number of Sales Transactions Today" description={String(salesCount)} />
+      <DashboardCards icon='fa-receipt' title="Average Sales Per Transactions" subTitle="Total Average Sales Per Transactions" description={`₱ ${String(averageSales)}`} />
     </div>
 
       <div className='dashboard-daily__body'>

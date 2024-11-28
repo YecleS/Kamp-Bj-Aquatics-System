@@ -1,0 +1,33 @@
+.loading-state {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100svh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.493);
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-state__wrapper {
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.loading-state__spinner {
+    font-size: 2rem;
+    animation: load 1s linear infinite;
+}
+
+@keyframes load {
+    from {
+        transform: rotate(0deg); /* Start position */
+    }
+    to {
+        transform: rotate(360deg); /* End position */
+    }
+}

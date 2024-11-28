@@ -5,9 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import StatusNotifier from '../UIComponents/StatusNotifier';
 import StatusLegend from '../UIComponents/StatusLegend';
 import { ViewProductIcon } from '../UIComponents/ActionIcons';
+import LoadingState from '../UIComponents/LoadingState';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const Inventory = () => {
+  const [loading, setLoading] = useState(false);
   const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const filterDropdownRef = useRef(null);
 
@@ -46,6 +48,7 @@ const Inventory = () => {
   // Fetch total stocks for each product using the getProductTotalStocks API
   useEffect(() => {
     const fetchTotalStocks = async () => {
+      setLoading(true); // Set loading to true at the start
       const updatedInventory = [...inventoryData];
 
       for (let item of updatedInventory) {
@@ -65,6 +68,7 @@ const Inventory = () => {
       }
 
       setFilteredInventory(updatedInventory);
+      setLoading(false);
     };
 
     if (inventoryData.length > 0) {
@@ -220,6 +224,8 @@ const Inventory = () => {
           </table>
         </div>
       </div>
+      
+        {loading && <LoadingState />}
     </div>
   );
 };
