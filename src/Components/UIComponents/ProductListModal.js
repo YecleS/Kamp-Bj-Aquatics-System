@@ -35,10 +35,20 @@ const ProductListModal = ({ isOpen, onClose, title, productList, selectedTransac
                                                 <td className='product-list-modal__table-td'>{product.brandName}</td>
                                                 <td className='product-list-modal__table-td'>{product.categoryName}</td>
                                                 <td className='product-list-modal__table-td'>{product.quantity}</td>
-                                                <td className='product-list-modal__table-td'>{product.unitPrice}</td>
+                                                <td className='product-list-modal__table-td'>
+                                                ₱ {Number(product.unitPrice).toLocaleString(undefined, { 
+                                                        minimumFractionDigits: 2, 
+                                                        maximumFractionDigits: 2 
+                                                    })}
+                                                </td>
                                                 <td className='product-list-modal__table-td'>{product.batchNumber}</td>
                                                 <td className='product-list-modal__table-td'>{product.supplier}</td>
-                                                <td className='product-list-modal__table-td'>{product.totalPrice}</td>
+                                                <td className='product-list-modal__table-td'>
+                                                ₱ {Number(product.totalPrice).toLocaleString(undefined, { 
+                                                        minimumFractionDigits: 2, 
+                                                        maximumFractionDigits: 2 
+                                                    })}
+                                                </td>
                                             </tr>
                                         ))
                                     ) : (
@@ -61,39 +71,50 @@ const ProductListModal = ({ isOpen, onClose, title, productList, selectedTransac
                     <i className="modal__close-icon fa-solid fa-xmark" onClick={onClose}></i>
                     <div className='modal__body'>
                         <h3 className='modal__title'>Products In Sales ID: {selectedTransaction}</h3>
-                        <br />
-                        <table className='product-list-modal__table'>
-                            <thead>
-                                <tr>
-                                    <th className='product-list-modal__table-th'>Product</th>
-                                    <th className='product-list-modal__table-th'>Brand</th>
-                                    <th className='product-list-modal__table-th'>Model</th>
-                                    <th className='product-list-modal__table-th'>Batch Number</th>
-                                    <th className='product-list-modal__table-th'>Unit Price</th>
-                                    <th className='product-list-modal__table-th'>Quantity</th>
-                                    <th className='product-list-modal__table-th'>Total Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Array.isArray(productList) && productList.length > 0 ? (
-                                    productList.map((product, index) => (
-                                        <tr className='product-list-modal__table-tr' key={index}>
-                                            <td className='product-list-modal__table-td'>{product.productName}</td>
-                                            <td className='product-list-modal__table-td'>{product.brand}</td>
-                                            <td className='product-list-modal__table-td'>{product.model}</td>
-                                            <td className='product-list-modal__table-td'>{product.batchNumber}</td>
-                                            <td className='product-list-modal__table-td'>{product.price}</td>
-                                            <td className='product-list-modal__table-td'>{product.quantity}</td>
-                                            <td className='product-list-modal__table-td'>{product.total}</td>
-                                        </tr>
-                                    ))
-                                ) : (
+                        <div className='product-list-modal__table-wrapper'>
+                            <table className='product-list-modal__table'>
+                                <thead>
                                     <tr>
-                                        <td colSpan="6" className='product-list-modal__table-td'>No products found</td>
+                                        <th className='product-list-modal__table-th'>Product</th>
+                                        <th className='product-list-modal__table-th'>Brand</th>
+                                        <th className='product-list-modal__table-th'>Model</th>
+                                        <th className='product-list-modal__table-th'>Batch Number</th>
+                                        <th className='product-list-modal__table-th'>Unit Price</th>
+                                        <th className='product-list-modal__table-th'>Quantity</th>
+                                        <th className='product-list-modal__table-th'>Total Price</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {Array.isArray(productList) && productList.length > 0 ? (
+                                        productList.map((product, index) => (
+                                            <tr className='product-list-modal__table-tr' key={index}>
+                                                <td className='product-list-modal__table-td'>{product.productName}</td>
+                                                <td className='product-list-modal__table-td'>{product.brand}</td>
+                                                <td className='product-list-modal__table-td'>{product.model}</td>
+                                                <td className='product-list-modal__table-td'>{product.batchNumber}</td>
+                                                <td className='product-list-modal__table-td'>
+                                                ₱ {Number(product.price).toLocaleString(undefined, { 
+                                                        minimumFractionDigits: 2, 
+                                                        maximumFractionDigits: 2 
+                                                    })}
+                                                </td>
+                                                <td className='product-list-modal__table-td'>{product.quantity}</td>
+                                                <td className='product-list-modal__table-td'>
+                                                ₱ {Number(product.total).toLocaleString(undefined, { 
+                                                        minimumFractionDigits: 2, 
+                                                        maximumFractionDigits: 2 
+                                                    })}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className='product-list-modal__table-td'>No products found</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

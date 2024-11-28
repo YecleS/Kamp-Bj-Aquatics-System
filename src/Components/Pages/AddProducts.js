@@ -161,7 +161,7 @@ const AddProducts = () => {
               onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
             />
           </div>
-          <div className='add-products__filter-wrapper' ref={filterDropdownRef}>
+          <div className='add-products__filter-wrapper' title='Filter' ref={filterDropdownRef}>
             <i className="add-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
             {isFilterDropdownOpen &&
               <div className='add-products__filter-dropdown'>
@@ -200,7 +200,7 @@ const AddProducts = () => {
           </div>
         </div>
         <div className='add-products__right-controls-wrapper'>
-          <button className='add-products__insert' onClick={toggleAddModal}>
+          <button className='add-products__insert' title='Add Product' onClick={toggleAddModal}>
             <i className="add-products__insert-icon fa-solid fa-plus"></i>
           </button>
           {isAddModalOpen && <AddProductModal onClick={toggleAddModal} />}

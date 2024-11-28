@@ -208,7 +208,7 @@ const SignUp = () => {
               )}
 
             </Formik>
-            <ButtonComponent buttonCustomClass='sign-up__login-button' label='Already Have An Account?' onClick={() => navigate('/')} />
+            <ButtonComponent buttonCustomClass='sign-up__login-button' label='Already Have An Account?' onClick={() => navigate('/login')} />
           </div>
         </div>
       </div>

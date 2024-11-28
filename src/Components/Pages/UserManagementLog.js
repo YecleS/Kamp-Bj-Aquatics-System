@@ -130,7 +130,7 @@ const UserManagementLog = () => {
                         onChange={handleSearchChange}
                     />
                 </div>
-                <div className='user-management-log__filter-wrapper' ref={filterDropdownRef}>
+                <div className='user-management-log__filter-wrapper' title='Filter' ref={filterDropdownRef}>
                     <i className="user-management-log__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
                     {isFilterDropdownOpen && (
                         <div className="user-management-log__filter-dropdown">

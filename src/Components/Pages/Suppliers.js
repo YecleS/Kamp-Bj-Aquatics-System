@@ -87,7 +87,7 @@ const Suppliers = () => {
         </div>
         <div className='suppliers__right-controls-wrapper'>
           <button className='suppliers__insert' onClick={toggleAddModal}>
-            <i className="suppliers__insert-icon fa-solid fa-plus"></i>
+            <i className="suppliers__insert-icon fa-solid fa-plus" title='Add Supplier'></i>
           </button>
           {isAddModalOpen && <AddSupplierModal onClick={toggleAddModal} fetchSuppliers={fetchSuppliers} />}
         </div>

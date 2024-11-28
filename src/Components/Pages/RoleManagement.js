@@ -121,7 +121,7 @@ const RoleManagement = () => {
         </div>
         <div className='role-management__right-controls-wrapper'>
           <button className='role-management__insert' onClick={toggleAddModal}>
-            <i className="role-management__insert-icon fa-solid fa-plus"></i>
+            <i className="role-management__insert-icon fa-solid fa-plus" title='Add Role'></i>
           </button>
         </div>
       </div>

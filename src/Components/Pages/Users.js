@@ -187,7 +187,7 @@ const Users = () => {
               onChange={handleSearchChange} 
             />
           </div>
-          <div className='users__filter-wrapper' ref={filterDropdownRef}>
+          <div className='users__filter-wrapper' title='Filter' ref={filterDropdownRef}>
             <i className="users__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
             {isFilterDropdownOpen &&
               <div className='users__filter-dropdown'>

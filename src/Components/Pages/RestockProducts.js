@@ -217,7 +217,7 @@ const RestockProducts = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} // Update the search query as the user types
           />
-          <div className="restock-products__filter-wrapper" ref={filterDropdownRef}>
+          <div className="restock-products__filter-wrapper" title='Filter' ref={filterDropdownRef}>
             <i className="restock-products__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
 
             {isFilterDropdownOpen &&
@@ -298,37 +298,6 @@ const RestockProducts = () => {
                 submit={handleRestockSubmit}
                 setRestockList={setRestockList}
             />
-          {/* <div className="restock-products__restock-list-wrapper">
-            <h5 className="restock-products__table-title">Restock list</h5>
-            <div className="restock-products__restock-list-table-wrapper">
-              <table className="restock-products__table">
-                <thead>
-                  <tr>
-                    <th className="restock-products__table-th">Name</th>
-                    <th className="restock-products__table-th">Quantity</th>
-                    <th className="restock-products__table-th">Supplier</th>
-                    <th className="restock-products__table-th">Product Price:</th>
-                    <th className="restock-products__table-th"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {restockList.map((item, index) => (
-                    <tr className="restock-products__table-tr" key={index}>
-                      <td className="restock-products__table-td">{item.productName}</td>
-                      <td className="restock-products__table-td">{item.quantity}</td>
-                      <td className="restock-products__table-td">{item.supplierName}</td>
-                      <td className="restock-products__table-td">{item.unitPrice}</td>
-                      <td className="restock-products__table-td">
-                        <DeleteIcon onClick={() => removeRestockItem(index)} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <ButtonComponent buttonCustomClass='restock-products__submit-restock' label='Process Restock' onClick={handleRestockSubmit} /> 
-          </div> */}
-
         </div>
       </div>
     </div>

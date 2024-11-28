@@ -30,7 +30,7 @@ export const ViewVoidedProductIcon = ({ products }) => {
 
   return (
     <>
-      <i className="action-icons fa-solid fa-eye" onClick={toggleViewVoidedProductsModal}></i>
+      <i className="action-icons fa-solid fa-eye" title='View Voided Products' onClick={toggleViewVoidedProductsModal}></i>
       {isViewVoidedProductsModalOpen && <ViewVoidedProduct products={products} onClick={toggleViewVoidedProductsModal} />}
     </>
   );
@@ -46,7 +46,7 @@ export const ViewExpensesIcon = ({ expenses }) => {
 
   return (
     <>
-      <i className="action-icons fa-solid fa-eye" onClick={toggleViewExpensesModal}></i>
+      <i className="action-icons fa-solid fa-eye" title='View Expenses' onClick={toggleViewExpensesModal}></i>
       {isViewExpensesModalOpen && <ViewExpensesModal expenses={expenses} onClick={toggleViewExpensesModal} />}
     </>
   );
@@ -69,6 +69,6 @@ export const DeleteIcon = ({ onClick }) => {
 //For Edit icon
 export const EditIcon = ({ onClick }) => {
   return (
-    <i className="action-icons fa-solid fa-pen-to-square" onClick={onClick}></i>
+    <i className="action-icons fa-solid fa-pen-to-square" title='Edit' onClick={onClick}></i>
   );
 };

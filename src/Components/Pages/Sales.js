@@ -132,7 +132,7 @@ const filteredSalesData = salesData
                             onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
                         />
                     </div>
-                    <div className='sales__filter-wrapper' ref={filterDropdownRef}>
+                    <div className='sales__filter-wrapper' title='Filter' ref={filterDropdownRef}>
                         <i className="sales__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
                         {isFilterDropdownOpen &&
                             <div className='sales__filter-dropdown'>
@@ -180,10 +180,15 @@ const filteredSalesData = salesData
                                 <tr className='sales__table-tr' key={sales.id} >
                                     <td className='sales__table-td'>{sales.id}</td>
                                     <td className='sales__table-td'>{sales.date}</td>
-                                    <td className='sales__table-td'>₱ {(sales.total * 1).toFixed(2)}</td>
+                                    <td className='sales__table-td'>
+                                    ₱ {Number(sales.total).toLocaleString(undefined, { 
+                                            minimumFractionDigits: 2, 
+                                            maximumFractionDigits: 2 
+                                        })}
+                                    </td>
                                     <td className='sales__table-td'>{sales.username}</td>
                                     <td className='sales__table-td'>
-                                        <ButtonComponent label='Show Products' onClick={() => handleShowProducts(sales.id)} />
+                                        <ButtonComponent label='Show' onClick={() => handleShowProducts(sales.id)} />
                                     </td>
                                 </tr>
                             )}

@@ -107,7 +107,7 @@ const Header = ({ onClick, hamburgerMenuRef }) => {
       </div>
       <div className='header__controls-wrapper'>
         <div className='header__notification-wrapper' ref={notifDropdownRef}>
-          <i className="header__notification-icon fa-solid fa-bell" onClick={toggleNotifDropdown}></i>
+          <i className="header__notification-icon fa-solid fa-bell" title='Notification' onClick={toggleNotifDropdown}></i>
           {isNotifDropdownOpen && <Notification />}
         </div>
         <div className='header__profile-wrapper' onClick={toggleProfileDropdown} ref={profileDropdownRef}>
@@ -160,44 +160,49 @@ export const BackUpRecovery = () => {
     }
   };
 
-  const handleRecoverClick = () => {
-    recoverFileInputRef.current.click();
-  };
-  
-
-  const handleFileChange = async (e) => {    
-    alert("this is executed");
-    const file = e.target.files[0];
-    if (file) {
-      console.log("File selected:", file);
-      const formData = new FormData();
-      formData.append('backupFile', file);
-      
-      try {
-        const response = await fetch(`${apiUrl}/KampBJ-api/server/restoreBackup.php`, {
-          method: 'POST',
-          body: formData,
-        });
-  
-        console.log(response);  // Add this to see if the request was successful or failed
-  
-        if (response.ok) {
-          alert('Recovery successful!');
-        } else {
-          console.error('Failed to recover backup');
-        }
-      } catch (error) {
-        console.error('Error during recovery:', error);
-      }
-    } else {
-      alert("No File Selected");
+  // Function to trigger the recover file input
+  const handleRecoverClick = (e) => {
+    if(recoverFileInputRef.current) {
+      recoverFileInputRef.current.click();
+      console.log(recoverFileInputRef.current);
     }
+  };
+
+  // Function to handle file upload for recovery
+  const handleFileChange = async (e) => {
+    console.log('onChange triggered:', e);
+    const file = e.target.files?.[0];
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+    console.log('File selected:', file.name);
+    // const file = e.target.files[0];
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append('backupFile', file);
+
+    //   try {
+    //     const response = await fetch(`${apiUrl}/KampBJ-api/server/restoreBackup.php`, {
+    //       method: 'POST',
+    //       body: formData,
+    //     });
+
+    //     if (response.ok) {
+    //       alert('Recovery successful!');
+    //     } else {
+    //       console.error('Failed to recover backup');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error during recovery:', error);
+    //   }
+    // }
   };
   
   
 
   return (
-    <div className='backup-recovery'>
+    <div className='backup-recovery' onClick={(e) => e.stopPropagation()}>
       <li className='backup-recovery__li' onClick={handleBackupClick}>
         <i className="backup-recovery__icon fa-solid fa-cloud-arrow-down"></i>
         <span className='backup-recovery__label'>Back up</span>
@@ -216,7 +221,8 @@ export const BackUpRecovery = () => {
       <input
         type="file"
         ref={recoverFileInputRef}
-        style={{ display: 'block' }}
+        style={{ display: 'none' }}
+        accept=".sql"
         onChange={handleFileChange}
       />
     </div>

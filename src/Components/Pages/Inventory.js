@@ -146,7 +146,7 @@ const Inventory = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className='inventory__filter-wrapper' ref={filterDropdownRef}>
+          <div className='inventory__filter-wrapper' title='Filter' ref={filterDropdownRef}>
             <i className="inventory__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
             {isFilterDropdownOpen && (
               <div className="inventory__filter-dropdown">
@@ -161,8 +161,8 @@ const Inventory = () => {
                       <option value="">Select</option>
                       <option value="category">Category</option>
                       <option value="brand">Brand</option>
-                      <option value="priceAsc">Price (Lowest - Highest)</option>
-                      <option value="priceDesc">Price (Highest - Lowest)</option>
+                      {/* <option value="priceAsc">Price (Lowest - Highest)</option>
+                      <option value="priceDesc">Price (Highest - Lowest)</option> */}
                       <option value="stocksAsc">Stocks (Lowest - Highest)</option>
                       <option value="stocksDesc">Stocks (Highest - Lowest)</option>
                     </select>

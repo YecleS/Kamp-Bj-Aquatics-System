@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/Categories.css';
 import AddCategoriesModal from '../UIComponents/AddCategoriesModal';
 import EditCategoriesModal from '../UIComponents/EditCategoriesModal';
-import { EditIcon, DeleteIcon } from '../UIComponents/ActionIcons';
+import { EditIcon } from '../UIComponents/ActionIcons';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 
 const Categories = () => {
@@ -182,7 +182,7 @@ const Categories = () => {
                     </div>
                 </div>
                 <div className='categories__right-controls-wrapper'>
-                    <button className='categories__insert' onClick={() => isSetAddCategoryModalOpen(true)}>
+                    <button className='categories__insert' title='Add Category' onClick={() => isSetAddCategoryModalOpen(true)}>
                         <i className="categories__insert-icon fa-solid fa-plus"></i>
                     </button>
                 </div>

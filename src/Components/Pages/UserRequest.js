@@ -142,7 +142,7 @@ const UserRequest = () => {
                     <div className='user-request__search-wrapper'>
                         <input type='text' placeholder='Search fullname or username' value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)} className='user-request__input-field' />
                     </div>
-                    <div className='user-request__filter-wrapper' ref={filterDropdownRef}>
+                    <div className='user-request__filter-wrapper' title='Filter' ref={filterDropdownRef}>
                         <i className="user-request__filter-icon fa-solid fa-filter" onClick={toggleFilterDropdown}></i>
                         {isFilterDropdownOpen &&
                             <div className='user-request__filter-dropdown'>

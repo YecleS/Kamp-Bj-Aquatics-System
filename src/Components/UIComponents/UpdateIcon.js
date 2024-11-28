@@ -3,7 +3,7 @@ import '../Styles/UpdateIcon.css';
 
 const UpdateIcon = ({onClick}) => {
   return (
-    <i className="update-icon fa-solid fa-pen-to-square" onClick={onClick}></i>
+    <i className="update-icon fa-solid fa-pen-to-square" title='Update' onClick={onClick}></i>
   )
 }
 
