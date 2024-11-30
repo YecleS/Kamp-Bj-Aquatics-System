@@ -36,24 +36,32 @@ const DashboardWeekly = () => {
   },[])
 
   const handleWeekChange = (selectedDate) => {
-    const startingDate = new Date(selectedDate);
-    const endDate = new Date();
-    endDate.setDate(startingDate.getDate() - 6);
-  
+    const endDate = new Date(selectedDate); // This is the selected date (end date)
+    
+    // Calculate the starting date (6 days before selected date)
+    const startingDate = new Date(endDate); 
+    startingDate.setDate(endDate.getDate() - 6); // Subtract 6 days to get the start date
+
     // Format the dates to YYYY-MM-DD
-    const formatDate = (date) => date.toISOString().split('T')[0];
-  
-    const formattedStartingDate = formatDate(startingDate);
-    const formattedEndDate = formatDate(endDate);
-  
-    // Pass the formatted dates
-    getTop5Products(formattedEndDate, formattedStartingDate );
-    getTotalSales(formattedEndDate, formattedStartingDate );
-    getTotalSalesCount(formattedEndDate, formattedStartingDate );
-    getWeeklySales(formattedEndDate, formattedStartingDate );
-  
-    setWeekRange(`${endDate.toLocaleDateString()} - ${startingDate.toLocaleDateString()}`);
-  };
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    const formattedStartingDate = formatDate(startingDate); // The 6 days before formatted (start date)
+    const formattedEndDate = formatDate(endDate); // The selected date itself formatted (end date)
+
+    // Pass the formatted dates to the API calls
+    getTop5Products(formattedStartingDate, formattedEndDate);
+    getTotalSales(formattedStartingDate, formattedEndDate);
+    getTotalSalesCount(formattedStartingDate, formattedEndDate);
+    getWeeklySales(formattedStartingDate, formattedEndDate);
+
+    // Update the displayed range (e.g., "2024-11-29 - 2024-11-23")
+    setWeekRange(`${formattedStartingDate} - ${formattedEndDate}`);
+};
   
 
   const getTop5Products = (start, end) => {
@@ -103,7 +111,6 @@ const DashboardWeekly = () => {
       })
       .then(data => {
         if (data.status === 'success' && data.totalSales) {
-          console.log(data);
           setTotalSales(data.totalSales); // Set the `totalSales` string directly
         } else {
           setTotalSales('0.00'); // Default value if data is invalid
