@@ -34,35 +34,6 @@ const DashboardDaily = () => {
     handleDatechange(currentDate);
   }, []);
 
-  // useEffect(() => {
-  //   // Fetch data from the PHP script with the selectedDate
-  //   fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/dailySoldProducts.php`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ selectedDate}),
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       if (data.length > 0) {
-  //         // Transform the data to fit the chart format if necessary
-  //         const formattedData = data.map(item => ({
-  //           name: item.productName,
-  //           Total_Sales: parseFloat(item.Total_Sales),
-  //           quantity: item.quantity,
-  //         }));
-  //         setTopProductsData(formattedData);
-  //       } else {
-  //         setTopProductsData([]);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       ToastError('Error fetching data:', error);
-  //     });
-  // }, [selectedDate]);
-  
-  
   useEffect(() => {
     // Fetch data from the PHP script with the selectedDate
     fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTop5Products.php`, {
@@ -138,31 +109,29 @@ const DashboardDaily = () => {
   }, [selectedDate]);
 
 
-  useEffect(() => {
-    // Fetch the average sales amount for the selected date
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getAverageSalesAmount.php`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ selectedDate, timePeriod: 'daily' }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          setAverageSales(data.averageSales);
-        } else {
-          setAverageSales(0);
-          ToastError('No sales data found for the selected date.');
-        }
-      })
-      .catch(error => {
-        ToastError('Error fetching average sales amount:', error);
-      });
-  }, [selectedDate]);
+  // useEffect(() => {
+  //   // Fetch the average sales amount for the selected date
+  //   fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getAverageSalesAmount.php`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ selectedDate, timePeriod: 'daily' }),
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       if (data.status === 'success') {
+  //         setAverageSales(data.averageSales);
+  //       } else {
+  //         setAverageSales(0);
+  //         ToastError('No sales data found for the selected date.');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       ToastError('Error fetching average sales amount:', error);
+  //     });
+  // }, [selectedDate]);
 
-
- 
   // Fetch sales data for the selected date
   useEffect(() => {
     fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTotalSalesByTime.php`, {
@@ -210,9 +179,9 @@ const DashboardDaily = () => {
       </div>
 
     <div className='dashboard-daily__cards'>
-      <DashboardCards icon="fa-peso-sign" title="Total Sales" subTitle="Today's Sales" description={`₱ ${String(totalSales)}`} />
-      <DashboardCards icon='fa-cart-shopping' title="Sales Today" subTitle="Total Number of Sales Made" description={String(salesCount)} />
-      <DashboardCards icon='fa-receipt' title="Average Worth per Sales" subTitle="Average Sales Worth" description={`₱ ${String(averageSales)}`} />
+      <DashboardCards icon="fa-peso-sign" title="Total Sales Today" subTitle="Total Sales Made Today" description={`₱ ${String(totalSales)}`} />
+      <DashboardCards icon='fa-cart-shopping' title="Sales Transactions" subTitle="Number of Sales Transactions Today" description={String(salesCount)} />
+      {/* <DashboardCards icon='fa-receipt' title="Average Sales Per Transactions" subTitle="Total Average Sales Per Transactions" description={`₱ ${String(averageSales)}`} /> */}
     </div>
 
       <div className='dashboard-daily__body'>

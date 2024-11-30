@@ -26,7 +26,7 @@ const Dashboard = () => {
       <div className='dashboard__header'>
         <select className='dashboard__filter' onChange={handleOnChangeFilter}>
           <option value='daily'>Daily</option>
-          <option value='weekly'>Weekly</option>
+          <option value='weekly'>Last 7 Days</option>
           <option value='monthly'>Monthly</option>
           <option value='yearly'>Yearly</option>
         </select>

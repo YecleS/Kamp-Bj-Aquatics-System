@@ -5,9 +5,10 @@ import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import DefaultImagePreview from '../Assets/image-preview.png';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
-import Select from 'react-select';
+import LoadingState from '../UIComponents/LoadingState';
 
 const AddProductModal = ({ onClick, refresh }) => {
+  const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -40,7 +41,9 @@ const AddProductModal = ({ onClick, refresh }) => {
     brand: Yup.string().required('Brand is required'),
     category: Yup.string().required('Category is required'),
     product: Yup.string().required('Product Name is Required').matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed'),
-    lowStock: Yup.number().required('Low Stock Indicator is required!').moreThan(0, 'Invalid Input'),
+    lowStock: Yup.number().required('Low Stock Indicator is required!')
+      .moreThan(0, 'Invalid Low Stock Indicator')
+      .integer('Invalid Low Stock Indicator'),
     model: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special Chars are not Allowed').required('Model is required'),
     description: Yup.string().required('Description is Required'),
     markupPercentage: Yup.number().required('Markup Percentage is Required').moreThan(0, 'Invalid Markup Percentage'),
@@ -79,6 +82,8 @@ const AddProductModal = ({ onClick, refresh }) => {
     formData.append('model', values.model);
     formData.append('description', values.description);
     formData.append('markupPercentage', values.markupPercentage);
+    
+    setLoading(true);
 
     fetch(`${apiUrl}/KampBJ-api/server/insertProduct.php`, {
       method: 'POST',
@@ -99,6 +104,9 @@ const AddProductModal = ({ onClick, refresh }) => {
       .catch((error) => {
         console.error('Error inserting product:', error);
         ToastError('Error adding product');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -183,6 +191,7 @@ const AddProductModal = ({ onClick, refresh }) => {
           </Formik>
         </div>
       </div>
+      {loading && <LoadingState />}
       <ToastContainer />
     </div>
   );

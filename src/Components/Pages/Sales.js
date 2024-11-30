@@ -2,8 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/Sales.css';
 import ProductListModal from '../UIComponents/ProductListModal';
 import ButtonComponent from '../UIComponents/ButtonComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const Sales = () => {
+    const [loading, setLoading] = useState(false);
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
     const filterDropdownRef = useRef(null);
     const [productList, setProductList] = useState([]);
@@ -25,6 +27,8 @@ const Sales = () => {
 
     // Fetch sales records from the server
     const fetchSalesData = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchSalesRecord.php`);
             if (!response.ok) {
@@ -40,6 +44,8 @@ const Sales = () => {
             setSalesData(formattedData);
         } catch (error) {
             console.error('Error fetching sales data:', error);
+        }   finally {
+            setLoading(false);
         }
     };
 
@@ -203,6 +209,8 @@ const filteredSalesData = salesData
                 selectedTransaction = {selectedTransaction}
                 productList={productList} // Pass productList as prop   
             />
+
+            {loading && <LoadingState />}
         </div>
     )
 }

@@ -5,8 +5,10 @@ import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import DefaultImagePreview from '../Assets/image-preview.png';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
+  const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
   const [batchNumbers, setBatchNumbers] = useState([]);
   const [selectedBatchDetails, setSelectedBatchDetails] = useState({ quantity: 0, sellingPrice: 0, batchNumber: '' });
@@ -76,12 +78,15 @@ const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
     batchNumber: Yup.string().required('Batch selection is required'),
     quantity: Yup.number()
       .required('Quantity is required')
-      .positive('Invalid Input')
+      .moreThan(0, 'Invalid Quantity')
+      .integer('Invalid Quantity')
       .max(selectedBatchDetails.quantity, `Cannot exceed available stock (${selectedBatchDetails.quantity})`),
     date: Yup.date().required('Date is required'),
   });
 
   const insertRecord = async (values, { resetForm }) => {
+    setLoading(true); // Start loading
+
     try {
       const formData = new FormData();
       formData.append('userId', localStorage.getItem('userId'));
@@ -110,6 +115,8 @@ const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
       }
     } catch (error) {
       ToastError('Failed to save record. Try again.');
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -166,7 +173,7 @@ const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
                 </div>
 
                 <div className='modal__input-field-wrapper'>
-                  <Field type='number' name='quantity' placeholder='Enter number of items' className='modal__input-field' />
+                  <Field type='number' step="1" name='quantity' placeholder='Enter number of items' className='modal__input-field' />
                   <ErrorMessage name='quantity' component='span' className='modal__input-field-error' />
                 </div>
 
@@ -185,6 +192,7 @@ const AddVoidProductRecordModal = ({ onClick, exit, product, refresh }) => {
           </Formik>
         </div>
       </div>
+      {loading && <LoadingState />}
       <ToastContainer />
     </div>
   );

@@ -5,8 +5,10 @@ import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import DefaultImagePreview from '../Assets/image-preview.png';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const AddUtilitiesModal = ({ onClick, refresh }) => {
+  const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
   const [expenseTitles, setExpenseTitles] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -16,7 +18,7 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
     description: "",
     total: "",
     date: "",
-    expense: ""  // Ensure 'expense' is included in the initial values
+    expense: ""
   };
 
   const validationSchema = Yup.object({
@@ -62,6 +64,8 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
     formData.append('date', values.date);
     formData.append('expense', values.expense);
 
+    setLoading(true);
+
     fetch(`${apiUrl}/KampBJ-api/server/insertExpense.php`, {
       method: 'POST',
       body: formData,
@@ -81,6 +85,9 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
       .catch((error) => {
         console.error('Error inserting expense:', error);
         ToastError('Error adding expense');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -147,6 +154,8 @@ const AddUtilitiesModal = ({ onClick, refresh }) => {
         </div>
       </div>
       <ToastContainer />
+
+      {loading && <LoadingState />}
     </div>
   );
 };

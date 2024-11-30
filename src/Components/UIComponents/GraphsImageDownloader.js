@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../Styles/GraphsImageDownloader.css';
 import html2canvas from 'html2canvas';
+import LoadingState from '../UIComponents/LoadingState';
 
 const GraphsImageDownloader = ({elementId}) => {
+  const [loading, setLoading] = useState(false);
   const [isVisible, isSetVisible] = useState(false);
 
   const downloadImageAsPng = async () => {
@@ -11,6 +13,7 @@ const GraphsImageDownloader = ({elementId}) => {
 
     if (element) {
       try {
+        setLoading(true)
         dropdown.style.display = 'none';
         // Capture the element as a canvas
         const canvas = await html2canvas(element, { scale: 2 }); // Adjust scale for better quality
@@ -25,6 +28,9 @@ const GraphsImageDownloader = ({elementId}) => {
         dropdown.style.display = 'block';
       } catch (error) {
         console.error('Error capturing image:', error);
+
+      } finally {
+        setLoading(false); // Hide loading state when done
       }
     }
 
@@ -36,6 +42,7 @@ const GraphsImageDownloader = ({elementId}) => {
 
     if (element) {
       try {
+        setLoading(true);
         dropdown.style.display = 'none';
         // Capture the element as a canvas
         const canvas = await html2canvas(element, { scale: 2 }); // Adjust scale for better quality
@@ -50,6 +57,9 @@ const GraphsImageDownloader = ({elementId}) => {
         dropdown.style.display = 'block';
       } catch (error) {
         console.error('Error capturing image:', error);
+
+      } finally {
+        setLoading(false); // Hide loading state when done
       }
     }
 
@@ -64,6 +74,8 @@ const GraphsImageDownloader = ({elementId}) => {
             <li className='graphs-image-download__li' onClick={downloadImageAsJpg}>Download as JPG</li>
           </div>
         )}
+
+      {loading && <LoadingState />}
     </div>
   )
 }

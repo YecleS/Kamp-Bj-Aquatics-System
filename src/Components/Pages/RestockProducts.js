@@ -4,8 +4,10 @@ import AddToRestockListModal from "../UIComponents/AddtoRestockListModal";
 import { RestockProductRightIcon, DeleteIcon } from '../UIComponents/ActionIcons';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const RestockProducts = () => {
+  const [loading, setLoading] = useState(false);
   const restockListIconRef = useRef();
   const restockListContainerRef = useRef();
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
@@ -39,6 +41,8 @@ const RestockProducts = () => {
   }, []);
 
   const fetchProductData = () => {
+    setLoading(true);
+
     fetch(`${apiUrl}/KampBJ-api/server/getProducts.php`)
       .then((response) => response.json())
       .then((productData) => {
@@ -69,14 +73,18 @@ const RestockProducts = () => {
         Promise.all(updatedProductsPromises)
           .then((updatedProducts) => {
             setProducts(updatedProducts);
+            setLoading(false);
           })
           .catch((error) => {
             console.error('Error updating products:', error);
+            setLoading(false);
           });
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
+        setLoading(false);
       });
+
   };
   
   
@@ -283,13 +291,13 @@ const RestockProducts = () => {
                 </tbody>
               </table>
             </div>
-            {isAddToRestockModalOpen && (
-              <AddToRestockListModal
-                onClick={() => isSetAddToRestockModalOpen(false)}
-                product={selectedProduct}
-                addToRestockList={addToRestockList} // Use the restock list add function
-              />
-            )}
+              {isAddToRestockModalOpen && (
+                <AddToRestockListModal
+                  onClick={() => isSetAddToRestockModalOpen(false)}
+                  product={selectedProduct}
+                  addToRestockList={addToRestockList} // Use the restock list add function
+                />
+              )}
           </div>
             <RestockContainer
                 restockContainerClass={isRestockListContainerVisible ? 'restock-container-active':''}
@@ -300,6 +308,8 @@ const RestockProducts = () => {
             />
         </div>
       </div>
+
+      {loading && <LoadingState />}
     </div>
   );
 };

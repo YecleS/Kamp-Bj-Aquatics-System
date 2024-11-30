@@ -7,8 +7,10 @@ import DeleteIcon from '../UIComponents/DeleteIcon';
 import { ViewProductIcon } from '../UIComponents/ActionIcons';
 import ConfirmationMessageModal from '../UIComponents/ConfirmationMessageModal';
 import { ToastSuccess } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const AddProducts = () => {
+  const [loading, setLoading] = useState(false);
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const [isAddModalOpen, isSetAddModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -31,6 +33,8 @@ const AddProducts = () => {
 
   // Fetch products from the server
   const fetchProducts = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchProducts.php`);
       if (!response.ok) {
@@ -41,6 +45,9 @@ const AddProducts = () => {
       setFilteredData(data); // Initialize filtered data with fetched products
     } catch (error) {
       console.error('Failed to fetch products:', error);
+
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -251,6 +258,8 @@ const AddProducts = () => {
         />        
       )}
       {isConfirmationModalOpen && <ConfirmationMessageModal message='Are you sure you want to change the status of this product?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
+      {loading && <LoadingState />}
+
     </div>
   );
 };

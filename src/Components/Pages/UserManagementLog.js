@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/UserMangementLog.css';
+import LoadingState from '../UIComponents/LoadingState';
 
 const UserManagementLog = () => {
+    const [loading, setLoading] = useState(false);
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
     const [logs, setLogs] = useState([]); // State for logs
     const [filteredLogs, setFilteredLogs] = useState([]); // State for filtered logs
-    const [isLoading, setIsLoading] = useState(true); // State for loading
     const [filters, setFilters] = useState({
         searchQuery: '',
         startDate: '',
@@ -17,6 +18,8 @@ const UserManagementLog = () => {
     // Fetch logs from the server
     useEffect(() => {
         const fetchLogs = async () => {
+            setLoading(true);
+
             try {
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchUserLogs.php`);
                 if (!response.ok) {
@@ -28,7 +31,7 @@ const UserManagementLog = () => {
             } catch (error) {
                 console.error('Error fetching logs:', error);
             } finally {
-                setIsLoading(false);
+                setLoading(false);
             }
         };
 
@@ -167,38 +170,36 @@ const UserManagementLog = () => {
 
             <div className='user-management-log__body'>
                 <div className='user-management-log__table-wrapper'>
-                    {isLoading ? (
-                        <p>Loading logs...</p>
-                    ) : (
-                        <table className='user-management-log__table'>
-                            <thead>
-                                <tr>
-                                    <th className='user-management-log__table-th'>Target</th>
-                                    <th className='user-management-log__table-th'>Action</th>
-                                    <th className='user-management-log__table-th'>Executed By</th>
-                                    <th className='user-management-log__table-th'>Date Executed</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredLogs.length > 0 ? (
-                                    filteredLogs.map((log, index) => (
-                                        <tr key={index} className='user-management-log__table-tr'>
-                                            <td className='user-management-log__table-td'>{log.target}</td>
-                                            <td className='user-management-log__table-td'>{log.action}</td>
-                                            <td className='user-management-log__table-td'>{log.username}</td>
-                                            <td className='user-management-log__table-td'>{new Date(log.dateExecuted).toLocaleString()}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="4" className='user-management-log__table-td'>No logs available</td>
+                    <table className='user-management-log__table'>
+                        <thead>
+                            <tr>
+                                <th className='user-management-log__table-th'>Target</th>
+                                <th className='user-management-log__table-th'>Action</th>
+                                <th className='user-management-log__table-th'>Executed By</th>
+                                <th className='user-management-log__table-th'>Date Executed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredLogs.length > 0 ? (
+                                filteredLogs.map((log, index) => (
+                                    <tr key={index} className='user-management-log__table-tr'>
+                                        <td className='user-management-log__table-td'>{log.target}</td>
+                                        <td className='user-management-log__table-td'>{log.action}</td>
+                                        <td className='user-management-log__table-td'>{log.username}</td>
+                                        <td className='user-management-log__table-td'>{new Date(log.dateExecuted).toLocaleString()}</td>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className='user-management-log__table-td'>No logs available</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            {loading && <LoadingState />}
         </div>
     );
 };
