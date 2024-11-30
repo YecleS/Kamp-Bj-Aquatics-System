@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/ProductLog.css';
+import LoadingState from '../UIComponents/LoadingState';
 
 const ProductLog = () => {
+  const [loading, setLoading] = useState(false);
   const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [logs, setLogs] = useState([]);
   const filterDropdownRef = useRef(null);
@@ -15,6 +17,8 @@ const ProductLog = () => {
 
   // Fetch logs from the backend
   useEffect(() => {
+    setLoading(true);
+
     fetch(`${apiUrl}/KampBJ-api/server/fetchProductLogs.php`)
       .then(response => response.json())
       .then(data => {
@@ -26,6 +30,9 @@ const ProductLog = () => {
       })
       .catch(error => {
         console.error('Error fetching logs:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -165,6 +172,8 @@ const ProductLog = () => {
           </table>
         </div>
       </div>
+
+      {loading && <LoadingState />}
     </div>
   );
 };

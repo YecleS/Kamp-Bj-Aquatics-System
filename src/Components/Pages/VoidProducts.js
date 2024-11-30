@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../Styles/VoidProducts.css';
 import AddVoidProductModal from '../UIComponents/AddVoidProductModal';
 import { ViewVoidedProductIcon } from '../UIComponents/ActionIcons';
+import LoadingState from '../UIComponents/LoadingState';
 
 const VoidProducts = () => {
+  const [loading, setLoading] = useState(false);
   const [isVoidProductsModalOpen, setIsVoidProductsModalOpen] = useState(false);
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const [voidedProducts, setVoidedProducts] = useState([]);
@@ -16,6 +18,8 @@ const VoidProducts = () => {
 
   // Fetch voided product records from the backend
   const fetchVoidedProducts = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchVoidedRecords.php`);
       const data = await response.json();
@@ -27,6 +31,8 @@ const VoidProducts = () => {
       }
     } catch (error) {
       console.error("Failed to fetch voided products:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -173,6 +179,8 @@ const filteredProducts = voidedProducts
         </div>
         {isVoidProductsModalOpen && <AddVoidProductModal onClick={toggleVoidProductsModal} refresh={fetchVoidedProducts} />}
       </div>
+
+      {loading && <LoadingState />}
     </div>
   );
 };

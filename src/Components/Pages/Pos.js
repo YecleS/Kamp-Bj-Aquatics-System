@@ -3,8 +3,10 @@ import '../Styles/Pos.css';
 import AddToCartModal from '../UIComponents/AddToCartModal';
 import ProductCard from '../UIComponents/ProductCard';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const Pos = () => {
+    const [loading, setLoading] = useState(false);
     const cartContainer = useRef();
     const cartIcon = useRef();
     const [isAddToCartModalOpen, setAddToCartOpen] = useState(false);
@@ -46,6 +48,8 @@ const Pos = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
+            setLoading(true);
+
             try {
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/getActiveProducts.php`);
                 if (!response.ok) {
@@ -56,6 +60,8 @@ const Pos = () => {
             } catch (error) {
                 console.error("Error fetching products:", error);
                 ToastError('Failed to fetch products.');
+            }finally {
+                setLoading(false);
             }
         };
         fetchProducts();
@@ -272,9 +278,12 @@ const Pos = () => {
                 </div>
 
             </div>
+
             {isAddToCartModalOpen && (
                 <AddToCartModal product={selectedProduct} onAddToCart={addToCart} onClick={toggleAddToCartModal} />
             )}
+
+            {loading && <LoadingState />}
         </div>
     );
 };

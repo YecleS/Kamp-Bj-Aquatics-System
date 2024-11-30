@@ -73,7 +73,8 @@ const AddToCartModal = ({ onClick, product, onAddToCart }) => {
     const validationSchema = Yup.object({
         quantity: Yup.number()
             .required('Quantity is required')
-            .moreThan(0, 'Invalid quantity')
+            .moreThan(0, 'Invalid Quantity')
+            .integer('Invalid Quantity')
             .max(selectedBatchDetails.quantity, `Quantity cannot exceed available stock (${selectedBatchDetails.quantity})`), // Validate stock limit
     });
 

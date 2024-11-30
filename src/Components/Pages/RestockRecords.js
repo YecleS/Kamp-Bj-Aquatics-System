@@ -2,8 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/RestockRecords.css';
 import ProductListModal from '../UIComponents/ProductListModal';
 import ButtonComponent from '../UIComponents/ButtonComponent'
+import LoadingState from '../UIComponents/LoadingState';
 
 const RestockRecords = () => {
+    const [loading, setLoading] = useState(false);
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
     const filterDropdownRef = useRef(null);
     const [productList, setProductList] = useState([]);
@@ -21,6 +23,7 @@ const RestockRecords = () => {
     // Fetch expense records from the API
     useEffect(() => {
         const fetchExpenseRecords = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchRestockTransactions.php`);
                 const data = await response.json();
@@ -31,6 +34,8 @@ const RestockRecords = () => {
                 }
             } catch (error) {
                 console.error('Error fetching expense records:', error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchExpenseRecords();
@@ -201,6 +206,8 @@ const RestockRecords = () => {
                 selectedTransaction = {selectedTransaction}
                 productList={productList} // Pass productList as prop
             />
+
+            {loading && <LoadingState />}
         </div>
     );
 };

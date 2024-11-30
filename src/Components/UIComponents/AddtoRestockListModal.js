@@ -18,9 +18,12 @@ const AddToRestockListModal = ({ onClick, product, addToRestockList }) => {
 
   // Validation
   const validationSchema = Yup.object({
-    quantity: Yup.number().required('Quantity is Required').moreThan(0, 'Invalid Quantity'),
+    quantity: Yup.number()
+      .required('Quantity is Required')
+      .integer('Invalid Quantity')
+      .moreThan(0, 'Invalid Quantity'),
     unitPrice: Yup.number().required('Unit Price is Required').moreThan(0, 'Invalid Unit Price'),
-    supplier: Yup.string().required('Supplier is Required'), // Add validation for supplier
+    supplier: Yup.string().required('Supplier is Required'),
   });
 
   // Fetch suppliers based on the product's category

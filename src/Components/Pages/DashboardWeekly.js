@@ -32,7 +32,7 @@ const DashboardWeekly = () => {
     getTotalSalesCount(formattedEndDate, formattedStartingDate );
     getWeeklySales(formattedEndDate, formattedStartingDate );
 
-    setWeekRange(`${today.toLocaleDateString()} - ${end.toLocaleDateString()}`);
+    setWeekRange(`${end.toLocaleDateString()} - ${today.toLocaleDateString()}`);
   },[])
 
   const handleWeekChange = (selectedDate) => {
@@ -52,7 +52,7 @@ const DashboardWeekly = () => {
     getTotalSalesCount(formattedEndDate, formattedStartingDate );
     getWeeklySales(formattedEndDate, formattedStartingDate );
   
-    setWeekRange(`${startingDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`);
+    setWeekRange(`${endDate.toLocaleDateString()} - ${startingDate.toLocaleDateString()}`);
   };
   
 

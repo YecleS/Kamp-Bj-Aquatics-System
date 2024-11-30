@@ -6,8 +6,10 @@ import UpdateIcon from '../UIComponents/UpdateIcon';
 import { ViewExpensesIcon } from '../UIComponents/ActionIcons';
 import TextSlicer from '../Utils/TextSlicer';
 import DatePicker from 'react-datepicker';
+import LoadingState from '../UIComponents/LoadingState';
 
 const BusinessExpenses = () => {
+  const [loading, setLoading] = useState(false);
   const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
   const [isAddModalOpen, isSetAddModalOpen] = useState(false);
   const [isEditModalOpen, isSetEditModalOpen] = useState(false);
@@ -30,6 +32,8 @@ const BusinessExpenses = () => {
   }, []);
 
   const fetchExpenses = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchExpenseRecords.php`);
       const data = await response.json();
@@ -46,6 +50,8 @@ const BusinessExpenses = () => {
       }
     } catch (error) {
       console.error('Error fetching expenses:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -247,6 +253,8 @@ const handleEditClick = (expense) => {
       </div>
       {isAddModalOpen && <AddExpensesModal onClick={toggleAddModal} refresh={fetchExpenses}/>}
       {isEditModalOpen && selectedExpense && <EditExpensesModal onClick={toggleEditModal} selectedExpense={selectedExpense} refresh={fetchExpenses} />}
+
+      {loading && <LoadingState />}
     </div>
   );
 };

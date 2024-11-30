@@ -3,12 +3,15 @@ import '../Styles/GeneratePdf.css';
 import html2pdf from "html2pdf.js";
 import html2canvas from 'html2canvas';
 import ButtonComponent from './ButtonComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const GeneratePdf = ({elementId, date, reportTitle}) => {
+  const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [graphImages, setGraphImages] = useState([]);
 
   const convertGraphsToImage = async () => {
+    setLoading(true);
     const graphs = document.querySelectorAll(`.${elementId}`);
 
     if (graphs.length > 0) {
@@ -30,6 +33,8 @@ const GeneratePdf = ({elementId, date, reportTitle}) => {
     } else {
       console.warn('No graph containers found.');
     }
+
+    setLoading(false); 
   }
 
   return (
@@ -39,6 +44,8 @@ const GeneratePdf = ({elementId, date, reportTitle}) => {
       {
         showPreview && <Preview graphs={graphImages} date={date} closePreview={() => setShowPreview(false)} setShowPreview={setShowPreview} reportTitle={reportTitle}/>
       }
+
+      {loading && <LoadingState />}
     </div>
   )
 }
@@ -75,17 +82,13 @@ export const Preview = ({graphs, closePreview, date, setShowPreview, reportTitle
       closeIcon.style.display = 'block';
       previewElement.style.margin = '';
     }, 500)
-    
+
     setShowPreview(false);
   };
 
   return (
     <div className='preview'>
       <div className='preview__container'>
-        <div className='preview__header'>
-
-        </div>
-
         <div className="preview__body" id='preview-body'>
           <div className='preview__title-wrapper'>
             <h3>{reportTitle} Preview </h3>

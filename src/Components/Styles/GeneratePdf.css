@@ -29,7 +29,6 @@
 
 
 /* PREVIEW COMPONENT */
-
 .preview {
     position: fixed;
     top: 0;
@@ -99,4 +98,36 @@
     padding: 0.5rem 0rem;
     background: white;
     gap: 0.5rem;
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 999px) {
+    .preview__title-wrapper h3 {
+        font-size: 1.2rem;
+    }
+
+    .preview__container {
+        width: 760px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .preview__title-wrapper h3 {
+        font-size: 1.1rem;
+    }
+
+    .preview__container {
+        width: 610px;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .preview__title-wrapper h3 {
+        font-size: 1rem;
+    }
+
+    .preview__container {
+        width: 340px;
+    }
+    
 }

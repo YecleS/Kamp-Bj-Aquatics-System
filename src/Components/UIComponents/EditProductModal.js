@@ -5,8 +5,10 @@ import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import { ToastSuccess } from './ToastComponent';
 import DefaultImagePreview from '../Assets/image-preview.png';
+import LoadingState from '../UIComponents/LoadingState';
 
 const EditProductModal = ({ onClick, productData, refresh }) => {
+  const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(DefaultImagePreview);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -89,7 +91,9 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
     formData.append('model', values.model);
     formData.append('description', values.description);
     formData.append('markup', values.markupPercentage);
-  
+    
+    setLoading(true);
+
     // Use only one key: 'productImage'
     if (values.productImage instanceof File) {
       formData.append('productImage', values.productImage); // New image selected
@@ -115,6 +119,9 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
       })
       .catch((error) => {
         console.error('Error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   
@@ -213,6 +220,8 @@ const EditProductModal = ({ onClick, productData, refresh }) => {
           </Formik>
         </div>
       </div>
+
+      {loading && <LoadingState />}
       <ToastContainer />
     </div>
   );
