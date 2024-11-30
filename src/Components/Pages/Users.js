@@ -238,7 +238,7 @@ const Users = () => {
                   <td className='users__table-td'>{user.status}</td>
                   <td className='users__table-td'>
                     <ButtonComponent buttonCustomClass='users__btn-edit' label='Edit' onClick={() => toggleEditModal(user)}/>
-                    <ButtonComponent buttonCustomClass='users__revoke-button' label='Revoke' onClick={() => toggleConfirmationModal(user)} />
+                    <ButtonComponent buttonCustomClass='users__revoke-button' label={user.status === 'active' ? 'Revoke':'Grant'} onClick={() => toggleConfirmationModal(user)} />
                   </td>
                 </tr>
               ))}
