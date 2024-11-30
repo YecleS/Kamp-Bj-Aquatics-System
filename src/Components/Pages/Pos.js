@@ -37,7 +37,8 @@ const Pos = () => {
                 throw new Error('Failed to fetch product batch data');
             }
             const data = await response.json();
-            return data; // Return the fetched data
+
+            return data;
         } catch (error) {
             console.error('Error fetching product batch data:', error);
             ToastError('Failed to fetch batch details.');

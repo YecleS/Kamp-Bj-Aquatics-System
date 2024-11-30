@@ -20,7 +20,10 @@ const AddToCartModal = ({ onClick, product, onAddToCart }) => {
                         throw new Error('Failed to fetch product batch data');
                     }
                     const data = await response.json();
-                    setBatchNumbers(data);
+
+                    const filteredBatches = data.filter(batch => batch.quantity > 0);
+
+                    setBatchNumbers(filteredBatches);
                 } catch (error) {
                     console.error('Error fetching product batch data:', error);
                     toast.error('Failed to load batch data.');
@@ -106,7 +109,7 @@ const AddToCartModal = ({ onClick, product, onAddToCart }) => {
                                         onChange={e => {
                                             const { value } = e.target;
                                             setFieldValue("batchNumber", value);
-                                            setSelectedBatchDetails(prev => ({ ...prev, batchNumber: value })); // Update local state
+                                            setSelectedBatchDetails(prev => ({ ...prev, batchNumber: value }));
                                         }}
                                     >
                                         <option value="">Select Batch</option>
