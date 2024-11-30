@@ -94,7 +94,7 @@ const ProductBatch = () => {
                         <thead>
                             <tr>
                                 <th className='product-batch__table-th'>Batch Number</th>
-                                <th className='product-batch__table-th'>Name</th>
+                                <th className='product-batch__table-th'></th>
                                 <th className='product-batch__table-th'>Quantity</th>
                                 <th className='product-batch__table-th'>Unit Price</th>
                                 <th className='product-batch__table-th'>Markup Percentage</th>
