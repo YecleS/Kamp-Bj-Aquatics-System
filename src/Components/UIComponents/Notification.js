@@ -57,7 +57,7 @@ const Notification = () => {
                     <tbody>
                         {notifications.length > 0 ? (
                             notifications.map((notification) => (
-                                <tr key={notification.id} className='notification__tr'>
+                                <tr key={notification.notifId} className='notification__tr'>
                                     <td className='notification__td'>
                                         {notification.message}
                                         <br />
