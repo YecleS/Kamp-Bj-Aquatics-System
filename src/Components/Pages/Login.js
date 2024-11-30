@@ -8,8 +8,10 @@ import '../Styles/Login.css';
 import LoginIMG from '../Assets/loginImg.png';
 import Logo from '../Assets/logo.png';
 import ButtonComponent from '../UIComponents/ButtonComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -56,6 +58,8 @@ const Login = () => {
       navigate('/SA');
       resetForm();
     }else{
+      setLoading(true);
+
       fetch(`${apiUrl}/KampBJ-api/server/validateUser.php`, {
         method: 'POST',
         credentials: 'include',
@@ -89,6 +93,9 @@ const Login = () => {
         .catch(error => {
           console.error('Error:', error);
           errorMessage('invalid');
+        })
+        .finally(() => {
+          setLoading(false);
         });
     } 
   };
@@ -144,6 +151,7 @@ const Login = () => {
         </div>
       </div>
       <ToastContainer />
+      {loading && <LoadingState />}
     </div>
   );
 };

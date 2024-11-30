@@ -9,8 +9,10 @@ import Logo from '../Assets/logo.png';
 import '../Styles/SignUp.css';
 import DefaultImagePreview from '../Assets/image-preview.png';
 import ButtonComponent from '../UIComponents/ButtonComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const SignUp = () => {
+    const [loading, setLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState();
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -75,7 +77,9 @@ const SignUp = () => {
       formData.append('address', values.address);
       formData.append('password', values.password);
       formData.append('userImage', values.userImage); // Append the image file
-  
+      
+      setLoading(true);
+
       fetch(`${apiUrl}/KampBJ-api/server/insertUserRegistration.php`, {
           method: 'POST',
           body: formData,
@@ -92,6 +96,9 @@ const SignUp = () => {
       })
       .catch(error => {
           console.error('Error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   
@@ -213,6 +220,8 @@ const SignUp = () => {
         </div>
       </div>
       <ToastContainer />
+
+      {loading && <LoadingState />}
     </div>
   )
 }
