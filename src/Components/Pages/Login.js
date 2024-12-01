@@ -74,7 +74,6 @@ const Login = () => {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-
             if (data.status === 'inactive'){
               errorMessage('inactive');
             }else{
@@ -87,7 +86,7 @@ const Login = () => {
             resetForm();
           }else{
             // Show error message on failed login
-            errorMessage();
+            errorMessage('invalid');
           }
         })
         .catch(error => {
