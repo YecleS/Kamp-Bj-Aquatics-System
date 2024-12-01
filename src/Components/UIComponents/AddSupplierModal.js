@@ -3,10 +3,11 @@ import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import CheckboxGroup from './CheckboxGroup';
-import { ToastContainer, toast } from 'react-toastify';
 import { ToastSuccess, ToastError } from './ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
-const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
+const AddSupplierModal = ({ onClick, fetchSuppliers, supplierData }) => {
+  const [loading, setLoading] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -16,7 +17,7 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
       try {
         const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchCategories.php`);
         const data = await response.json();
-        setCategoriesData(data.categories || []); // Use empty array as fallback
+        setCategoriesData(data.categories || []);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -29,7 +30,7 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
     email: "",
     contact: "",
     location: "",
-    categories: [] // Holds selected category IDs
+    categories: [] 
   };
 
   const validationSchema = Yup.object({
@@ -40,20 +41,16 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
     categories: Yup.array().min(1, 'At least one category must be selected')
   });
 
-  const successMessage = () => {
-    toast.success('Supplier Added', {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
   const insert = async (values, { resetForm }) => {
+    const supplierExists = supplierData.some(
+      (supplier) => supplier.supplierName.toLowerCase() === values.supplier.toLowerCase()
+    );
+
+    if (supplierExists) {
+      ToastError('Supplier already exists');
+      return;
+    }
+    
     // Prepare data for form-urlencoded format
     const formData = new URLSearchParams();
     formData.append('supplier', values.supplier);
@@ -63,7 +60,8 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
     
     // Append category IDs as an array
     values.categories.forEach(categoryId => formData.append('categoryIds[]', categoryId));
-  
+    setLoading(true);
+
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/insertSupplier.php`, {
         method: 'POST',
@@ -80,11 +78,13 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
         fetchSuppliers();
         onClick();
       } else {
-        toast.error(data.message || 'Error adding supplier');
+        ToastError(data.message || 'Error adding supplier');
       }
     } catch (error) {
       console.error("Error inserting supplier:", error);
-      toast.error('Error adding supplier');
+      ToastError('Error adding supplier');
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -133,7 +133,8 @@ const AddSupplierModal = ({ onClick, fetchSuppliers }) => {
           </Formik>
         </div>
       </div>
-      <ToastContainer />
+
+      {loading && <LoadingState />}
     </div>
   );
 };

@@ -4,20 +4,22 @@ import AddCategoriesModal from '../UIComponents/AddCategoriesModal';
 import EditCategoriesModal from '../UIComponents/EditCategoriesModal';
 import { EditIcon } from '../UIComponents/ActionIcons';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const Categories = () => {
-    const [isFilterDropdownOpen, isSetFilterDropdownOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [isAddCategoryModalOpen, isSetAddCategoryModalOpen] = useState(false);
     const [isEditCategoryModalOpen, isSetEditCategoryModalOpen] = useState(false);
     const [categoriesData, setCategoriesData] = useState([]); // State to store fetched categories
     const [filteredCategories, setFilteredCategories] = useState([]); // State to store filtered categories based on search input
     const [searchTerm, setSearchTerm] = useState(''); // State to store the search term
     const [selectedCategory, setSelectedCategory] = useState(null); // State to hold the selected category for editing
-    const filterDropdownRef = useRef(null);
     const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch categories from the API
     const fetchCategories = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchCategories.php`);
             const data = await response.json();
@@ -25,6 +27,8 @@ const Categories = () => {
             setFilteredCategories(data.categories); // Set initial filtered data to full list
         } catch (error) {
             console.error('Error fetching categories:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -39,6 +43,8 @@ const Categories = () => {
             ToastError('This category already exists.');
             return; // Exit if the brand exists
         } else {
+            setLoading(true);
+
             try {
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/insertCategory.php`, {
                     method: 'POST',
@@ -60,6 +66,8 @@ const Categories = () => {
                 }
             } catch (error) {
                 console.log('Error:', error);
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -74,6 +82,8 @@ const Categories = () => {
             ToastError('This category already exists.');
             return; // Exit if the brand exists
         }else{
+            setLoading(true);
+
             try {
                 const prevName = selectedCategory.name;
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/updateCategory.php`, {
@@ -98,32 +108,9 @@ const Categories = () => {
                 }
             } catch (error) {
                 console.error('Error:', error);
+            } finally {
+                setLoading(false);
             }
-        }
-    };
-
-    // Delete an existing category via API call
-    const handleDeleteCategory = async (categoryId) => {
-        try {
-            const response = await fetch(`${apiUrl}/KampBJ-api/server/deleteCategory.php`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    id: categoryId,
-                }),
-            });
-
-            const result = await response.json();
-            if (result.status === 'success') {
-                fetchCategories(); // Refresh the categories after deletion
-                console.log('Category deleted:', result.message);
-            } else {
-                console.error('Error deleting category:', result.message);
-            }
-        } catch (error) {
-            console.error('Error:', error);
         }
     };
 
@@ -131,14 +118,6 @@ const Categories = () => {
     const openEditCategoryModal = (category) => {
         setSelectedCategory(category); // Set the category to be edited
         isSetEditCategoryModalOpen(true); // Open the modal
-    };
-
-    // Confirm deletion of a category
-    const confirmDeleteCategory = (categoryId) => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this category?');
-        if (confirmDelete) {
-            handleDeleteCategory(categoryId);
-        }
     };
 
     // Filter categories based on search term
@@ -155,16 +134,7 @@ const Categories = () => {
 
     // Handle closing of dropdowns when clicked outside
     useEffect(() => {
-        fetchCategories(); // Fetch categories on component mount
-
-        let handler = (e) => {
-            if (filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)) {
-                isSetFilterDropdownOpen(false);
-            }
-        };
-
-        document.addEventListener('click', handler);
-        return () => document.removeEventListener('click', handler);
+        fetchCategories();
     }, []);
 
     return (
@@ -204,7 +174,6 @@ const Categories = () => {
                                         <td className='categories__table-td'>{category.name}</td>
                                         <td className='categories__table-td'>
                                             <EditIcon onClick={() => openEditCategoryModal(category)} />
-                                            {/* <DeleteIcon onClick={() => confirmDeleteCategory(category.categoryId)} /> */}
                                         </td>
                                     </tr>
                                 ))
@@ -232,6 +201,8 @@ const Categories = () => {
                     onSubmit={(newCategoryName) => handleEditCategory(selectedCategory.categoryId, newCategoryName)} // Handle category edit
                 />
             )}
+
+            {loading && <LoadingState />}
         </div>
     );
 };

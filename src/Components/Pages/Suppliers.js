@@ -1,25 +1,20 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/Suppliers.css';
 import AddSupplierModal from '../UIComponents/AddSupplierModal';
 import EditSupplierModal from '../UIComponents/EditSupplierModal';
 import UpdateIcon from '../UIComponents/UpdateIcon';
 import { ToastContainer, toast } from 'react-toastify';
+import LoadingState from '../UIComponents/LoadingState';
 
 const Suppliers = () => {
-  const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [supplierData, setSupplierData] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
-  const filterDropdownRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const [filters, setFilters] = useState({
-    filterBy: '',
-  });
-
-  const toggleFilterDropdown = () => setFilterDropdownOpen(!isFilterDropdownOpen);
   const toggleAddModal = () => setAddModalOpen(!isAddModalOpen);
   const toggleEditModal = (supplier = null) => {
     setSelectedSupplier(supplier);
@@ -36,16 +31,12 @@ const Suppliers = () => {
         return matchesSupplierName || matchesCategories || matchesLocation; // Match either supplier name or categories
       }
       return true;
-    })
-    .sort((a, b) => {
-      if (filters.filterBy === 'location') {
-        return a.location.localeCompare(b.location); // Sort by location alphabetically
-      }
-      return 0;
     });
 
 
   const fetchSuppliers = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchSupplier.php`);
       const data = await response.json();
@@ -57,6 +48,8 @@ const Suppliers = () => {
     } catch (error) {
       console.error('Error fetching suppliers:', error);
       toast.error("Error fetching suppliers");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,17 +57,6 @@ const Suppliers = () => {
     fetchSuppliers();
   }, []);
 
-  useEffect(() => {
-    const handler = (e) => {
-      if (filterDropdownRef.current && !filterDropdownRef.current.contains(e.target)) {
-        setFilterDropdownOpen(false);
-      }
-    };
-    document.addEventListener('click', handler);
-    return () => document.removeEventListener('click', handler);
-  }, []);
-
-  const resetFilters = () => setFilters({ filterBy: '' });
 
   return (
     <div className='suppliers'>
@@ -89,7 +71,7 @@ const Suppliers = () => {
           <button className='suppliers__insert' onClick={toggleAddModal}>
             <i className="suppliers__insert-icon fa-solid fa-plus" title='Add Supplier'></i>
           </button>
-          {isAddModalOpen && <AddSupplierModal onClick={toggleAddModal} fetchSuppliers={fetchSuppliers} />}
+          {isAddModalOpen && <AddSupplierModal onClick={toggleAddModal} fetchSuppliers={fetchSuppliers} supplierData={supplierData} />}
         </div>
       </div>
       <div className='suppliers__body'>
@@ -130,10 +112,13 @@ const Suppliers = () => {
         <EditSupplierModal 
         onClick={toggleEditModal} 
         supplierData={selectedSupplier} 
-        fetchSuppliers={fetchSuppliers} 
+        fetchSuppliers={fetchSuppliers}
+        supplierDataArray={supplierData}
       />
       )}
+
       <ToastContainer />
+      {loading && <LoadingState />}
     </div>
   );
 };

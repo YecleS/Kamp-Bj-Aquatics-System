@@ -15,7 +15,7 @@ const CheckboxGroup = ({ label, name, options, selectedCategories = [] }) => {
   return (
     <div className='checkbox-group'>
       <p className='checkbox-group__title'>{label}</p>
-      <div className='checkbox-group__field-label-wrapper'>
+      <div>
         {options.map(option => {
           const isChecked = values[name]?.includes(String(option.value)); // Explicitly check as a string
           return (

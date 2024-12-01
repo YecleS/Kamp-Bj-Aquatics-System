@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastContainer, toast } from 'react-toastify';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
+  const [loading, setLoading] = useState(false);
   const [roles, setRoles] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -53,7 +54,9 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
     formData.append('address', selectedUser.address);
     formData.append('password', selectedUser.password);
     formData.append('image', selectedUser.image);
- 
+    
+    setLoading(true);
+
     fetch(`${apiUrl}/KampBJ-api/server/insertNewUser.php`, {
       method: 'POST',
       body: formData,
@@ -69,6 +72,9 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
       })
       .catch((error) => {
         ToastError('Error adding product', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -97,7 +103,8 @@ const AddStaffModal = ({ onClick, selectedUser, refresh }) => {
           </Formik>
         </div>
       </div>
-      <ToastContainer />
+
+      {loading && <LoadingState />}
     </div>
   );
 };

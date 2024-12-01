@@ -4,8 +4,10 @@ import AddStaffModal from '../UIComponents/AddStaffModal';
 import ConfirmationMessageModal from '../UIComponents/ConfirmationMessageModal';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import { ToastSuccess } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const UserRequest = () => {
+    const [loading, setLoading] = useState(false);
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -15,6 +17,7 @@ const UserRequest = () => {
     const filterDropdownRef = useRef(null);
     const [searchTerm, setSearchTerm] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
+    
 
     // Initial Values For Filters Store In useState
     const [filters, setFilters] = useState({
@@ -25,6 +28,8 @@ const UserRequest = () => {
     
 
     const getRequests = () => {
+        setLoading(true);
+
         fetch(`${apiUrl}/KampBJ-api/server/fetchUserRequests.php`)
             .then(response => response.json())
             .then(data => {
@@ -36,6 +41,9 @@ const UserRequest = () => {
             })
             .catch(error => {
                 console.error('Error:', error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -102,7 +110,9 @@ const UserRequest = () => {
             console.error('No user or request ID selected');
             return;
         }
-    
+        
+        setLoading(true);
+
         fetch(`${apiUrl}/KampBJ-api/server/deleteUserRequest.php`, {
             method: 'POST',
             headers: {
@@ -130,6 +140,9 @@ const UserRequest = () => {
         .catch(error => {
             console.error('Error:', error);
             alert('An error occurred while trying to delete the request. Please try again.');
+        })
+        .finally(() => {
+            setLoading(false);
         });
     };
     
@@ -210,6 +223,7 @@ const UserRequest = () => {
             </div>
             {isAddModalOpen && <AddStaffModal onClick={toggleAddModal} selectedUser={selectedUser} refresh={getRequests} />}
             {isConfirmationModalOpen && <ConfirmationMessageModal message='Are You Sure, You Want To Decline This Request ?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
+            {loading && <LoadingState />}
         </div>
     );
 };

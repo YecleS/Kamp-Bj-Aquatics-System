@@ -4,8 +4,10 @@ import UpdateIcon from '../UIComponents/UpdateIcon';
 import AddRoleModal from '../UIComponents/AddRoleModal';
 import EditRoleModal from '../UIComponents/EditRoleModal';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const RoleManagement = () => {
+  const [loading, setLoading] = useState(false);
   const [isAddRoleModalOpen, setIsAddRoleModalOpen] = useState(false);
   const [isEditRoleModalOpen, setIsEditRoleModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
@@ -15,6 +17,8 @@ const RoleManagement = () => {
 
 
   const fetchRoles = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchRoles.php`);
       const data = await response.json();
@@ -41,6 +45,8 @@ const RoleManagement = () => {
       setRoles(uniqueRoles);
     } catch (error) {
       console.error('Error fetching roles:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,7 +83,8 @@ const RoleManagement = () => {
   
   // Update role function
   const updateRole = async (updatedRole) => {
-    
+    setLoading(true);
+
     try {
       const userId = localStorage.getItem('userId');
       const payload = { ...updatedRole, userId };
@@ -106,6 +113,8 @@ const RoleManagement = () => {
       }
     } catch (error) {
       ToastError('Error updating role:', error);
+    } finally {
+      setLoading(false);
     }
     
   };
@@ -191,6 +200,7 @@ const RoleManagement = () => {
 
       {isAddRoleModalOpen && <AddRoleModal onClick={toggleAddModal} refresh={fetchRoles} roles={roles} />}
       {isEditRoleModalOpen && <EditRoleModal currentRole={currentRole} onClose={toggleEditModal} onSubmit={updateRole} />}
+      {loading && <LoadingState />}
     </div>
   );
 };
