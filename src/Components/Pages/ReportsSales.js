@@ -152,7 +152,15 @@ export const ReportsSalesMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Sales Report'/>
+
+        <GeneratePdf elementId='graphs-container' 
+          date={displayedMonth} 
+          reportTitle='Sales Report'
+          elementGraphsTable='graph-container__table' 
+          elementsGraphsDescription='graph-container__description'
+          elementGraphWrapper='graphs-container__chart-wrapper'
+          graphWrapperHeight='300px'
+        />
       </div>
 
       <div className='reports-sales-component__body'>
@@ -161,54 +169,60 @@ export const ReportsSalesMonthly = () => {
           <div className='graphs-header'>
             <h3 className='graph-title'>GMROI</h3>
             <GraphsImageDownloader elementId='graph-gmroi' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Legend />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-gross-profit'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Gross Profit</h3>
             <GraphsImageDownloader elementId='graph-gross-profit' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Legend />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-top-selling-products'>
@@ -216,76 +230,148 @@ export const ReportsSalesMonthly = () => {
             <h3 className='graph-title'>Top Selling Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-top-selling-product' />
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={topProductsData}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 0,
-                left: 0,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 14);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={topProductsData}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 0,
+                  left: 0,
                 }}
-              />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />}/>
-              <Legend 
-                formatter={(value) => {
-                  if (value === "Total_Sales") return "Sales";
-                  return value;
-                }}
-              />
-              <Bar dataKey="Total_Sales" barSize={40} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />}/>
+                <Legend 
+                  formatter={(value) => {
+                    if (value === "Total_Sales") return "Sales";
+                    return value;
+                  }}
+                />
+                <Bar dataKey="Total_Sales" barSize={40} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+          
+          <div className='graph-container__table'>
+            <h4>Top Selling Products By Total Sales Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    topProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.Total_Sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of top selling products based on their total sales.
+            </p>
+          </div> 
+
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-least-selling-products'>
           <div className='graphs-header'>
-            <h3 className='graph-title'>Least Selling Products (Top 5)</h3>
+            <h3 className='graph-title'>Least Selling Products</h3>
             <GraphsImageDownloader elementId='graph-least-selling-products' />
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={leastProductData}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 0,
-                left: 0,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20}
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 14);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={leastProductData}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 0,
+                  left: 0,
                 }}
-              />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />}/>
-              <Legend />
-              <Bar dataKey="sales" barSize={40} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20}
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />}/>
+                <Legend />
+                <Bar dataKey="sales" barSize={40} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>   
+          
+          <div className='graph-container__table'>
+            <h4>Least Selling Products By Total Sales Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    leastProductData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+            This chart provides a detailed breakdown of least selling products based on their total sales.
+            </p>
+          </div> 
+
         </div>
 
       </div>
@@ -389,7 +475,15 @@ export const ReportsSalesYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Sales Report'/>
+        <GeneratePdf 
+          elementId='graphs-container' 
+          date={selectedYear} 
+          reportTitle='Sales Report'
+          elementGraphsTable='graph-container__table' 
+          elementsGraphsDescription='graph-container__description'
+          elementGraphWrapper='graphs-container__chart-wrapper'
+          graphWrapperHeight='300px'
+        />
       </div>
 
       <div className='reports-inventory-component__body'>
@@ -398,124 +492,200 @@ export const ReportsSalesYearly = () => {
           <div className='graphs-header'>
             <h3 className='graph-title'>GMROI</h3>
             <GraphsImageDownloader elementId='graph-gmroi' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 10,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 10,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-gross-profit'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Gross Profit</h3>
             <GraphsImageDownloader elementId='graph-gross-profit' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 10,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 10,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-most-selling-products'>
           <div className='graphs-header'>
-            <h3 className='graph-title'>Most Selling Products (Top 5)</h3>
+            <h3 className='graph-title'>Top Selling Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-most-selling-products' />
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={topProductsData}
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 0,
-                left: 0,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20}
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 10);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+           <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={topProductsData}
+                margin={{
+                  top: 20,
+                  right: 20,
+                  bottom: 0,
+                  left: 0,
                 }}
-              />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />}/>
-              <Legend />
-              <Bar dataKey="sales" barSize={30} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20}
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 10);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />}/>
+                <Legend />
+                <Bar dataKey="sales" barSize={40} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer> 
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Top Selling Products By Total Sales Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    topProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div> 
+
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of top selling products based on their total sales.
+            </p>
+          </div>  
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-least-selling-products'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Least Selling Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-least-selling-products' />
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={leastProductData}
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 0,
-                left: 0,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20}
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 10);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={leastProductData}
+                margin={{
+                  top: 20,
+                  right: 20,
+                  bottom: 0,
+                  left: 0,
                 }}
-              />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />}/>
-              <Legend />
-              <Bar dataKey="sales" barSize={30} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20}
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 10);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />}/>
+                <Legend />
+                <Bar dataKey="sales" barSize={40} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Least Selling Products By Total Sales Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    leastProductData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of least selling products based on their total sales.
+            </p>
+          </div>
+          
         </div>
 
       </div>

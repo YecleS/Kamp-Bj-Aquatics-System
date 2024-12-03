@@ -25,7 +25,7 @@ const EditExpensesModal = ({ onClick, selectedExpense, refresh }) => {
     const validationSchema = Yup.object({
         receiptImage: Yup.mixed(),
         expense: Yup.string().required('Expense Type is required').matches(/^[a-zA-Z0-9\s]*$/, 'Special characters are not allowed'),
-        description: Yup.string().required('Description is required').matches(/^[a-zA-Z0-9\s]*$/, 'Special characters are not allowed'),
+        description: Yup.string().required('Description is required'),
         date: Yup.date().required('Date is required'),
         total: Yup.number().required('Total amount is required').positive('Amount must be positive'),
     });

@@ -4,7 +4,7 @@ import { MonthSelection, YearSelection } from '../UIComponents/DateControls';
 import GraphsImageDownloader from '../UIComponents/GraphsImageDownloader';
 import GeneratePdf from '../UIComponents/GeneratePdf';
 import { ToastError } from '../UIComponents/ToastComponent';
-import { ComposedChart, Line, Bar, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { ComposedChart, Bar, BarChart, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../UIComponents/CustomToolTip';
 import { LegendFormatter } from '../UIComponents/LegendFormatter';
 
@@ -105,9 +105,12 @@ export const ReportsExpensesMonthly = () => {
             if (Array.isArray(data) && data.length > 0) {
                 // If data is available, format it
                 const formattedExpensesData = data.map(item => ({
-                    date: item.date,  // Adjusted field from 'name' to 'date'
-                    ratio: parseFloat(item.ratio).toFixed(2),  // Adjusted field from 'total' to 'ratio'
+                    date: item.date,
+                    expenses: Number(item.total_expenses).toFixed(2),
+                    sales: Number(item.total_sales).toFixed(2),
+                    ratio: parseFloat(item.ratio).toFixed(2),
                 }));
+                console.log(formattedExpensesData);
                 setExpensesRatio(formattedExpensesData); // Set state with formatted data
             } else if (data.message && data.message === "No data found.") {
                 // If no data found message is returned, set state to empty array
@@ -135,7 +138,13 @@ export const ReportsExpensesMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Expenses Report'/>
+        <GeneratePdf elementId='graphs-container' 
+          date={displayedMonth} reportTitle='Expenses Report' 
+          elementGraphsTable='graph-container__table' 
+          elementsGraphsDescription='graph-container__description'
+          elementGraphWrapper='graphs-container__chart-wrapper'
+          graphWrapperHeight='500px'
+        />
       </div>
 
       <div className='reports-expenses-component__body'>
@@ -144,64 +153,159 @@ export const ReportsExpensesMonthly = () => {
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses To Sales Ratio</h3>
             <GraphsImageDownloader elementId='graph-ratio'/>
-          </div>   
-          <ResponsiveContainer width="100%" height="94%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={expensesRatio}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="ratio" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+          </div>
+
+          <div className='graphs-container__chart-wrapper' style={{ height: "500px", width: "100%" }}>
+              <ResponsiveContainer>
+                  <AreaChart
+                      width={500}
+                      height={400}
+                      data={expensesRatio}
+                      margin={{
+                          top: 30,
+                          right: 30,
+                          left: 0,
+                          bottom: 0,
+                      }}
+                  >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" dy={5} 
+                        tick={({ x, y, payload }) => {
+                          const label = truncateLabel(payload.value, 5);  // Truncate label
+                          return (
+                            <text x={x} y={y} textAnchor="middle" fontSize={13} dy={10}>
+                              {label}
+                            </text>
+                          );
+                        }} 
+                      />
+                      <YAxis tick={{ fontSize: 14 }} />
+                      <Tooltip />
+                      <Legend />
+                      <Area type="monotone" dataKey="ratio" stroke="#8884d8" fill="#8884d8" />
+                  </AreaChart>
+              </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Expenses To Sales Ratio Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Total Expenses</th>
+                    <th>Total Sales</th>
+                    <th>Ratio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    expensesRatio.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.date}</td>
+                        <td>
+                          ₱ {Number(items.expenses).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                        <td>
+                          ₱ {Number(items.sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                        <td>{items.ratio}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <p>Ratio of Expenses to Revenue visualizes the relationship between expenses and sales (revenue) over time. It helps businesses track how efficiently revenue is utilized to cover operational and other costs.</p>
+            <p><span>High Ratio (&gt; 0.5) :</span> Indicates a large portion of sales revenue is being consumed by expenses.</p>
+            <p><span>Balanced Ratio (0.3 - 0.5) :</span> Shows expenses are proportional to sales, which often reflects stable cost management and healthy revenue.</p>
+            <p><span>Low Ratio ( &lt; 0.3):</span> Indicates a smaller portion of revenue is spent on expenses.</p>
+          </div>
+
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-expenses-breakdown'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses Breakdown</h3>
             <GraphsImageDownloader elementId='graph-expenses-breakdown' />
-          </div>   
-          <ResponsiveContainer width="100%" height="94%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={expensesBreakdown}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 20,
-                left: 20,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-50} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 5);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={13} dy={10}>
-                      {label}
-                    </text>
-                  );
-                }} 
-              />
-              <YAxis />
-              <Tooltip  content={<CustomTooltip />}/>
-              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
-              <Bar dataKey="total" barSize={30} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+          </div>
+
+          <div className='graphs-container__chart-wrapper' style={{ height: "500px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={expensesBreakdown}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 20,
+                  left: 20,
+                }}
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-50} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 2);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={13} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }} 
+                />
+                <YAxis />
+                <Tooltip  content={<CustomTooltip />}/>
+                <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
+                <Bar dataKey="total" barSize={30} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>  
+
+          <div className='graph-container__table'>
+            <h4>Expenses Breakdown</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Expenses</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    expensesBreakdown.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.total).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <h4>Description</h4>
+            <p>
+              This chart provides a detailed breakdown of total expenses. It helps identify which areas have the highest spending, enabling better cost management and resource allocation.
+            </p>
+          </div>
+
         </div>
+
       </div>
     </div>
   )
@@ -243,10 +347,10 @@ export const ReportsExpensesYearly = () => {
           .then(data => {
             if (data.length > 0) {
               const formattedData = data.map(item => ({
-                date: monthNames[item.month - 1],
-                expenses: parseFloat(item.total_expenses).toFixed(2),
-                sales: parseFloat(item.total_revenue).toFixed(2),
-                ratio: parseFloat(item.ratio).toFixed(2),
+                date: monthNames[item.month - 1 ],
+                expenses: Number(item.total_expenses).toFixed(2),
+                sales: Number(item.total_sales).toFixed(2),
+                ratio: item.ratio === 'N/A' ? 0 : Number(item.ratio).toFixed(2),
               }));
               setExpensesRatio(formattedData);
             } else {
@@ -294,7 +398,14 @@ export const ReportsExpensesYearly = () => {
           onChange={handleYearChange}
           displayDate={selectedYear}
         />
-        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Expenses Report'/>
+        <GeneratePdf elementId='graphs-container' 
+          date={selectedYear} 
+          reportTitle='Expenses Report'
+          elementGraphsTable='graph-container__table' 
+          elementsGraphsDescription='graph-container__description'
+          elementGraphWrapper='graphs-container__chart-wrapper'
+          graphWrapperHeight='500px'
+        />
       </div>
 
       <div className='reports-expenses-component__body'>
@@ -303,35 +414,84 @@ export const ReportsExpensesYearly = () => {
           <div className='graphs-header'>
             <h3 className='graph-title'>Ratio Of Expenses To Revenue</h3>
             <GraphsImageDownloader elementId='graph-ratio'/>
-          </div>  
-            <ResponsiveContainer width="100%" height="94%">
-              <ComposedChart
+          </div>
+
+          <div className='graphs-container__chart-wrapper' style={{ height: "500px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
                 width={500}
                 height={400}
                 data={expensesRatio}
                 margin={{
-                  top: 20,
-                  right: 20,
-                  bottom: 20,
-                  left: 20,
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
                 }}
               >
-                <CartesianGrid stroke="#f5f5f5" />
-                <XAxis dataKey="date" scale="band" />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <Legend />
                 <YAxis />
                 <Tooltip />
-                <Legend />
-                <Line dataKey="ratio" stroke="#ff7600" />
-              </ComposedChart>
-            </ResponsiveContainer> 
+                <Area type="monotone" dataKey="ratio" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          
+          <div className='graph-container__table'>
+            <h4>Expenses Breakdown</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Expenses</th>
+                    <th>Sales</th>
+                    <th>Ratio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                    expensesRatio.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.date}</td>
+                        <td>
+                          ₱ {Number(items.expenses).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                        <td>
+                          ₱ {Number(items.sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                        <td>{items.ratio}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+
+              <div className='graph-container__description'>
+                <p>Ratio of Expenses to Revenue visualizes the relationship between expenses and sales (revenue) over time. It helps businesses track how efficiently revenue is utilized to cover operational and other costs.</p>
+                <p><span>High Ratio (&gt; 0.5) :</span> Indicates a large portion of sales revenue is being consumed by expenses.</p>
+                <p><span>Balanced Ratio (0.3 - 0.5) :</span> Shows expenses are proportional to sales, which often reflects stable cost management and healthy revenue.</p>
+                <p><span>Low Ratio ( &lt; 0.3):</span> Indicates a smaller portion of revenue is spent on expenses.</p>
+              </div>
+          </div>
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-expenses-breakdown'>
           <div className='graphs-header'>
             <h3 className='graph-title'>Expenses Breakdown</h3>
             <GraphsImageDownloader elementId='graph-expenses-breakdown'/>
-          </div>   
-          <ResponsiveContainer width="100%" height="94%">
+          </div>
+
+          <div className='graphs-container__chart-wrapper' style={{ height: "500px", width: "100%" }}>
+            <ResponsiveContainer>
             <ComposedChart
               width={500}
               height={400}
@@ -342,25 +502,61 @@ export const ReportsExpensesYearly = () => {
                 bottom: 20,
                 left: 20,
               }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-50} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 3);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={13} dy={10}>
-                      {label}
-                    </text>
-                  );
-                }} 
-              />
-              <YAxis/>
-              <Tooltip  content={<CustomTooltip />}/>
-              <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
-              <Bar dataKey="total" barSize={30} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-50} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 3);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={13} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }} 
+                />
+                <YAxis/>
+                <Tooltip content={<CustomTooltip />}  />
+                <Legend formatter={(value) => LegendFormatter(value, 'total', 'Total Expenses')}/>
+                <Bar dataKey="total" barSize={30} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+          
+          <div className='graph-container__table'>
+            <h4>Expenses Breakdown</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Expenses</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    expensesBreakdown.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.total).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of total expenses. It helps identify which areas have the highest spending, enabling better cost management and resource allocation.
+            </p>
+          </div> 
+
         </div>
+
 
       </div>
     </div>

@@ -5,36 +5,59 @@ import html2canvas from 'html2canvas';
 import ButtonComponent from './ButtonComponent';
 import LoadingState from '../UIComponents/LoadingState';
 
-const GeneratePdf = ({elementId, date, reportTitle}) => {
+const GeneratePdf = ({elementId, date, reportTitle, elementGraphsTable, elementsGraphsDescription, elementGraphWrapper, graphWrapperHeight}) => {
   const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [graphImages, setGraphImages] = useState([]);
 
   const convertGraphsToImage = async () => {
     setLoading(true);
+
     const graphs = document.querySelectorAll(`.${elementId}`);
+    const graphsTable = document.querySelectorAll(`.${elementGraphsTable}`);
+    const graphsDescription = document.querySelectorAll(`.${elementsGraphsDescription}`);
+    const graphsWrapper = document.querySelectorAll(`.${elementGraphWrapper}`);
 
     if (graphs.length > 0) {
       const images = [];
 
-      for (const graph of graphs) {
-        try {
-          const canvas = await html2canvas(graph, { scale: 2 });
-          const imgData = canvas.toDataURL('image/jpg');
-          images.push(imgData); // Add image data to the list
-        } catch (error) {
-          console.error('Error capturing image:', error);
+      graphsTable.forEach(table => table.style.display = 'block');
+      graphsDescription.forEach(description => description.style.display = 'flex');
+      graphsWrapper.forEach(wrapper => wrapper.style.height = '280px');
+
+      setTimeout( async() => {
+        for (const graph of graphs) {
+          const originalStyles = {
+            width: graph.style.width,
+          };
+  
+          try {
+            
+            const canvas = await html2canvas(graph, { scale: 3 });
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            images.push(imgData);
+          } catch (error) {
+            console.error('Error capturing image:', error);
+          } finally {
+            graph.style.width = originalStyles.width;
+          }
         }
-      }
 
-      setGraphImages(images); // Update state with all generated images
-      setShowPreview(true); // Show the preview
+        setGraphImages(images);
+        setShowPreview(true);
 
+        graphsTable.forEach(table => table.style.display = 'none');
+        graphsDescription.forEach(description => description.style.display = 'none');
+        graphsWrapper.forEach(wrapper => wrapper.style.height = `${graphWrapperHeight}`);
+
+        setLoading(false); 
+      }, 2000)
+      
     } else {
       console.warn('No graph containers found.');
+      setLoading(false); 
     }
 
-    setLoading(false); 
   }
 
   return (
@@ -64,14 +87,27 @@ export const Preview = ({graphs, closePreview, date, setShowPreview, reportTitle
 
     if (previewElement) {
       footer.style.display = 'none';  
-      previewContainer.style.height = '150vh';
+      previewContainer.style.height = '500vh';
       closeIcon.style.display = 'none';
       previewElement.style.margin = '10px';
 
+      // Configure html2pdf with custom options
+      const options = {
+        filename: `Inventory_Reports_${date}.pdf`,
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'letter',
+          orientation: 'portrait' 
+        }
+      };
+
       html2pdf()
-        .from(previewElement) // Convert the element with id 'preview-body' to PDF
-        .save(`Inventory_Reports_${date}.pdf`);
-        
+        .from(previewElement)
+        .set(options) // Apply the custom options
+        .save();
+      
     } else {
       console.error('Preview element not found!');
     }
