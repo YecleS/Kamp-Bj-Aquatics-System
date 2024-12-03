@@ -4,24 +4,29 @@ import AddBrandModal from '../UIComponents/AddBrandModal';
 import EditBrandModal from '../UIComponents/EditBrandModal';
 import { EditIcon } from '../UIComponents/ActionIcons';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
+import LoadingState from '../UIComponents/LoadingState';
 
 const BrandModel = () => {
+    const [loading, setLoading] = useState(false);
     const [isAddBrandModalOpen, isSetAddBrandModalOpen] = useState(false);
     const [isEditBrandModalOpen, isSetEditBrandModalOpen] = useState(false);
     const [brandsData, setBrandsData] = useState([]); // State for brands
     const [selectedBrand, setSelectedBrand] = useState(null); // State for the selected brand for editing
     const [searchInput, setSearchInput] = useState(''); // State for search input
-    const filterDropdownRef = useRef(null);
     const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch brands from the API
     const fetchBrands = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch(`${apiUrl}/KampBJ-api/server/fetchBrands.php`);
             const data = await response.json();
             setBrandsData(data.brands); // Assuming the response is { brands: [...] }
         } catch (error) {
             console.error('Error fetching brands:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -36,6 +41,8 @@ const BrandModel = () => {
             ToastError('This brand already exists.');
             return; // Exit if the brand exists
         }else{
+            setLoading(true);
+
             try {
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/insertBrand.php`, {
                     method: 'POST',
@@ -58,6 +65,8 @@ const BrandModel = () => {
                 }
             } catch (error) {
                 console.error('Error:', error);
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -72,6 +81,8 @@ const BrandModel = () => {
             ToastError('This brand already exists.');
             return; // Exit if the brand exists
         }else{
+            setLoading(true);
+
             try {
                 const prevBrand = selectedBrand.name;
                 const response = await fetch(`${apiUrl}/KampBJ-api/server/updateBrand.php`, {
@@ -97,33 +108,8 @@ const BrandModel = () => {
                 }
             } catch (error) {
                 console.error('Error:', error);
-            }
-        }
-    };
-
-    // Delete a brand via API call
-    const handleDeleteBrand = async (brandId) => {
-        if (window.confirm('Are you sure you want to delete this brand?')) {
-            try {
-                const response = await fetch(`${apiUrl}/KampBJ-api/server/deleteBrand.php`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        id: brandId,
-                    }),
-                });
-
-                const result = await response.json();
-                if (result.status === 'success') {
-                    fetchBrands(); // Refresh the brands after deletion
-                    console.log('Brand deleted:', result.message);
-                } else {
-                    console.error('Error deleting brand:', result.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -185,7 +171,6 @@ const BrandModel = () => {
                                     <td className='brand-model__table-td'>{brand.name}</td>
                                     <td className='brand-model__table-td'>
                                         <EditIcon onClick={() => openEditBrandModal(brand)} />
-                                        {/* <DeleteIcon onClick={() => handleDeleteBrand(brand.brandId)} /> */}
                                     </td>
                                 </tr>
                             ))}
@@ -208,6 +193,8 @@ const BrandModel = () => {
                     initialBrand={selectedBrand.name} // Pass the current brand name for editing
                 />
             )}
+
+            {loading && <LoadingState />}
         </div>
     );
 };

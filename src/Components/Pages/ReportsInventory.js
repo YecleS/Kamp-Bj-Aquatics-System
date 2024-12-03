@@ -145,7 +145,15 @@ export const ReportsInventoryMonthly = () => {
           onChange={handleMonthChange}
           displayDate={displayedMonth}
         />
-        <GeneratePdf elementId='graphs-container' date={displayedMonth} reportTitle='Inventory Report'/>
+        <GeneratePdf 
+          elementId='graphs-container' 
+          date={displayedMonth} 
+          reportTitle='Inventory Report'
+          elementGraphsTable='graph-container__table' 
+          elementsGraphsDescription='graph-container__description'
+          elementGraphWrapper='graphs-container__chart-wrapper'
+          graphWrapperHeight='300px'
+        />
       </div>
 
       <div className='reports-inventory-component__body' id='component-body'>
@@ -154,126 +162,194 @@ export const ReportsInventoryMonthly = () => {
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Inventory Turn Over Ratio</h3>
             <GraphsImageDownloader elementId='graph-container-inventory-ratio' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Legend />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
             <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer width="100%" height="91%">
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Legend />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-most-frequently-restocked'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Most Frequently Restocked Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-container-most-frequently-restocked'/>
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={mostRestockedProductsData}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 20,
-                left: 5,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 14);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={mostRestockedProductsData}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 20,
+                  left: 5,
                 }}
-              />
-              <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Most Frequently Restocked Products Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    mostRestockedProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>{items.frequency}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>   
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+            </p>
+          </div>
+
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-least-frequently-restocked'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Least Frequently Restocked Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-container-least-frequently-restocked' />
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={leastRestockedProductsData}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 20,
-                left: 5,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 14);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={leastRestockedProductsData}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 20,
+                  left: 5,
                 }}
-              />
-              <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Least Frequently Restocked Products Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    leastRestockedProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>{items.frequency}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of the least frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+            </p>
+          </div>    
+          
         </div>
 
       </div>
@@ -380,7 +456,15 @@ export const ReportsInventoryYearly = () => {
           displayDate={selectedYear}
         />
 
-        <GeneratePdf elementId='graphs-container' date={selectedYear} reportTitle='Inventory Report'/>
+        <GeneratePdf 
+          elementId='graphs-container' 
+          date={selectedYear} 
+          reportTitle='Inventory Report'
+          elementGraphsTable='graph-container__table' 
+          elementsGraphsDescription='graph-container__description'
+          elementGraphWrapper='graphs-container__chart-wrapper'
+          graphWrapperHeight='300px'
+        />
       </div>
 
       <div className='reports-inventory-component__body'>
@@ -389,126 +473,193 @@ export const ReportsInventoryYearly = () => {
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Highest Inventory Turn Over Ratio</h3>
             <GraphsImageDownloader elementId='graph-container-inventory-ratio' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer width="100%" height="91%">
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Legend />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
+          
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
             <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <AreaChart
+                width={500}
+                height={400}
+                data={average}
+                margin={{
+                  top: 30,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <YAxis tick={{ fontSize: 14 }}/>
+                <Tooltip />
+                <Legend />
+                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={average}
-              margin={{
-                top: 30,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-              <YAxis tick={{ fontSize: 14 }}/>
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer>
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-most-frequently-restocked'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Most Frequently Restocked Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-container-most-frequently-restocked'/>
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={mostRestockedProductsData}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 20,
-                left: 5,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 14);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={mostRestockedProductsData}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 20,
+                  left: 5,
                 }}
-              />
-              <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>    
+          </div>   
+          
+          <div className='graph-container__table'>
+            <h4>Most Frequently Restocked Products Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    mostRestockedProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>{items.frequency}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+            </p>
+          </div> 
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-least-frequently-restocked'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Least Frequently Restocked Products (Top 5)</h3>
             <GraphsImageDownloader elementId='graph-container-least-frequently-restocked' />
-          </div>   
-          <ResponsiveContainer width="100%" height="91%">
-            <ComposedChart
-              width={500}
-              height={400}
-              data={leastRestockedProductsData}
-              margin={{
-                top: 30,
-                right: 20,
-                bottom: 20,
-                left: 5,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" angle={-20} 
-                tick={({ x, y, payload }) => {
-                  const label = truncateLabel(payload.value, 14);  // Truncate label
-                  return (
-                    <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
-                      {label}
-                    </text>
-                  );
+          </div>
+          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
+            <ResponsiveContainer>
+              <ComposedChart
+                width={500}
+                height={400}
+                data={leastRestockedProductsData}
+                margin={{
+                  top: 30,
+                  right: 20,
+                  bottom: 20,
+                  left: 5,
                 }}
-              />
-              <YAxis tick={{ fontSize: 14 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
-            </ComposedChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="frequency" barSize={60} fill="#413ea0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>   
+          
+          <div className='graph-container__table'>
+            <h4>Least Frequently Restocked Products Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    leastRestockedProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>{items.frequency}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of the least frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+            </p>
+          </div> 
+          
+
         </div>
 
       </div>

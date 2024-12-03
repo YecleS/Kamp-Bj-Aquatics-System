@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { ToastContainer, toast } from 'react-toastify';
-import { ToastSuccess } from './ToastComponent';
+import { ToastSuccess, ToastError } from './ToastComponent';
 import CheckboxGroup from './CheckboxGroup';
+import LoadingState from '../UIComponents/LoadingState';
 
-const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
+const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers, supplierDataArray }) => {
+  const [loading, setLoading] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -43,13 +44,24 @@ const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
   });
 
   const update = async (values, { resetForm }) => {
+    const supplierExists = supplierDataArray.some(
+      (supplier) => supplier.supplierName.toLowerCase() === values.supplier.toLowerCase()
+    );
+
+    if (supplierExists) {
+      ToastError('Supplier already exists');
+      return;
+    }
+
     const formData = new URLSearchParams();
     formData.append('supplierId', supplierData.supplierId);
     formData.append('supplier', values.supplier);
     formData.append('email', values.email);
     formData.append('contact', values.contact);
     formData.append('location', values.location);
-    formData.append('categories', values.categories.join(',')); // Send selected categories as a comma-separated string
+    formData.append('categories', values.categories.join(','));
+
+    setLoading(true);
 
     try {
       const response = await fetch(`${apiUrl}/KampBJ-api/server/updateSupplier.php`, {
@@ -64,14 +76,16 @@ const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
       if (data.status === "success") {
         ToastSuccess('Updated Successfully');
         resetForm();
-        onClick(null); // Close the modal
-        fetchSuppliers(); // Fetch the updated supplier list
+        onClick(null);
+        fetchSuppliers();
       } else {
-        toast.error(data.message || 'Error updating supplier');
+        ToastError(data.message || 'Error updating supplier');
       }
     } catch (error) {
       console.error("Error updating supplier:", error);
-      toast.error('Error updating supplier');
+      ToastError('Error updating supplier');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,7 +127,7 @@ const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
                     label="Product Categories:"
                     name="categories"
                     options={categoriesData.map(category => ({ label: category.name, value: category.categoryId }))}
-                    selectedCategories={initialValues.categories} // Pass selected categories to CheckboxGroup
+                    selectedCategories={initialValues.categories}
                   />
                   {errors.categories && touched.categories ? (
                     <span className="modal__input-field-error">{errors.categories}</span>
@@ -126,7 +140,8 @@ const EditSupplierModal = ({ onClick, supplierData, fetchSuppliers }) => {
           </Formik>
         </div>
       </div>
-      <ToastContainer />
+
+      {loading && <LoadingState />}
     </div>
   );
 };

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../Styles/GeneralLedger.css';
 import { YearSelection } from '../UIComponents/DateControls';
-import html2pdf from 'html2pdf.js';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 import GeneratePdf from '../UIComponents/GeneratePdf';
+import LoadingState from '../UIComponents/LoadingState';
 
 const GeneralLedger = () => {
+  const [loading, setLoading] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [ledgerData, setLedgerData] = useState([]);
   const [capitalInput, setCapitalInput] = useState(0);  // Default capital is 0
@@ -26,6 +27,9 @@ const GeneralLedger = () => {
       selectedYear: yearToUse,
       capital: capitalInput
   });
+
+  setLoading(true);
+
     // Fetch data from the PHP script with the selectedYear and capitalInput
     fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getSalesAndExpenses.php`, {
       method: 'POST',
@@ -40,6 +44,9 @@ const GeneralLedger = () => {
       })
       .catch(error => {
         ToastError('Error fetching data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -133,6 +140,8 @@ const GeneralLedger = () => {
           </table>
         </div>
       </div>
+
+      {loading && <LoadingState />}
     </div>
   );
 };

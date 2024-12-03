@@ -4,14 +4,16 @@ import ConfirmationMessageModal from '../UIComponents/ConfirmationMessageModal';
 import ButtonComponent from '../UIComponents/ButtonComponent';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 import EditUserModal from '../UIComponents/EditUserModal';
+import LoadingState from '../UIComponents/LoadingState';
 
 const Users = () => {
+  const [loading, setLoading] = useState(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [userData, setUserData] = useState([]); // State to store fetched user data
-  const [filteredData, setFilteredData] = useState([]); // State to store filtered user data
-  const [selectedUser, setSelectedUser] = useState(null); // Updated to store a single user object
+  const [userData, setUserData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const filterDropdownRef = useRef(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -22,6 +24,8 @@ const Users = () => {
   });
 
   const fetchUsers = () => {
+    setLoading(true);
+
     fetch(`${apiUrl}/KampBJ-api/server/fetchUserRecords.php`)
       .then(response => response.json())
       .then(data => {
@@ -34,6 +38,9 @@ const Users = () => {
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -118,6 +125,8 @@ const Users = () => {
         status: status,
       };
 
+      setLoading(true);
+
       fetch(`${apiUrl}/KampBJ-api/server/revokeUser.php`, {
         method: 'POST',
         headers: {
@@ -153,8 +162,8 @@ const Users = () => {
           ToastError('Error revoking user');
         })
         .finally(() => {
-          // Close the confirmation modal
           setIsConfirmationModalOpen(false);
+          setLoading(false);
         });
     }
   };
@@ -249,6 +258,7 @@ const Users = () => {
 
       {isConfirmationModalOpen && <ConfirmationMessageModal message='Are you sure you want to change the status of this User ?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
       {isEditModalOpen && <EditUserModal onClick={toggleEditModal} user={selectedUser} refresh={fetchUsers} />}
+      {loading && <LoadingState />}
     </div>
   );
 };
