@@ -191,6 +191,39 @@ export const ReportsSalesMonthly = () => {
                 <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>GMROI Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    topProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.Total_Sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of top selling products based on their total sales.
+            </p>
           </div>   
           
         </div>
@@ -221,6 +254,39 @@ export const ReportsSalesMonthly = () => {
                 <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Gross Profit Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    topProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.Total_Sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of top selling products based on their total sales.
+            </p>
           </div>   
           
         </div>
@@ -513,6 +579,39 @@ export const ReportsSalesYearly = () => {
                 <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>GMROI Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    topProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.Total_Sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of top selling products based on their total sales.
+            </p>
           </div>   
         </div>
 
@@ -541,6 +640,39 @@ export const ReportsSalesYearly = () => {
                 <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Gross Profit Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Total Sales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    topProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>
+                          ₱ {Number(items.Total_Sales).toLocaleString(undefined, { 
+                                minimumFractionDigits: 2, 
+                                maximumFractionDigits: 2 
+                            })}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of top selling products based on their total sales.
+            </p>
           </div>   
         </div>
 
