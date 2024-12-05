@@ -46,6 +46,7 @@ export const ReportsInventoryMonthly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [mostRestockedProductsData, setMostRestockedProductsData] = useState([]);
   const [leastRestockedProductsData, setLeastRestockedProductsData] = useState([]);
+  const [averageTimeToSell, setAverageTimeToSell] = useState([]);
   const [displayedMonth, setDisplayedMonth] = useState(new Date().toLocaleDateString('default', { month:'long', year:'numeric' }));
   
   const handleMonthChange = (selectedMonth) => {
@@ -57,6 +58,7 @@ export const ReportsInventoryMonthly = () => {
 
     fetchMostRestockedProducts(formattedMonth);
     fetchLeastRestockedProducts(formattedMonth);
+    getATS();
   };
 
   useEffect(() => {
@@ -67,6 +69,7 @@ export const ReportsInventoryMonthly = () => {
 
     fetchMostRestockedProducts(formattedMonth);
     fetchLeastRestockedProducts(formattedMonth);
+    getATS();
   },[])
 
   const fetchMostRestockedProducts = (selectedMonth) => {
@@ -121,13 +124,18 @@ export const ReportsInventoryMonthly = () => {
       });
   }
 
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
+  const getATS = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getATS.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setAverageTimeToSell(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
 
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
@@ -158,64 +166,6 @@ export const ReportsInventoryMonthly = () => {
 
       <div className='reports-inventory-component__body' id='component-body'>
 
-        <div className='graphs-container graph-shadow' id='graph-container-inventory-ratio'>
-          <div className='graphs-header'>
-            <h3 className='reports-inventory-graph-title'>Inventory Turn Over Ratio</h3>
-            <GraphsImageDownloader elementId='graph-container-inventory-ratio' />
-          </div>
-          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
-            <ResponsiveContainer>
-              <AreaChart
-                width={500}
-                height={400}
-                data={average}
-                margin={{
-                  top: 30,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-                <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
-                <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className='graph-container__table'>
-            <h4>Inventory Turn Over Ratio Table</h4>
-              <table className='graph-table'>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Frequency</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    mostRestockedProductsData.map((items, index) => (
-                      <tr key={index}>
-                        <td>{items.name}</td>
-                        <td>{items.frequency}</td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-          </div>   
-          
-          <div className='graph-container__description'>
-            <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
-            </p>
-          </div>   
-          
-        </div>
-
         <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
@@ -226,7 +176,7 @@ export const ReportsInventoryMonthly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={averageTimeToSell}
                 margin={{
                   top: 30,
                   right: 30,
@@ -235,11 +185,11 @@ export const ReportsInventoryMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Average_Selling_Time_Days" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -255,10 +205,10 @@ export const ReportsInventoryMonthly = () => {
                 </thead>
                 <tbody>
                   {
-                    mostRestockedProductsData.map((items, index) => (
+                    averageTimeToSell.map((items, index) => (
                       <tr key={index}>
-                        <td>{items.name}</td>
-                        <td>{items.frequency}</td>
+                        <td>{items.productName}</td>
+                        <td>{items.Average_Selling_Time_Days}</td>
                       </tr>
                     ))
                   }
@@ -268,9 +218,10 @@ export const ReportsInventoryMonthly = () => {
           
           <div className='graph-container__description'>
             <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+              This chart displays the average selling time for each product, measured in days. The "Average Selling Time" represents the number of days it takes for a product to sell after it has been restocked. A shorter average selling time indicates faster-moving products, while a longer average selling time may suggest slower sales.
             </p>
-          </div>   
+          </div>
+  
           
         </div>
 
@@ -421,6 +372,7 @@ export const ReportsInventoryYearly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [mostRestockedProductsData, setMostRestockedProductsData] = useState([]);
   const [leastRestockedProductsData, setLeastRestockedProductsData] = useState([]);
+  const [turnoverRatio, setTurnoverRatio] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
 
   const handleYearChange = (selectedYear) => {
@@ -431,6 +383,7 @@ export const ReportsInventoryYearly = () => {
   useEffect(() => {
     fetchMostRestockedProducts();
     fetchLeastRestockedProducts();
+    getTurnoverRatio();
   },[selectedYear])
 
 
@@ -486,17 +439,21 @@ export const ReportsInventoryYearly = () => {
         ToastError('Error fetching data:', error);
       });
   }
-  
 
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
-
-  
+  const getTurnoverRatio = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTurnoverRatio.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year: selectedYear }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTurnoverRatio(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
+    
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
       return `${label.slice(0, maxLength)}...`;
@@ -535,7 +492,7 @@ export const ReportsInventoryYearly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={turnoverRatio}
                 margin={{
                   top: 30,
                   right: 30,
@@ -544,11 +501,11 @@ export const ReportsInventoryYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Inventory_Turnover_Ratio" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -559,15 +516,15 @@ export const ReportsInventoryYearly = () => {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Frequency</th>
+                    <th>Ratio</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    mostRestockedProductsData.map((items, index) => (
+                    turnoverRatio.map((items, index) => (
                       <tr key={index}>
-                        <td>{items.name}</td>
-                        <td>{items.frequency}</td>
+                        <td>{items.productName}</td>
+                        <td>{items.Inventory_Turnover_Ratio}</td>
                       </tr>
                     ))
                   }
@@ -577,67 +534,9 @@ export const ReportsInventoryYearly = () => {
 
           <div className='graph-container__description'>
             <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
             </p>
           </div>   
           
-        </div>
-
-        <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
-          <div className='graphs-header'>
-            <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
-            <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
-          </div>
-          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
-            <ResponsiveContainer>
-              <AreaChart
-                width={500}
-                height={400}
-                data={average}
-                margin={{
-                  top: 30,
-                  right: 30,
-                  left: 0,
-                  bottom: 20,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-                <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
-                <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className='graph-container__table'>
-            <h4>Average Selling Time Table</h4>
-              <table className='graph-table'>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Frequency</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    mostRestockedProductsData.map((items, index) => (
-                      <tr key={index}>
-                        <td>{items.name}</td>
-                        <td>{items.frequency}</td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-          </div>
-
-          <div className='graph-container__description'>
-            <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
-            </p>
-          </div>   
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-most-frequently-restocked'>
@@ -701,9 +600,9 @@ export const ReportsInventoryYearly = () => {
 
           <div className='graph-container__description'>
             <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+              This chart illustrates the inventory turnover ratios for each product in the selected timeframe. The inventory turnover ratio is a key performance indicator that measures how quickly a product is sold and replaced within a given period. A higher ratio indicates that products are being sold quickly, while a lower ratio may suggest slow-moving inventory.
             </p>
-          </div> 
+          </div>
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-least-frequently-restocked'>

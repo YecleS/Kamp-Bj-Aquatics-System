@@ -164,39 +164,34 @@ export const BackUpRecovery = () => {
   const handleRecoverClick = (e) => {
     if(recoverFileInputRef.current) {
       recoverFileInputRef.current.click();
-      console.log(recoverFileInputRef.current);
     }
   };
 
   // Function to handle file upload for recovery
   const handleFileChange = async (e) => {
-    console.log('onChange triggered:', e);
     const file = e.target.files?.[0];
-    if (!file) {
+    if (file) {
+      const formData = new FormData();
+      formData.append('backupFile', file);
+
+      try {
+        const response = await fetch(`${apiUrl}/KampBJ-api/server/restoreBackup.php`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert('Recovery successful!');
+        } else {
+          console.error('Failed to recover backup');
+        }
+      } catch (error) {
+        console.error('Error during recovery:', error);
+      }
+    } else{
       console.error('No file selected');
       return;
     }
-    console.log('File selected:', file.name);
-    // const file = e.target.files[0];
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append('backupFile', file);
-
-    //   try {
-    //     const response = await fetch(`${apiUrl}/KampBJ-api/server/restoreBackup.php`, {
-    //       method: 'POST',
-    //       body: formData,
-    //     });
-
-    //     if (response.ok) {
-    //       alert('Recovery successful!');
-    //     } else {
-    //       console.error('Failed to recover backup');
-    //     }
-    //   } catch (error) {
-    //     console.error('Error during recovery:', error);
-    //   }
-    // }
   };
   
   
