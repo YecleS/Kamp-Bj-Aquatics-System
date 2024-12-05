@@ -5,7 +5,7 @@ import { ToastError } from '../UIComponents/ToastComponent';
 import GraphsImageDownloader from '../UIComponents/GraphsImageDownloader';
 import GeneratePdf from '../UIComponents/GeneratePdf';
 import { ComposedChart, Bar, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { CustomTooltip } from '../UIComponents/CustomToolTip';
+import { CustomTooltip, CustomToolTipForGmroi, CustomToolTipForGrossProfit } from '../UIComponents/CustomToolTip';
 
 const ReportsSales = () => {
   const [activeFilter, setFilter] = useState('monthly');
@@ -162,6 +162,7 @@ export const ReportsSalesMonthly = () => {
       .then(response => response.json())
       .then(data => {
         if(data.length > 0){
+          console.log(data);
           setgmroiData(data);
         }else{
           setgmroiData([]);
@@ -217,10 +218,24 @@ export const ReportsSalesMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} angle={-20}
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
                 <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
-                <Legend />
+                <Tooltip content={<CustomToolTipForGmroi />}/>
+                <Legend 
+                  formatter={(value) => {
+                    if (value === "Gross_Margin_Multiplier") return "Gross Margin Multiplier";
+                    return value;
+                  }}
+                />
                 <Area type="monotone" dataKey="Gross_Margin_Multiplier" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
@@ -281,10 +296,24 @@ export const ReportsSalesMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
                 <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
-                <Legend />
+                <Tooltip content={<CustomToolTipForGrossProfit />}/>
+                <Legend 
+                  formatter={(value) => {
+                    if (value === "Total_Gross_Margin") return "Total Gross Margin";
+                    return value;
+                  }}
+                />
                 <Area type="monotone" dataKey="Total_Gross_Margin" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
@@ -572,11 +601,6 @@ export const ReportsSalesYearly = () => {
       })
       .then(data => {
         // Ensure data is an array
-        if (Array.isArray(data)) {
-          setGrossMargin(data);
-        } else {
-          setGrossMargin([]); // Reset to an empty array to avoid errors
-        }
         if(data.length > 0){
           setGrossMargin(data);
         }else{
@@ -649,9 +673,24 @@ export const ReportsSalesYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="productName" dy={10} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={10} angle={-20}
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
                 <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
+                <Tooltip content={<CustomToolTipForGmroi />}/>
+                <Legend 
+                  formatter={(value) => {
+                    if (value === "Gross_Margin_Multiplier") return "Gross Margin Multiplier";
+                    return value;
+                  }}
+                />
                 <Area type="monotone" dataKey="Gross_Margin_Multiplier" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
@@ -710,9 +749,24 @@ export const ReportsSalesYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="productName" dy={10} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={10} angle={-20}
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
                 <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
+                <Tooltip content={<CustomToolTipForGrossProfit />}/>
+                <Legend 
+                  formatter={(value) => {
+                    if (value === "Total_Gross_Margin") return "Total Gross Margin";
+                    return value;
+                  }}
+                />
                 <Area type="monotone" dataKey="Total_Gross_Margin" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
