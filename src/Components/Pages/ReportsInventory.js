@@ -180,7 +180,7 @@ export const ReportsInventoryMonthly = () => {
             <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
           </div>
           <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
-            <ResponsiveContainer width="100%" height="91%">
+            <ResponsiveContainer>
               <AreaChart
                 width={500}
                 height={400}
@@ -200,6 +200,34 @@ export const ReportsInventoryMonthly = () => {
                 <Area type="monotone" dataKey="Average_Selling_Time_Days" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Average Selling Time Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    mostRestockedProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>{items.frequency}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>   
+          
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+            </p>
           </div>   
           
         </div>
@@ -497,6 +525,34 @@ export const ReportsInventoryYearly = () => {
                 <Area type="monotone" dataKey="Inventory_Turnover_Ratio" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className='graph-container__table'>
+            <h4>Highest Inventory Turn Over ratio Table</h4>
+              <table className='graph-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    mostRestockedProductsData.map((items, index) => (
+                      <tr key={index}>
+                        <td>{items.name}</td>
+                        <td>{items.frequency}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div className='graph-container__description'>
+            <p>
+              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+            </p>
           </div>   
           
         </div>
