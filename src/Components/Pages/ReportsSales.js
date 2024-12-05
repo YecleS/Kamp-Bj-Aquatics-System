@@ -143,7 +143,11 @@ export const ReportsSalesMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setGrossMargin(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setGrossMargin(data);
+        }else{
+          setGrossMargin([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -157,7 +161,11 @@ export const ReportsSalesMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setgmroiData(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setgmroiData(data);
+        }else{
+          setgmroiData([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -558,8 +566,11 @@ export const ReportsSalesYearly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        setGrossMargin(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setGrossMargin(data);
+        }else{
+          setGrossMargin([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -573,7 +584,11 @@ export const ReportsSalesYearly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setgmroiData(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setgmroiData(data);
+        }else{
+          setgmroiData([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -625,10 +640,10 @@ export const ReportsSalesYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={10} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Gross_Margin_Multiplier" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
