@@ -136,7 +136,7 @@ export const ReportsSalesMonthly = () => {
   }
 
   const getGrossMargin = (formattedMonth) => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGrossMargin.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/getGrossMargin.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ selectedDate: formattedMonth }) // Change to desired month/year
@@ -150,7 +150,7 @@ export const ReportsSalesMonthly = () => {
   }
 
   const getGMROI = (formattedMonth) => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGMROI.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/getGMROI.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ selectedDate: formattedMonth }) // Change to desired month/year
@@ -551,22 +551,30 @@ export const ReportsSalesYearly = () => {
   }
 
   const getGrossMargin = () => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGrossMargin.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/getGrossMargin.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ selectedDate: selectedYear }) // Change to desired month/year
+      body: JSON.stringify({ selectedDate: selectedYear })
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
-        console.log(data);
-        setGrossMargin(data); // Assuming you use useState to manage chart data
+        // Ensure data is an array
+        if (Array.isArray(data)) {
+          setGrossMargin(data);
+        } else {
+          setGrossMargin([]); // Reset to an empty array to avoid errors
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
-                  
-  }
+  };
 
   const getGMROI = () => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGMROI.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/getGMROI.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ selectedDate: selectedYear })  // Change to desired month/year
@@ -575,8 +583,7 @@ export const ReportsSalesYearly = () => {
       .then(data => {
         setgmroiData(data); // Assuming you use useState to manage chart data
       })
-      .catch(error => console.error('Error fetching gross margin data:', error));
-                  
+      .catch(error => console.error('Error fetching gross margin data:', error));   
   }
 
   const truncateLabel = (label, maxLength ) => {
@@ -625,10 +632,10 @@ export const ReportsSalesYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={10} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Gross_Margin_Multiplier" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

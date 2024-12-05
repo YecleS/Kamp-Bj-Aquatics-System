@@ -125,13 +125,17 @@ export const ReportsInventoryMonthly = () => {
   }
 
   const getATS = () => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getATS.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/getATS.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     })
       .then(response => response.json())
       .then(data => {
-        setAverageTimeToSell(data); // Assuming you use useState to manage chart data
+        if (data.length > 0) {
+          setAverageTimeToSell(data);
+        } else {
+          setAverageTimeToSell([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -166,7 +170,7 @@ export const ReportsInventoryMonthly = () => {
 
       <div className='reports-inventory-component__body' id='component-body'>
 
-        <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
+        <div className='graphs-container graph-shadow graph-selling-time' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
             <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
@@ -185,7 +189,16 @@ export const ReportsInventoryMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} angle={-20} 
+                  tick={({ x, y, payload }) => {
+                    const label = truncateLabel(payload.value, 14);  // Truncate label
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fontSize={14} dy={10}>
+                        {label}
+                      </text>
+                    );
+                  }}
+                />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
@@ -441,7 +454,7 @@ export const ReportsInventoryYearly = () => {
   }
 
   const getTurnoverRatio = () => {
-    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTurnoverRatio.php`, {
+    fetch(`${apiUrl}/KampBJ-api/server/getTurnoverRatio.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ year: selectedYear }),
