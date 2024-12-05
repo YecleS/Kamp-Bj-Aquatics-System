@@ -20,6 +20,7 @@ const Notification = () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    console.log(data.notifications);
                     setNotifications(data.notifications);
                 } else {
                     console.error('No notifications found:', data.message);
@@ -57,7 +58,7 @@ const Notification = () => {
                     <tbody>
                         {notifications.length > 0 ? (
                             notifications.map((notification) => (
-                                <tr key={notification.id} className='notification__tr'>
+                                <tr key={notification.notifId} className='notification__tr'>
                                     <td className='notification__td'>
                                         {notification.message}
                                         <br />
