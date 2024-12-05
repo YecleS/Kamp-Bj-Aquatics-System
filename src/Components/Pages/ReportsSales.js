@@ -143,7 +143,11 @@ export const ReportsSalesMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setGrossMargin(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setGrossMargin(data);
+        }else{
+          setGrossMargin([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -157,7 +161,11 @@ export const ReportsSalesMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setgmroiData(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setgmroiData(data);
+        }else{
+          setgmroiData([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -569,6 +577,11 @@ export const ReportsSalesYearly = () => {
         } else {
           setGrossMargin([]); // Reset to an empty array to avoid errors
         }
+        if(data.length > 0){
+          setGrossMargin(data);
+        }else{
+          setGrossMargin([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
   };
@@ -581,7 +594,11 @@ export const ReportsSalesYearly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setgmroiData(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setgmroiData(data);
+        }else{
+          setgmroiData([]);
+        }
       })
       .catch(error => console.error('Error fetching gross margin data:', error));   
   }

@@ -131,11 +131,7 @@ export const ReportsInventoryMonthly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.length > 0) {
-          setAverageTimeToSell(data);
-        } else {
-          setAverageTimeToSell([]);
-        }
+        setAverageTimeToSell(data); // Assuming you use useState to manage chart data
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
@@ -461,7 +457,12 @@ export const ReportsInventoryYearly = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setTurnoverRatio(data); // Assuming you use useState to manage chart data
+        if(data.length > 0){
+          setTurnoverRatio(data); // Assuming you use useState to manage chart data
+        }else{
+          setTurnoverRatio([]); // Assuming you use useState to manage chart data
+        }
+        
       })
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
