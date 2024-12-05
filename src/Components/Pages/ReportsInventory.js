@@ -137,14 +137,6 @@ export const ReportsInventoryMonthly = () => {
                   
   }
 
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
-
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
       return `${label.slice(0, maxLength)}...`;
@@ -213,10 +205,10 @@ export const ReportsInventoryMonthly = () => {
                 </thead>
                 <tbody>
                   {
-                    mostRestockedProductsData.map((items, index) => (
+                    averageTimeToSell.map((items, index) => (
                       <tr key={index}>
-                        <td>{items.name}</td>
-                        <td>{items.frequency}</td>
+                        <td>{items.productName}</td>
+                        <td>{items.Average_Selling_Time_Days}</td>
                       </tr>
                     ))
                   }
@@ -226,9 +218,10 @@ export const ReportsInventoryMonthly = () => {
           
           <div className='graph-container__description'>
             <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+              This chart displays the average selling time for each product, measured in days. The "Average Selling Time" represents the number of days it takes for a product to sell after it has been restocked. A shorter average selling time indicates faster-moving products, while a longer average selling time may suggest slower sales.
             </p>
-          </div>   
+          </div>
+  
           
         </div>
 
@@ -460,17 +453,7 @@ export const ReportsInventoryYearly = () => {
       .catch(error => console.error('Error fetching gross margin data:', error));
                   
   }
-  
-
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
-
-  
+    
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
       return `${label.slice(0, maxLength)}...`;
@@ -533,15 +516,15 @@ export const ReportsInventoryYearly = () => {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Frequency</th>
+                    <th>Ratio</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    mostRestockedProductsData.map((items, index) => (
+                    turnoverRatio.map((items, index) => (
                       <tr key={index}>
-                        <td>{items.name}</td>
-                        <td>{items.frequency}</td>
+                        <td>{items.productName}</td>
+                        <td>{items.Inventory_Turnover_Ratio}</td>
                       </tr>
                     ))
                   }
@@ -551,7 +534,6 @@ export const ReportsInventoryYearly = () => {
 
           <div className='graph-container__description'>
             <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
             </p>
           </div>   
           
@@ -618,9 +600,9 @@ export const ReportsInventoryYearly = () => {
 
           <div className='graph-container__description'>
             <p>
-              This chart provides a detailed breakdown of the most frequently restocked products. "Frequency" refers to the number of times a product has been restocked.
+              This chart illustrates the inventory turnover ratios for each product in the selected timeframe. The inventory turnover ratio is a key performance indicator that measures how quickly a product is sold and replaced within a given period. A higher ratio indicates that products are being sold quickly, while a lower ratio may suggest slow-moving inventory.
             </p>
-          </div> 
+          </div>
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-least-frequently-restocked'>
