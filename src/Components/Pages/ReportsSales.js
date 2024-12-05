@@ -47,6 +47,8 @@ export const ReportsSalesMonthly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [topProductsData, setTopProductsData] = useState([]);
   const [leastProductData, setLeastProductData] = useState([]);
+  const [grossMargin, setGrossMargin] = useState([]);
+  const [gmroiData, setgmroiData] = useState([]);
   const [displayedMonth, setDisplayedMonth] = useState(new Date().toLocaleDateString('default', { month:'long', year:'numeric' }));
 
   const handleMonthChange = (selectedMonth) => {
@@ -58,6 +60,8 @@ export const ReportsSalesMonthly = () => {
 
     getTop5Products(formattedMonth);
     getLeastProducts(formattedMonth);
+    getGrossMargin(formattedMonth);
+    getGMROI(formattedMonth);
   };
 
   useEffect(() => {
@@ -68,6 +72,8 @@ export const ReportsSalesMonthly = () => {
 
     getTop5Products(formattedMonth);
     getLeastProducts(formattedMonth);
+    getGrossMargin(formattedMonth);
+    getGMROI(formattedMonth);
   },[])
 
   const getTop5Products = (formattedMonth) => {
@@ -129,21 +135,40 @@ export const ReportsSalesMonthly = () => {
       });
   }
 
+  const getGrossMargin = (formattedMonth) => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGrossMargin.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedDate: formattedMonth }) // Change to desired month/year
+    })
+      .then(response => response.json())
+      .then(data => {
+        setGrossMargin(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
+
+  const getGMROI = (formattedMonth) => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGMROI.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedDate: formattedMonth }) // Change to desired month/year
+    })
+      .then(response => response.json())
+      .then(data => {
+        setgmroiData(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
+
   const truncateLabel = (label, maxLength ) => {
     if (label.length > maxLength) {
       return `${label.slice(0, maxLength)}...`;
     }
     return label;
   };
-
-  const average = [
-    { name: 'Waterlights', time: 1.30 },
-    { name: 'Submarine Pump', time: 2.15 },
-    { name: 'Aquatic Filter', time: 3 },
-    { name: 'Fish Tank Heater', time: 4.45 },
-    { name: 'Aquarium Decor', time: 3.35 }
-  ];
-
   
   return (
     <div className='reports-sales-component'>
@@ -175,7 +200,7 @@ export const ReportsSalesMonthly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={gmroiData}
                 margin={{
                   top: 30,
                   right: 30,
@@ -184,11 +209,11 @@ export const ReportsSalesMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Gross_Margin_Multiplier" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>   
@@ -205,7 +230,7 @@ export const ReportsSalesMonthly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={grossMargin}
                 margin={{
                   top: 30,
                   right: 30,
@@ -214,11 +239,11 @@ export const ReportsSalesMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Total_Gross_Margin" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>   
@@ -385,6 +410,8 @@ export const ReportsSalesYearly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [topProductsData, setTopProductsData] = useState([]);
   const [leastProductData, setLeastProductData] = useState([]);
+  const [grossMargin, setGrossMargin] = useState([]);
+  const [gmroiData, setgmroiData] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
 
   const handleYearChange = (selectedYear) => {
@@ -395,6 +422,8 @@ export const ReportsSalesYearly = () => {
   useEffect(() => {
     getTop5Products();
     getLeastProducts();
+    getGrossMargin();
+    getGMROI();
   }, [selectedYear])
   
   const getTop5Products = () => {
@@ -451,6 +480,35 @@ export const ReportsSalesYearly = () => {
       .catch(error => {
         ToastError('Error fetching data:', error);
       });
+  }
+
+  const getGrossMargin = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGrossMargin.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedDate: selectedYear }) // Change to desired month/year
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setGrossMargin(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
+
+  const getGMROI = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getGMROI.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedDate: selectedYear })  // Change to desired month/year
+    })
+      .then(response => response.json())
+      .then(data => {
+        setgmroiData(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
   }
 
   const average = [
@@ -526,7 +584,7 @@ export const ReportsSalesYearly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={grossMargin}
                 margin={{
                   top: 30,
                   right: 30,
@@ -535,10 +593,10 @@ export const ReportsSalesYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={10} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={10} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Total_Gross_Margin" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>   

@@ -46,6 +46,7 @@ export const ReportsInventoryMonthly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [mostRestockedProductsData, setMostRestockedProductsData] = useState([]);
   const [leastRestockedProductsData, setLeastRestockedProductsData] = useState([]);
+  const [averageTimeToSell, setAverageTimeToSell] = useState([]);
   const [displayedMonth, setDisplayedMonth] = useState(new Date().toLocaleDateString('default', { month:'long', year:'numeric' }));
   
   const handleMonthChange = (selectedMonth) => {
@@ -57,6 +58,7 @@ export const ReportsInventoryMonthly = () => {
 
     fetchMostRestockedProducts(formattedMonth);
     fetchLeastRestockedProducts(formattedMonth);
+    getATS();
   };
 
   useEffect(() => {
@@ -67,6 +69,7 @@ export const ReportsInventoryMonthly = () => {
 
     fetchMostRestockedProducts(formattedMonth);
     fetchLeastRestockedProducts(formattedMonth);
+    getATS();
   },[])
 
   const fetchMostRestockedProducts = (selectedMonth) => {
@@ -121,6 +124,19 @@ export const ReportsInventoryMonthly = () => {
       });
   }
 
+  const getATS = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getATS.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setAverageTimeToSell(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
+
   const average = [
     { name: 'Waterlights', time: 1.30 },
     { name: 'Submarine Pump', time: 2.15 },
@@ -158,36 +174,6 @@ export const ReportsInventoryMonthly = () => {
 
       <div className='reports-inventory-component__body' id='component-body'>
 
-        <div className='graphs-container graph-shadow' id='graph-container-inventory-ratio'>
-          <div className='graphs-header'>
-            <h3 className='reports-inventory-graph-title'>Inventory Turn Over Ratio</h3>
-            <GraphsImageDownloader elementId='graph-container-inventory-ratio' />
-          </div>
-          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
-            <ResponsiveContainer>
-              <AreaChart
-                width={500}
-                height={400}
-                data={average}
-                margin={{
-                  top: 30,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-                <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
-                <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>   
-          
-        </div>
-
         <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
           <div className='graphs-header'>
             <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
@@ -198,7 +184,7 @@ export const ReportsInventoryMonthly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={averageTimeToSell}
                 margin={{
                   top: 30,
                   right: 30,
@@ -207,11 +193,11 @@ export const ReportsInventoryMonthly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Average_Selling_Time_Days" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>   
@@ -365,6 +351,7 @@ export const ReportsInventoryYearly = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [mostRestockedProductsData, setMostRestockedProductsData] = useState([]);
   const [leastRestockedProductsData, setLeastRestockedProductsData] = useState([]);
+  const [turnoverRatio, setTurnoverRatio] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year:'numeric' }).format(new Date()));
 
   const handleYearChange = (selectedYear) => {
@@ -375,6 +362,7 @@ export const ReportsInventoryYearly = () => {
   useEffect(() => {
     fetchMostRestockedProducts();
     fetchLeastRestockedProducts();
+    getTurnoverRatio();
   },[selectedYear])
 
 
@@ -430,6 +418,20 @@ export const ReportsInventoryYearly = () => {
         ToastError('Error fetching data:', error);
       });
   }
+
+  const getTurnoverRatio = () => {
+    fetch(`${apiUrl}/KampBJ-api/server/dataAnalysis/getTurnoverRatio.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year: selectedYear }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTurnoverRatio(data); // Assuming you use useState to manage chart data
+      })
+      .catch(error => console.error('Error fetching gross margin data:', error));
+                  
+  }
   
 
   const average = [
@@ -479,7 +481,7 @@ export const ReportsInventoryYearly = () => {
               <AreaChart
                 width={500}
                 height={400}
-                data={average}
+                data={turnoverRatio}
                 margin={{
                   top: 30,
                   right: 30,
@@ -488,44 +490,15 @@ export const ReportsInventoryYearly = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
+                <XAxis dataKey="productName" dy={5} tick={{ fontSize: 14 }} />
                 <YAxis tick={{ fontSize: 14 }}/>
                 <Tooltip />
                 <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
+                <Area type="monotone" dataKey="Inventory_Turnover_Ratio" stroke="#8884d8" fill="#8884d8" />
               </AreaChart>
             </ResponsiveContainer>
           </div>   
           
-        </div>
-
-        <div className='graphs-container graph-shadow' id='graph-container-avg-selling-time'>
-          <div className='graphs-header'>
-            <h3 className='reports-inventory-graph-title'>Average Selling Time</h3>
-            <GraphsImageDownloader elementId='graph-container-avg-selling-time' />
-          </div>
-          <div className='graphs-container__chart-wrapper' style={{ height: "300px", width: "100%" }}>
-            <ResponsiveContainer>
-              <AreaChart
-                width={500}
-                height={400}
-                data={average}
-                margin={{
-                  top: 30,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" dy={5} tick={{ fontSize: 14 }} />
-                <YAxis tick={{ fontSize: 14 }}/>
-                <Tooltip />
-                <Legend />
-                <Area type="monotone" dataKey="time" stroke="#8884d8" fill="#8884d8" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>   
         </div>
 
         <div className='graphs-container graph-shadow' id='graph-container-most-frequently-restocked'>
