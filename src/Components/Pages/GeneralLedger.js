@@ -4,6 +4,9 @@ import { YearSelection } from '../UIComponents/DateControls';
 import { ToastSuccess, ToastError } from '../UIComponents/ToastComponent';
 import GeneratePdf from '../UIComponents/GeneratePdf';
 import LoadingState from '../UIComponents/LoadingState';
+import ButtonComponent from '../UIComponents/ButtonComponent';
+import GeneralLedgerEnterCapital from '../UIComponents/GeneralLedgerEnterCapital';
+import LedgerGraphView from '../UIComponents/LedgerGraphView';
 
 const GeneralLedger = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +14,8 @@ const GeneralLedger = () => {
   const [ledgerData, setLedgerData] = useState([]);
   const [capitalInput, setCapitalInput] = useState(0);  // Default capital is 0
   const [selectedYear, setSelectedYear] = useState(new Intl.DateTimeFormat('default', { year: 'numeric' }).format(new Date()));
+  const [ledgerModal, setLedgerModal] = useState(false);
+  const [ledgerGraphView, setLedgerGraphView] = useState(false);
 
   const handleYearChange = (selectedYear) => {
     const year = (new Intl.DateTimeFormat('default', { year: 'numeric' }).format(selectedYear));
@@ -40,6 +45,7 @@ const GeneralLedger = () => {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         setLedgerData(data);
       })
       .catch(error => {
@@ -93,7 +99,11 @@ const GeneralLedger = () => {
             />
             <i className="general-ledger__input-icon fa-solid fa-right-to-bracket" title='Insert Capital' onClick={handleCapitalSubmit}></i>
           </div>
-          <GeneratePdf elementId='general-ledger__table' date={selectedYear} reportTitle='General Ledger Report'/>
+          <div className='general-ledger__right-controls'>
+            <ButtonComponent label='+' onClick={() => setLedgerModal(true)}/>
+            <ButtonComponent label={<i className="fa-solid fa-eye"></i>} onClick={() => setLedgerGraphView(true)}/>
+            {/* <GeneratePdf elementId='general-ledger__table' date={selectedYear} reportTitle='General Ledger Report'/> */}
+          </div>
         </div>
 
         <YearSelection onChange={handleYearChange} displayDate={selectedYear} />
@@ -140,7 +150,9 @@ const GeneralLedger = () => {
           </table>
         </div>
       </div>
-
+      
+      {ledgerGraphView && <LedgerGraphView onClick={() => setLedgerGraphView(false)} ledgerData={ledgerData} />}
+      {ledgerModal && <GeneralLedgerEnterCapital onClick={() => setLedgerModal(false)} />}
       {loading && <LoadingState />}
     </div>
   );
