@@ -101,3 +101,17 @@ export const CustomToolTipForReminders = ({ payload, label, active }) => {
   }
   return null;
 };
+
+export const CustomToolTipForLedgerGraph = ({ payload, label, active }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+        <p className="label">{`${label}`}</p>
+        <p className="label">{`Credit: ₱ ${payload[1]?.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</p>
+        <p className="label">{`Debit: ₱ ${payload[2]?.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</p>
+        <p className="value">{`Balance: ₱ ${payload[0]?.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</p>
+      </div>
+    );
+  }
+  return null;
+};

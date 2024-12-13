@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../Styles/Modal.css';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
+import LoadingState from '../UIComponents/LoadingState';
+import { ToastError, ToastSuccess } from '../UIComponents/ToastComponent';
 
 
-const GeneralLedgerEnterCapital = ({onClick, onSubmit}) => {
-    
+const GeneralLedgerEnterCapital = ({ onClick, fetchSalesAndExpenses }) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const [loading, setLoading] = useState(false);
     // Initial Values 
     const initialValues = {
-        capital: '',
+        capital: ''
     };
 
     // Validation
@@ -18,14 +21,36 @@ const GeneralLedgerEnterCapital = ({onClick, onSubmit}) => {
     });
 
     const insert = async (values, { resetForm }) => {
-        try {
-            console.log(values);
-            resetForm();
-            onClick();
-        } catch (error) {
-            alert('Failed to add brand');
-        }
+        const defaultDate = new Date().toISOString().split('T')[0];
+        setLoading(true);
+
+        fetch(`${apiUrl}/KampBJ-api/server/insertCapital.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ capital: values.capital, date: defaultDate }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                ToastSuccess(data.success);
+                resetForm();
+                fetchSalesAndExpenses();
+                onClick();
+            }else {
+                ToastError(data.error);
+            }
+        })
+        .catch(error => {
+            ToastError('Error fetching data:', error);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
     };
+
+
   return (
     <div className='modal'>
             <div className='modal__wrapper'>
@@ -44,6 +69,8 @@ const GeneralLedgerEnterCapital = ({onClick, onSubmit}) => {
                     </Formik>
                 </div>
             </div>
+
+            {loading && <LoadingState />}
         </div>
   )
 }

@@ -11,6 +11,18 @@
     display: flex;
     flex-direction: column;
 }
+
+.general-ledger__display-date {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 250px;
+
+    text-align: center;
+}
+
 .general-ledger__controls {
     margin-bottom: 0.5rem;
 
@@ -89,7 +101,7 @@
 
 /* BODY AND TABLE STYLE*/
 .general-ledger__table-wrapper{
-    height: 70vh;
+    height: 80svh;
     overflow: auto;
 }
 
