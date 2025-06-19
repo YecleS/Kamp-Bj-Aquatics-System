@@ -12,7 +12,7 @@ const LandingPageFeaturedProducts = () => {
 
     // Fetch the featured products from the PHP script
     useEffect(() => {
-        fetch(`${apiUrl}/KampBJ-api/server/fetchFeaturedProducts.php`)
+        fetch(`${apiUrl}/KampBj-api/server/fetchFeaturedProducts.php`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

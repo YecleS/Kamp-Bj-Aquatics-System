@@ -12,29 +12,20 @@ const Inventory = () => {
   const [loading, setLoading] = useState(false);
   const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const filterDropdownRef = useRef(null);
-
-  // State for fetched inventory data
   const [inventoryData, setInventoryData] = useState([]);
-
-  // State for filtered and sorted inventory data
   const [filteredInventory, setFilteredInventory] = useState([]);
-
-  // State for search input
   const [searchTerm, setSearchTerm] = useState('');
-
-  // State for filters
   const [filters, setFilters] = useState({
-    sortBy: '', // Sorting criteria
+    sortBy: '',
   });
 
-  // Fetch inventory data from PHP script when the component mounts
   useEffect(() => {
-    fetch(`${apiUrl}/KampBJ-api/server/fetchInventoryProducts.php`) // Update with your actual URL
+    fetch(`${apiUrl}/KampBJ-api/server/fetchInventoryProducts.php`)
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
-          setInventoryData(data.data); // Update state with fetched data
-          setFilteredInventory(data.data); // Initialize filtered inventory
+          setInventoryData(data.data);
+          setFilteredInventory(data.data);
         } else {
           toast.error('No products available');
         }
@@ -45,10 +36,9 @@ const Inventory = () => {
       });
   }, []);
 
-  // Fetch total stocks for each product using the getProductTotalStocks API
   useEffect(() => {
     const fetchTotalStocks = async () => {
-      setLoading(true); // Set loading to true at the start
+      setLoading(true);
       const updatedInventory = [...inventoryData];
 
       for (let item of updatedInventory) {
@@ -83,7 +73,6 @@ const Inventory = () => {
       item.model.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Sort filtered inventory based on selected option
     switch (filters.sortBy) {
       case 'priceAsc':
         filtered = filtered.sort((a, b) => a.sellingPrice - b.sellingPrice);
@@ -92,10 +81,10 @@ const Inventory = () => {
         filtered = filtered.sort((a, b) => b.sellingPrice - a.sellingPrice);
         break;
       case 'stocksAsc':
-        filtered = filtered.sort((a, b) => a.totalStocks - b.totalStocks); // Sort by totalStocks
+        filtered = filtered.sort((a, b) => a.totalStocks - b.totalStocks);
         break;
       case 'stocksDesc':
-        filtered = filtered.sort((a, b) => b.totalStocks - a.totalStocks); // Sort by totalStocks
+        filtered = filtered.sort((a, b) => b.totalStocks - a.totalStocks);
         break;
       case 'category':
         filtered = filtered.sort((a, b) => a.category.localeCompare(b.category));

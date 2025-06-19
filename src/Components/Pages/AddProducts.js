@@ -15,9 +15,9 @@ const AddProducts = () => {
   const [isAddModalOpen, isSetAddModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [isEditModalOpen, isSetEditModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
-  const [productsData, setProductsData] = useState([]); // State to hold products data
-  const [filteredData, setFilteredData] = useState([]); // State to hold filtered products data
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productsData, setProductsData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const filterDropdownRef = useRef(null);
   const [productId, setProductId] = useState();
   const [status, setStatus] = useState();
@@ -257,7 +257,12 @@ const AddProducts = () => {
           refresh={fetchProducts}
         />        
       )}
-      {isConfirmationModalOpen && <ConfirmationMessageModal message='Are you sure you want to change the status of this product?' onClickProceed={proceed} onClickCancel={toggleConfirmationModal} />}
+      
+      {isConfirmationModalOpen && 
+        <ConfirmationMessageModal message='Are you sure you want to change the status of this product?' 
+          onClickProceed={proceed} onClickCancel={toggleConfirmationModal} 
+        />
+      }
       {loading && <LoadingState />}
 
     </div>
